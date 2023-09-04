@@ -3,7 +3,7 @@
 ## Interface-Wrath: 30402
 ## Interface: 100105
 
-## Version: 1.0.2
+## Version: 1.0.3
 ## Title: CVARs by |cff3FC7EBD4KiR |T132115:16:16:0:0|t 
 ## Notes: Set, ForceSet CVARs
 ## Author: D4KiR
@@ -12,6 +12,6 @@
 ## SavedVariablesPerCharacter: CVTABPC
 ## X-Curse-Project-ID: 909920
 ## X-Wago-ID: EGPXajG1
-## IconTexture: 135994
+## IconTexture: 134063
 
 core.lua

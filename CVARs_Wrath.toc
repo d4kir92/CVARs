@@ -1,6 +1,6 @@
 ## Interface: 30402
-## Version: 1.0.2
-## Title: CVARs |T135994:16:16:0:0|t by |cff3FC7EBD4KiR |T132115:16:16:0:0|t 
+## Version: 1.0.3
+## Title: CVARs |T134063:16:16:0:0|t by |cff3FC7EBD4KiR |T132115:16:16:0:0|t 
 ## Notes: Set, ForceSet CVARs
 ## Author: D4KiR
 ## DefaultState: enabled
