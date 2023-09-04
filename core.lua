@@ -1,6 +1,10 @@
 local _, CVARs = ...
 
-C_Timer.After(0, function()
+function CVARs:OnInitialize()
 	SetCVar("autoLootDefault", 1)
-	SetCVar("floatingCombatTextCombatDamage ", 1)
-end)
+	SetCVar("enableFloatingCombatText", 1)
+end
+
+local f = CreateFrame("FRAME")
+f:RegisterEvent("PLAYER_LOGIN")
+f:SetScript("OnEvent", CVARs.OnInitialize)
