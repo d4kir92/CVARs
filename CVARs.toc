@@ -10,8 +10,8 @@
 ## DefaultState: enabled
 ## SavedVariables: CVTAB
 ## SavedVariablesPerCharacter: CVTABPC
-## X-Curse-Project-ID: 
-## X-Wago-ID: 
+## X-Curse-Project-ID: 909920
+## X-Wago-ID: EGPXajG1
 ## IconTexture: 135994
 
 core.lua
