@@ -1,0 +1,12 @@
+## Interface: 11404
+## Version: 1.0.0
+## Title: CVARs |T135994:16:16:0:0|t by |cff3FC7EBD4KiR |T132115:16:16:0:0|t 
+## Notes: Set, ForceSet CVARs
+## Author: D4KiR
+## DefaultState: enabled
+## SavedVariables: CVTAB
+## SavedVariablesPerCharacter: CVTABPC
+## X-Curse-Project-ID: 
+## X-Wago-ID: 
+
+core.lua

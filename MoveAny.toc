@@ -1,0 +1,17 @@
+## Interface-Classic: 11404
+## Interface-BCC: 20504
+## Interface-Wrath: 30402
+## Interface: 100105
+
+## Version: 1.0.0
+## Title: CVARs by |cff3FC7EBD4KiR |T132115:16:16:0:0|t 
+## Notes: Set, ForceSet CVARs
+## Author: D4KiR
+## DefaultState: enabled
+## SavedVariables: CVTAB
+## SavedVariablesPerCharacter: CVTABPC
+## X-Curse-Project-ID: 
+## X-Wago-ID: 
+## IconTexture: 135994
+
+core.lua
