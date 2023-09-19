@@ -5,6 +5,7 @@ function CVARs:OnInitialize(event, ...)
 	SetCVar("autoLootDefault", 1)
 	SetCVar("enableFloatingCombatText", 1)
 	SetCVar("floatingCombatTextCombatHealing", 1)
+	SetCVar("xpBarText", 1)
 
 	if event == "CVAR_UPDATE" then
 		print(...)
