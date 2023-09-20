@@ -3,7 +3,7 @@
 ## Interface-Wrath: 30402
 ## Interface: 100107
 
-## Version: 1.0.7
+## Version: 1.0.8
 ## Title: CVARs by |cff3FC7EBD4KiR |T132115:16:16:0:0|t 
 ## Notes: Set, ForceSet CVARs
 ## Author: D4KiR
@@ -14,4 +14,7 @@
 ## X-Wago-ID: EGPXajG1
 ## IconTexture: 134063
 
+libs\D4Lib\D4Lib.xml
+
 core.lua
+settings.lua
