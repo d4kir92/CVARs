@@ -1,5 +1,20 @@
 local _, CVARs = ...
 local CVARS_DEBUG = false
+--[[ Minimap Button ]]
+D4:AddTrans("enUS", "showMinimapButton", "Show Minimap Button")
+D4:AddTrans("deDE", "showMinimapButton", "Minimap Knopf anzeigen")
+--[[ CVARS ]]
+D4:AddTrans("enUS", "autoLootDefault", "Fast Looting")
+D4:AddTrans("deDE", "autoLootDefault", "Schnell Plündern")
+D4:AddTrans("enUS", "enableFloatingCombatText", "Enable Floating Combat Text")
+D4:AddTrans("deDE", "enableFloatingCombatText", "Aktiviere Fliegender Kampftext")
+D4:AddTrans("enUS", "floatingCombatTextCombatHealing", "Enable Floating Combat Healing Text")
+D4:AddTrans("deDE", "floatingCombatTextCombatHealing", "Aktiviere Fliegenden Heilungs Kampftext")
+D4:AddTrans("enUS", "xpBarText", "XP Bar Text")
+D4:AddTrans("deDE", "xpBarText", "EP Bar Text")
+--[[ CATEGORIES ]]
+D4:AddTrans("enUS", "general", "General")
+D4:AddTrans("deDE", "general", "Allgemein")
 function CVARs:AddCVar(name, val, val2)
 	CVTAB = CVTAB or {}
 	CVTAB["Default"] = CVTAB["Default"] or {}

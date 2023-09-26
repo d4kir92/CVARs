@@ -6,4 +6,13 @@
 
 <Script file="D4Lib.lua"/>
 
+<Script file="D4Output.lua"/>
+<Script file="D4DB.lua"/>
+
+<Script file="D4Frames.lua"/>
+<Script file="D4Grid.lua"/>
+<Script file="D4MinimapButtons.lua"/>
+<Script file="D4SlashCmds.lua"/>
+<Script file="D4Translations.lua"/>
+
 </Ui>

@@ -28,7 +28,7 @@ function CVARs:InitSettings()
             ["pTab"] = {"CENTER"},
             ["sw"] = 520,
             ["sh"] = 520,
-            ["title"] = format("CVARs |T134063:16:16:0:0|t v|cff3FC7EB%s", "1.0.9")
+            ["title"] = format("CVARs |T134063:16:16:0:0|t v|cff3FC7EB%s", "1.1.0")
         }
     )
 
@@ -41,9 +41,18 @@ function CVARs:InitSettings()
         CVTAB["MMBTN"] = true
     end
 
+    D4:AddCategory(
+        {
+            ["name"] = "general",
+            ["parent"] = cvars_settings,
+            ["pTab"] = {"TOPLEFT", 15, y},
+        }
+    )
+
+    y = y - 15
     D4:CreateCheckbox(
         {
-            ["name"] = "Show Minimap Icon",
+            ["name"] = "showMinimapButton",
             ["parent"] = cvars_settings,
             ["pTab"] = {"TOPLEFT", 10, y},
             ["value"] = CVTAB["MMBTN"],
@@ -66,6 +75,15 @@ function CVARs:InitSettings()
     end
 
     table.sort(cvarsSorted)
+    D4:AddCategory(
+        {
+            ["name"] = "CVARs",
+            ["parent"] = cvars_settings,
+            ["pTab"] = {"TOPLEFT", 15, y},
+        }
+    )
+
+    y = y - 15
     for i, name in pairs(cvarsSorted) do
         D4:CreateCheckboxForCVAR(
             {
@@ -88,6 +106,28 @@ function CVARs:InitSettings()
         y = y - 25
     end
 
+    y = y - 30
+    D4:AddCategory(
+        {
+            ["name"] = "Need more CVARs? Join the Discord",
+            ["parent"] = cvars_settings,
+            ["pTab"] = {"TOPLEFT", 15, y},
+        }
+    )
+
+    y = y - 15
+    local dc = D4:CreateEditBox(
+        {
+            ["name"] = "",
+            ["parent"] = cvars_settings,
+            ["pTab"] = {"BOTTOMRIGHT", -8, 4},
+            ["sw"] = 150,
+            ["value"] = "discord.gg/bhMKRMCa8d",
+            ["funcV"] = function(sel, text) end
+        }
+    )
+
+    dc:SetAutoFocus(false)
     if CVTAB["MMBTN"] then
         D4:GetLibDBIcon():Show("CVArs")
     else
@@ -114,15 +154,12 @@ function CVARs:InitMinimapButton()
             ["icon"] = 134063,
             ["var"] = mmbtn,
             ["dbtab"] = CVTAB,
-            ["vTT"] = {"Leftclick: Options"},
+            ["vTT"] = {"CVArs", "Leftclick: Options"},
             ["funcL"] = function()
                 CVARs:ToggleSettings()
             end
         }
     )
 
-    SLASH_CVARS1 = "/cvars"
-    SlashCmdList["CVARS"] = function(msg)
-        CVARs:ToggleSettings()
-    end
+    D4:AddSlash("CVARS", CVARs.ToggleSettings)
 end
