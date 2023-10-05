@@ -28,7 +28,7 @@ function CVARs:InitSettings()
             ["pTab"] = {"CENTER"},
             ["sw"] = 520,
             ["sh"] = 520,
-            ["title"] = format("CVARs |T134063:16:16:0:0|t v|cff3FC7EB%s", "1.1.1")
+            ["title"] = format("CVARs |T134063:16:16:0:0|t v|cff3FC7EB%s", "1.1.2")
         }
     )
 
