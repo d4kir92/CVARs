@@ -28,7 +28,7 @@ function CVARs:InitSettings()
             ["pTab"] = {"CENTER"},
             ["sw"] = 520,
             ["sh"] = 520,
-            ["title"] = format("CVARs |T134063:16:16:0:0|t v|cff3FC7EB%s", "1.1.2")
+            ["title"] = format("CVARs |T134063:16:16:0:0|t v|cff3FC7EB%s", "1.1.3")
         }
     )
 
@@ -129,9 +129,9 @@ function CVARs:InitSettings()
 
     dc:SetAutoFocus(false)
     if CVTAB["MMBTN"] then
-        D4:GetLibDBIcon():Show("CVArs")
+        D4:ShowMMBtn("CVArs")
     else
-        D4:GetLibDBIcon():Hide("CVArs")
+        D4:HideMMBtn("CVArs")
     end
 end
 
@@ -146,13 +146,11 @@ function CVARs:ToggleSettings()
 end
 
 function CVARs:InitMinimapButton()
-    local mmbtn = nil
     CVTAB["MMBTNTAB"] = CVTAB["MMBTNTAB"] or {}
     D4:CreateMinimapButton(
         {
             ["name"] = "CVArs",
             ["icon"] = 134063,
-            ["var"] = mmbtn,
             ["dbtab"] = CVTAB,
             ["vTT"] = {"CVArs", "Leftclick: Options"},
             ["funcL"] = function()

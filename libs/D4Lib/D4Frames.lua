@@ -81,6 +81,38 @@ function D4:CreateEditBox(tab)
     return cb
 end
 
+function D4:CreateSlider(tab)
+    tab.sw = tab.sw or 200
+    tab.sh = tab.sh or 25
+    tab.parent = tab.parent or UIParent
+    tab.pTab = tab.pTab or "CENTER"
+    tab.value = tab.value or nil
+    tab.vmin = tab.vmin or 1
+    tab.vmax = tab.vmax or 1
+    tab.steps = tab.steps or 1
+    tab.key = tab.key or tab.name or ""
+    local slider = CreateFrame("Slider", tab.name, tab.parent, "OptionsSliderTemplate")
+    slider:SetWidth(tab.sw)
+    slider:SetPoint(unpack(tab.pTab))
+    slider.Low:SetText(tab.vmin)
+    slider.High:SetText(tab.vmax)
+    slider.Text:SetText(format("%s: %s", D4:Trans(tab.key), tab.value))
+    slider:SetMinMaxValues(tab.vmin, tab.vmax)
+    slider:SetObeyStepOnDrag(true)
+    slider:SetValueStep(tab.steps)
+    slider:SetValue(tab.value)
+    slider:SetScript(
+        "OnValueChanged",
+        function(sel, val)
+            val = string.format("%" .. tab.steps .. "f", val)
+            tab:funcV(val)
+            slider.Text:SetText(format("%s: %s", D4:Trans(tab.key), val))
+        end
+    )
+
+    return slider
+end
+
 --[[ FRAMES ]]
 function D4:CreateFrame(tab)
     tab.sw = tab.sw or 100
