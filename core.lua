@@ -44,7 +44,7 @@ function CVARs:OnInitialize(event, ...)
 			end
 		end
 	elseif event == "CVAR_UPDATE" then
-		print(...)
+		print("CVARS", event, ...)
 	end
 
 	CVARs:InitMinimapButton()
