@@ -27,6 +27,17 @@ function CVARs:AddCVar(name, val, val2)
 end
 
 function CVARs:OnInitialize(event, ...)
+	for i = 1, 100 do
+		if GetCVar("nameplateMaxDistance", i) ~= nil then
+			local currentDist = tonumber(GetCVar("nameplateMaxDistance", i))
+			if i > currentDist then
+				SetCVar("nameplateMaxDistance", i)
+				currentDist = tonumber(GetCVar("nameplateMaxDistance", i))
+				if currentDist ~= i then break end
+			end
+		end
+	end
+
 	CVTAB = CVTAB or {}
 	CVTAB["Default"] = CVTAB["Default"] or {}
 	CVTAB["Default"]["SETCVARS"] = CVTAB["Default"]["SETCVARS"] or {}
@@ -37,6 +48,7 @@ function CVARs:OnInitialize(event, ...)
 		CVARs:AddCVar("enableFloatingCombatText", 1, 1) -- Combattext
 		CVARs:AddCVar("floatingCombatTextCombatHealing", 1, 1) -- Combattext:Healing
 		CVARs:AddCVar("xpBarText", 1, 1) -- Show XP Text
+		CVARs:AddCVar("showTargetCastbar", 1, 1) -- Show XP Text
 		--[[SETTING CVARS]]
 		for name, val in pairs(CVTAB["Default"]["CVARSDB"]) do
 			if CVTAB["Default"]["SETCVARS"][name] then
