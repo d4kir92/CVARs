@@ -1,3 +1,4 @@
+local _, _ = ...
 D4 = D4 or {}
 --[[ Basics ]]
 local BuildNr = select(4, GetBuildInfo())
@@ -19,8 +20,19 @@ function D4:GetWoWBuild()
 end
 
 --[[ QOL ]]
-if D4:GetWoWBuild() ~= "RETAIL" and ShouldKnowUnitHealth and ShouldKnowUnitHealth("target") == false then
-    function ShouldKnowUnitHealth(unit)
-        return true
+C_Timer.After(
+    4,
+    function()
+        if D4.LoadTargetHealth == nil then
+            function D4:LoadTargetHealth()
+                if D4:GetWoWBuild() ~= "RETAIL" and ShouldKnowUnitHealth and ShouldKnowUnitHealth("target") == false then
+                    function ShouldKnowUnitHealth(unit)
+                        return true
+                    end
+                end
+            end
+
+            D4:LoadTargetHealth()
+        end
     end
-end
+)
