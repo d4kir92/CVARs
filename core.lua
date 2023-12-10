@@ -49,6 +49,7 @@ function CVARs:OnInitialize(event, ...)
 		CVARs:AddCVar("floatingCombatTextCombatHealing", 1, 1) -- Combattext:Healing
 		CVARs:AddCVar("xpBarText", 1, 1) -- Show XP Text
 		CVARs:AddCVar("showTargetCastbar", 1, 1) -- Show XP Text
+		CVARs:AddCVar("windowResizeLock", 0, 0) -- Game Window Mode Resize Lock
 		--[[SETTING CVARS]]
 		for name, val in pairs(CVTAB["Default"]["CVARSDB"]) do
 			if CVTAB["Default"]["SETCVARS"][name] then
