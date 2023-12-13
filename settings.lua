@@ -9,9 +9,9 @@ function CVARs:CVARMsg(name)
     local set = CVTAB["Default"]["SETCVARS"][name]
     local val = CVTAB["Default"]["CVARSDB"][name]
     if set then
-        msg = msg .. " is set to: " .. tostring(val)
+        msg = "|cff00ff00" .. msg .. " is set to: " .. tostring(val)
     else
-        msg = msg .. " is not set"
+        msg = "|cffff0000" .. msg .. " is not set by CVARs"
     end
 
     CVARs:MSG(msg)
@@ -28,13 +28,13 @@ function CVARs:InitSettings()
             ["pTab"] = {"CENTER"},
             ["sw"] = 520,
             ["sh"] = 520,
-            ["title"] = format("CVARs |T134063:16:16:0:0|t v|cff3FC7EB%s", "1.1.12")
+            ["title"] = format("CVARs |T134063:16:16:0:0|t v|cff3FC7EB%s", "1.1.13")
         }
     )
 
     cvars_settings.helptext = cvars_settings:CreateFontString(nil, nil, "GameFontNormal")
     cvars_settings.helptext:SetPoint("TOP", cvars_settings, "TOP", 0, 30)
-    cvars_settings.helptext:SetText("Left-Checkbox: Set CVAR    Right-Checkbox: CVAR Value")
+    cvars_settings.helptext:SetText("Left-Checkbox: Set CVAR by CVARs    Right-Checkbox: CVAR Value")
     cvars_settings.helptext:SetFont("Fonts\\FRIZQT__.TTF", 18, "OUTLINE")
     local y = -30
     if CVTAB["MMBTN"] == nil then
