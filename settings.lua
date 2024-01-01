@@ -28,7 +28,7 @@ function CVARs:InitSettings()
             ["pTab"] = {"CENTER"},
             ["sw"] = 520,
             ["sh"] = 520,
-            ["title"] = format("CVARs |T134063:16:16:0:0|t v|cff3FC7EB%s", "1.1.13")
+            ["title"] = format("CVARs |T134063:16:16:0:0|t v|cff3FC7EB%s", "1.2.0")
         }
     )
 
@@ -85,19 +85,39 @@ function CVARs:InitSettings()
 
     y = y - 15
     for i, name in pairs(cvarsSorted) do
+        local val = false
+        local val2 = false
+        if CVTAB["Default"]["SETCVARS"][name] == 1 then
+            val = true
+        end
+
+        if CVTAB["Default"]["CVARSDB"][name] == 1 then
+            val2 = true
+        end
+
         D4:CreateCheckboxForCVAR(
             {
                 ["name"] = name,
                 ["parent"] = cvars_settings,
                 ["pTab"] = {"TOPLEFT", 10, y},
-                ["value"] = CVTAB["Default"]["SETCVARS"][name],
-                ["value2"] = CVTAB["Default"]["CVARSDB"][name],
+                ["value"] = val,
+                ["value2"] = val2,
                 ["funcV"] = function(sel, checked)
-                    CVTAB["Default"]["SETCVARS"][name] = checked
+                    if checked then
+                        CVTAB["Default"]["SETCVARS"][name] = 1
+                    else
+                        CVTAB["Default"]["SETCVARS"][name] = 0
+                    end
+
                     CVARs:CVARMsg(name)
                 end,
                 ["funcV2"] = function(sel, checked)
-                    CVTAB["Default"]["CVARSDB"][name] = checked
+                    if checked then
+                        CVTAB["Default"]["CVARSDB"][name] = 1
+                    else
+                        CVTAB["Default"]["CVARSDB"][name] = 0
+                    end
+
                     CVARs:CVARMsg(name)
                 end
             }

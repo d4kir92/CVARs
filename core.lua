@@ -12,10 +12,18 @@ D4:AddTrans("enUS", "floatingCombatTextCombatHealing", "Enable Floating Combat H
 D4:AddTrans("deDE", "floatingCombatTextCombatHealing", "Aktiviere Fliegenden Heilungs Kampftext")
 D4:AddTrans("enUS", "xpBarText", "XP Bar Text")
 D4:AddTrans("deDE", "xpBarText", "EP Bar Text")
+D4:AddTrans("enUS", "showTargetCastbar", "Show TargetFrame Castbar")
+D4:AddTrans("deDE", "showTargetCastbar", "Ziel-Zauberleiste anzeigen")
 D4:AddTrans("enUS", "windowResizeLock", "Windowmode resize lock")
 D4:AddTrans("deDE", "windowResizeLock", "Sperrung der Größenänderung im Fenstermodus")
 D4:AddTrans("enUS", "nameplateMotion", "Namplate Stacking")
 D4:AddTrans("deDE", "nameplateMotion", "Namensplaketten stapeln")
+D4:AddTrans("enUS", "nameplateShowEnemies", "Show Enemy Nameplates")
+D4:AddTrans("deDE", "nameplateShowEnemies", "Gegner-Namensplaketten anzeigen")
+D4:AddTrans("enUS", "nameplateShowFriends", "Show Friend Nameplates")
+D4:AddTrans("deDE", "nameplateShowFriends", "Freund-Namensplaketten anzeigen")
+D4:AddTrans("enUS", "nameplateShowFriendlyNpcs", "Show Friendly Npc Nameplates")
+D4:AddTrans("deDE", "nameplateShowFriendlyNpcs", "Freundliche Npc-Namensplaketten anzeigen")
 --[[ CATEGORIES ]]
 D4:AddTrans("enUS", "general", "General")
 D4:AddTrans("deDE", "general", "Allgemein")
@@ -52,9 +60,12 @@ function CVARs:OnInitialize(event, ...)
 		CVARs:AddCVar("enableFloatingCombatText", 1, 1) -- Combattext
 		CVARs:AddCVar("floatingCombatTextCombatHealing", 1, 1) -- Combattext:Healing
 		CVARs:AddCVar("xpBarText", 1, 1) -- Show XP Text
-		CVARs:AddCVar("showTargetCastbar", 1, 1) -- Show XP Text
+		CVARs:AddCVar("showTargetCastbar", 1, 1) -- Show Target Castbar
 		CVARs:AddCVar("windowResizeLock", 0, 0) -- Game Window Mode Resize Lock
 		CVARs:AddCVar("nameplateMotion", 1, 1) -- Nameplate stacking
+		CVARs:AddCVar("nameplateShowEnemies", 0, 0) -- Show Nameplates: Enemies
+		CVARs:AddCVar("nameplateShowFriends", 0, 0) -- Show Nameplates: Friends
+		CVARs:AddCVar("nameplateShowFriendlyNpcs", 0, 0) -- Show Nameplates: Friendly Npcs
 		--[[SETTING CVARS]]
 		for name, val in pairs(CVTAB["Default"]["CVARSDB"]) do
 			if CVTAB["Default"]["SETCVARS"][name] then
