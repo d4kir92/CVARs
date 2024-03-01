@@ -9,7 +9,9 @@ D4:AddTrans("deDE", "autoLootDefault", "Schnell Plündern")
 D4:AddTrans("enUS", "enableFloatingCombatText", "Enable Floating Combat Text")
 D4:AddTrans("deDE", "enableFloatingCombatText", "Aktiviere Fliegender Kampftext")
 D4:AddTrans("enUS", "floatingCombatTextCombatHealing", "Enable Floating Combat Healing Text")
-D4:AddTrans("deDE", "floatingCombatTextCombatHealing", "Aktiviere Fliegenden Heilungs Kampftext")
+D4:AddTrans("deDE", "floatingCombatTextCombatHealing", "Aktiviere Fliegenden Heilung (Kampftext)")
+D4:AddTrans("enUS", "floatingCombatTextReactives", "Enable Reactive Spells and Abilities (CombatText)")
+D4:AddTrans("deDE", "floatingCombatTextReactives", "Aktiviere Reaktive Zauber und Fähigkeiten (Kampftext)")
 D4:AddTrans("enUS", "xpBarText", "XP Bar Text")
 D4:AddTrans("deDE", "xpBarText", "EP Bar Text")
 D4:AddTrans("enUS", "showTargetCastbar", "Show TargetFrame Castbar")
@@ -59,6 +61,7 @@ function CVARs:OnInitialize(event, ...)
 		CVARs:AddCVar("autoLootDefault", 1, 1) -- Fast looting
 		CVARs:AddCVar("enableFloatingCombatText", 1, 1) -- Combattext
 		CVARs:AddCVar("floatingCombatTextCombatHealing", 1, 1) -- Combattext:Healing
+		CVARs:AddCVar("floatingCombatTextReactives", 0, 0) -- Combattext:Reactives
 		CVARs:AddCVar("xpBarText", 1, 1) -- Show XP Text
 		CVARs:AddCVar("showTargetCastbar", 1, 1) -- Show Target Castbar
 		CVARs:AddCVar("windowResizeLock", 0, 0) -- Game Window Mode Resize Lock
