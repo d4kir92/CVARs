@@ -1,9 +1,10 @@
 ## Interface-Classic: 11501
 ## Interface-BCC: 20504
 ## Interface-Wrath: 30403
+## Interface-Cata: 40400
 ## Interface: 100205
 
-## Version: 1.2.11
+## Version: 1.2.12
 ## Title: CVARs by |cff3FC7EBD4KiR |T132115:16:16:0:0|t 
 ## Notes: Set, ForceSet CVARs
 ## Author: D4KiR
