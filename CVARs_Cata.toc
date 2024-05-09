@@ -1,5 +1,5 @@
 ## Interface: 40400
-## Version: 1.2.21
+## Version: 1.2.22
 ## Title: CVARs |T134063:16:16:0:0|t by |cff3FC7EBD4KiR |T132115:16:16:0:0|t 
 ## Notes: Set, ForceSet CVARs
 ## Author: D4KiR
