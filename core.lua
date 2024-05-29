@@ -10,8 +10,8 @@ D4:AddTrans("enUS", "enableFloatingCombatText", "Enable Floating Combat Text")
 D4:AddTrans("deDE", "enableFloatingCombatText", "Aktiviere Fliegender Kampftext")
 D4:AddTrans("enUS", "floatingCombatTextCombatHealing", "Enable Floating Combat Healing Text")
 D4:AddTrans("deDE", "floatingCombatTextCombatHealing", "Aktiviere Fliegenden Heilung (Kampftext)")
-D4:AddTrans("enUS", "floatingCombatTextReactives", "Enable Reactive Spells and Abilities (CombatText)")
-D4:AddTrans("deDE", "floatingCombatTextReactives", "Aktiviere Reaktive Zauber und Fähigkeiten (Kampftext)")
+D4:AddTrans("enUS", "floatingCombatTextReactives", "Enable Reactive Spells and Abilities")
+D4:AddTrans("deDE", "floatingCombatTextReactives", "Aktiviere Reaktive Zauber und Fähigkeiten")
 D4:AddTrans("enUS", "xpBarText", "XP Bar Text")
 D4:AddTrans("deDE", "xpBarText", "EP Bar Text")
 D4:AddTrans("enUS", "showTargetCastbar", "Show TargetFrame Castbar")
@@ -41,27 +41,27 @@ function CVARs:AddCVar(name, val, val2)
 end
 
 function CVARs:OnInitialize(event, ...)
-	for i = 1, 100 do
-		if GetCVar("nameplateMaxDistance", i) ~= nil then
-			local currentDist = tonumber(GetCVar("nameplateMaxDistance", i))
-			if i > currentDist then
-				SetCVar("nameplateMaxDistance", i)
-				currentDist = tonumber(GetCVar("nameplateMaxDistance", i))
-				if currentDist ~= i then break end
+	if event == "PLAYER_LOGIN" then
+		for i = 1, 100 do
+			if GetCVar("nameplateMaxDistance", i) ~= nil then
+				local currentDist = tonumber(GetCVar("nameplateMaxDistance", i))
+				if i > currentDist then
+					SetCVar("nameplateMaxDistance", i)
+					currentDist = tonumber(GetCVar("nameplateMaxDistance", i))
+					if currentDist ~= i then break end
+				end
 			end
 		end
-	end
 
-	CVTAB = CVTAB or {}
-	CVTAB["Default"] = CVTAB["Default"] or {}
-	CVTAB["Default"]["SETCVARS"] = CVTAB["Default"]["SETCVARS"] or {}
-	CVTAB["Default"]["CVARSDB"] = CVTAB["Default"]["CVARSDB"] or {}
-	if event == "PLAYER_LOGIN" then
+		CVTAB = CVTAB or {}
+		CVTAB["Default"] = CVTAB["Default"] or {}
+		CVTAB["Default"]["SETCVARS"] = CVTAB["Default"]["SETCVARS"] or {}
+		CVTAB["Default"]["CVARSDB"] = CVTAB["Default"]["CVARSDB"] or {}
 		--[[INIT CVARS]]
 		CVARs:AddCVar("autoLootDefault", 1, 1) -- Fast looting
 		CVARs:AddCVar("enableFloatingCombatText", 1, 1) -- Combattext
 		CVARs:AddCVar("floatingCombatTextCombatHealing", 1, 1) -- Combattext:Healing
-		CVARs:AddCVar("floatingCombatTextReactives", 0, 0) -- Combattext:Reactives
+		CVARs:AddCVar("floatingCombatTextReactives", 1, 1) -- Combattext:Reactives
 		CVARs:AddCVar("xpBarText", 1, 1) -- Show XP Text
 		CVARs:AddCVar("showTargetCastbar", 1, 1) -- Show Target Castbar
 		CVARs:AddCVar("windowResizeLock", 0, 0) -- Game Window Mode Resize Lock
@@ -75,12 +75,12 @@ function CVARs:OnInitialize(event, ...)
 				SetCVar(name, val)
 			end
 		end
+
+		CVARs:InitMinimapButton()
+		CVARs:InitSettings()
 	elseif event == "CVAR_UPDATE" then
 		print("CVARS", event, ...)
 	end
-
-	CVARs:InitMinimapButton()
-	CVARs:InitSettings()
 end
 
 local f = CreateFrame("FRAME")
