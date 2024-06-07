@@ -22,14 +22,14 @@ function CVARs:InitSettings()
     CVTAB["Default"] = CVTAB["Default"] or {}
     CVTAB["Default"]["SETCVARS"] = CVTAB["Default"]["SETCVARS"] or {}
     CVTAB["Default"]["CVARSDB"] = CVTAB["Default"]["CVARSDB"] or {}
-    D4:SetVersion(AddonName, 134063, "1.2.23")
+    D4:SetVersion(AddonName, 134063, "1.2.24")
     cvars_settings = D4:CreateFrame(
         {
             ["name"] = "CVARs Settings Frame",
             ["pTab"] = {"CENTER"},
             ["sw"] = 520,
             ["sh"] = 520,
-            ["title"] = format("CVARs |T134063:16:16:0:0|t v|cff3FC7EB%s", "1.2.23")
+            ["title"] = format("CVARs |T134063:16:16:0:0|t v|cff3FC7EB%s", "1.2.24")
         }
     )
 

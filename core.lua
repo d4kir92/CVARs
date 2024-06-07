@@ -69,6 +69,7 @@ function CVARs:OnInitialize(event, ...)
 		CVARs:AddCVar("nameplateShowEnemies", 0, 0) -- Show Nameplates: Enemies
 		CVARs:AddCVar("nameplateShowFriends", 0, 0) -- Show Nameplates: Friends
 		CVARs:AddCVar("nameplateShowFriendlyNpcs", 0, 0) -- Show Nameplates: Friendly Npcs
+		CVARs:AddCVar("ActionButtonUseKeyDown", 0, 1)
 		--[[SETTING CVARS]]
 		for name, val in pairs(CVTAB["Default"]["CVARSDB"]) do
 			if CVTAB["Default"]["SETCVARS"][name] then
