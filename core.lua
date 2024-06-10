@@ -1,6 +1,7 @@
 local _, CVARs = ...
 local CVARS_DEBUG = false
 --[[ Minimap Button ]]
+D4:AddTrans("enUS", "CVARs", "CVARs")
 D4:AddTrans("enUS", "showMinimapButton", "Show Minimap Button")
 D4:AddTrans("deDE", "showMinimapButton", "Minimap Knopf anzeigen")
 --[[ CVARS ]]
@@ -26,6 +27,9 @@ D4:AddTrans("enUS", "nameplateShowFriends", "Show Friend Nameplates")
 D4:AddTrans("deDE", "nameplateShowFriends", "Freund-Namensplaketten anzeigen")
 D4:AddTrans("enUS", "nameplateShowFriendlyNpcs", "Show Friendly Npc Nameplates")
 D4:AddTrans("deDE", "nameplateShowFriendlyNpcs", "Freundliche Npc-Namensplaketten anzeigen")
+D4:AddTrans("enUS", "ActionButtonUseKeyDown", "ActionButtonUseKeyDown")
+D4:AddTrans("deDE", "ActionButtonUseKeyDown", "ActionButtonUseKeyDown")
+D4:AddTrans("enUS", "Need more CVARs? Join the Discord", "Need more CVARs? Join the Discord")
 --[[ CATEGORIES ]]
 D4:AddTrans("enUS", "general", "General")
 D4:AddTrans("deDE", "general", "Allgemein")
