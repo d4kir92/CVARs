@@ -4,7 +4,7 @@
 ## Interface-Cata: 40400
 ## Interface: 100207, 110000
 
-## Version: 1.2.31
+## Version: 1.2.32
 ## Title: CVARs by |cff3FC7EBD4KiR |T132115:16:16:0:0|t 
 ## Notes: Set, ForceSet CVARs
 ## Author: D4KiR
@@ -17,5 +17,6 @@
 
 libs\D4Lib\D4Lib.xml
 
-core.lua
 settings.lua
+core.lua
+

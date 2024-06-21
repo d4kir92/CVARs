@@ -1,5 +1,5 @@
 ## Interface: 30403
-## Version: 1.2.31
+## Version: 1.2.32
 ## Title: CVARs |T134063:16:16:0:0|t by |cff3FC7EBD4KiR |T132115:16:16:0:0|t 
 ## Notes: Set, ForceSet CVARs
 ## Author: D4KiR
@@ -11,5 +11,5 @@
 
 libs\D4Lib\D4Lib.xml
 
-core.lua
 settings.lua
+core.lua

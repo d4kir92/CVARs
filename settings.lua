@@ -1,9 +1,6 @@
 local AddonName, CVARs = ...
+CVARs:SetAddonOutput("CVARs", 134063)
 local cvars_settings = nil
-function CVARs:MSG(msg)
-    print("|cff3FC7EB[CVARs]|r " .. msg)
-end
-
 function CVARs:CVARMsg(name)
     local msg = name
     local set = CVTAB["Default"]["SETCVARS"][name]
@@ -22,14 +19,14 @@ function CVARs:InitSettings()
     CVTAB["Default"] = CVTAB["Default"] or {}
     CVTAB["Default"]["SETCVARS"] = CVTAB["Default"]["SETCVARS"] or {}
     CVTAB["Default"]["CVARSDB"] = CVTAB["Default"]["CVARSDB"] or {}
-    D4:SetVersion(AddonName, 134063, "1.2.31")
-    cvars_settings = D4:CreateFrame(
+    CVARs:SetVersion(AddonName, 134063, "1.2.32")
+    cvars_settings = CVARs:CreateFrame(
         {
             ["name"] = "CVARs Settings Frame",
             ["pTab"] = {"CENTER"},
             ["sw"] = 520,
             ["sh"] = 520,
-            ["title"] = format("CVARs |T134063:16:16:0:0|t v|cff3FC7EB%s", "1.2.31")
+            ["title"] = format("CVARs |T134063:16:16:0:0|t v|cff3FC7EB%s", "1.2.32")
         }
     )
 
@@ -42,7 +39,7 @@ function CVARs:InitSettings()
         CVTAB["MMBTN"] = true
     end
 
-    D4:AddCategory(
+    CVARs:AddCategory(
         {
             ["name"] = "general",
             ["parent"] = cvars_settings,
@@ -51,7 +48,7 @@ function CVARs:InitSettings()
     )
 
     y = y - 15
-    D4:CreateCheckbox(
+    CVARs:CreateCheckbox(
         {
             ["name"] = "showMinimapButton",
             ["parent"] = cvars_settings,
@@ -60,9 +57,9 @@ function CVARs:InitSettings()
             ["funcV"] = function(sel, checked)
                 CVTAB["MMBTN"] = checked
                 if CVTAB["MMBTN"] then
-                    D4:GetLibDBIcon():Show("CVArs")
+                    CVARs:GetLibDBIcon():Show("CVArs")
                 else
-                    D4:GetLibDBIcon():Hide("CVArs")
+                    CVARs:GetLibDBIcon():Hide("CVArs")
                 end
             end
         }
@@ -76,7 +73,7 @@ function CVARs:InitSettings()
     end
 
     table.sort(cvarsSorted)
-    D4:AddCategory(
+    CVARs:AddCategory(
         {
             ["name"] = "CVARs",
             ["parent"] = cvars_settings,
@@ -96,7 +93,7 @@ function CVARs:InitSettings()
             val2 = true
         end
 
-        D4:CreateCheckboxForCVAR(
+        CVARs:CreateCheckboxForCVAR(
             {
                 ["name"] = name,
                 ["parent"] = cvars_settings,
@@ -128,7 +125,7 @@ function CVARs:InitSettings()
     end
 
     y = y - 30
-    D4:AddCategory(
+    CVARs:AddCategory(
         {
             ["name"] = "Need more CVARs? Join the Discord",
             ["parent"] = cvars_settings,
@@ -137,7 +134,7 @@ function CVARs:InitSettings()
     )
 
     y = y - 15
-    local dc = D4:CreateEditBox(
+    local dc = CVARs:CreateEditBox(
         {
             ["name"] = "",
             ["parent"] = cvars_settings,
@@ -150,9 +147,9 @@ function CVARs:InitSettings()
 
     dc:SetAutoFocus(false)
     if CVTAB["MMBTN"] then
-        D4:ShowMMBtn("CVArs")
+        CVARs:ShowMMBtn("CVArs")
     else
-        D4:HideMMBtn("CVArs")
+        CVARs:HideMMBtn("CVArs")
     end
 end
 
@@ -168,7 +165,7 @@ end
 
 function CVARs:InitMinimapButton()
     CVTAB["MMBTNTAB"] = CVTAB["MMBTNTAB"] or {}
-    D4:CreateMinimapButton(
+    CVARs:CreateMinimapButton(
         {
             ["name"] = "CVArs",
             ["icon"] = 134063,
@@ -180,5 +177,5 @@ function CVARs:InitMinimapButton()
         }
     )
 
-    D4:AddSlash("cvars", CVARs.ToggleSettings)
+    CVARs:AddSlash("cvars", CVARs.ToggleSettings)
 end
