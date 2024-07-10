@@ -83,32 +83,43 @@ function D4:CreateEditBox(tab)
 end
 
 function D4:CreateSlider(tab)
+    if tab.key == nil then
+        D4:MSG("[D4][CreateSlider] Missing format string:", tab.key, tab.value)
+
+        return
+    elseif tab.value == nil then
+        D4:MSG("[D4][CreateSlider] Missing value:", tab.key, tab.value)
+
+        return
+    end
+
     tab.sw = tab.sw or 200
     tab.sh = tab.sh or 25
     tab.parent = tab.parent or UIParent
     tab.pTab = tab.pTab or "CENTER"
-    tab.value = tab.value or nil
+    tab.value = tab.value or 1
     tab.vmin = tab.vmin or 1
     tab.vmax = tab.vmax or 1
     tab.steps = tab.steps or 1
     tab.decimals = tab.decimals or 0
     tab.key = tab.key or tab.name or ""
-    local slider = CreateFrame("Slider", tab.name, tab.parent, "OptionsSliderTemplate")
+    local slider = CreateFrame("Slider", tab.key, tab.parent, "OptionsSliderTemplate")
     slider:SetWidth(tab.sw)
     slider:SetPoint(unpack(tab.pTab))
     slider.Low:SetText(tab.vmin)
     slider.High:SetText(tab.vmax)
     local struct = D4:Trans(tab.key)
-    if struct then
+    if struct and tab.value then
         slider.Text:SetText(string.format(struct, tab.value))
-    else
-        D4:MSG("[D4] missing format string:", tab.key)
     end
 
     slider:SetMinMaxValues(tab.vmin, tab.vmax)
     slider:SetObeyStepOnDrag(true)
     slider:SetValueStep(tab.steps)
-    slider:SetValue(tab.value)
+    if tab.value then
+        slider:SetValue(tab.value)
+    end
+
     slider:SetScript(
         "OnValueChanged",
         function(sel, val)
@@ -125,7 +136,7 @@ function D4:CreateSlider(tab)
             if struct2 then
                 slider.Text:SetText(string.format(struct2, val))
             else
-                D4:MSG("[D4] Missing format string:", tab.key)
+                D4:MSG("[D4][CreateSlider][OnValueChanged] Missing format string:", tab.key)
             end
         end
     )
@@ -237,7 +248,7 @@ function D4:AppendCheckbox(key, value, func, x, y)
             ["funcV"] = function(sel, checked)
                 TAB[key] = checked
                 if func then
-                    func()
+                    func(sel, checked)
                 end
             end
         }
@@ -250,6 +261,20 @@ end
 
 function D4:AppendSlider(key, value, min, max, steps, decimals, func, lstr)
     Y = Y - 15
+    if key == nil then
+        D4:MSG("[D4][AppendSlider] Missing key:", tab.key, tab.value)
+
+        return
+    elseif value == nil then
+        D4:MSG("[D4][AppendSlider] Missing value:", tab.key, tab.value)
+
+        return
+    end
+
+    if TAB[key] == nil then
+        TAB[key] = value
+    end
+
     local slider = {}
     slider.key = key
     slider.parent = PARENT
