@@ -2,8 +2,8 @@ local _, CVARs = ...
 local CVARS_DEBUG = false
 --[[ Minimap Button ]]
 CVARs:AddTrans("enUS", "CVARs", "CVARs")
-CVARs:AddTrans("enUS", "showMinimapButton", "Show Minimap Button")
-CVARs:AddTrans("deDE", "showMinimapButton", "Minimap Knopf anzeigen")
+CVARs:AddTrans("enUS", "MMBTN", "Show Minimap Button")
+CVARs:AddTrans("deDE", "MMBTN", "Minimap Knopf anzeigen")
 --[[ CVARS ]]
 CVARs:AddTrans("enUS", "autoLootDefault", "Fast Looting")
 CVARs:AddTrans("deDE", "autoLootDefault", "Schnell Plündern")
