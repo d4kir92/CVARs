@@ -19,14 +19,14 @@ function CVARs:InitSettings()
     CVTAB["Default"] = CVTAB["Default"] or {}
     CVTAB["Default"]["SETCVARS"] = CVTAB["Default"]["SETCVARS"] or {}
     CVTAB["Default"]["CVARSDB"] = CVTAB["Default"]["CVARSDB"] or {}
-    CVARs:SetVersion(AddonName, 134063, "1.2.35")
+    CVARs:SetVersion(AddonName, 134063, "1.2.36")
     cvars_settings = CVARs:CreateFrame(
         {
             ["name"] = "CVARs Settings Frame",
             ["pTab"] = {"CENTER"},
             ["sw"] = 520,
             ["sh"] = 520,
-            ["title"] = format("CVARs |T134063:16:16:0:0|t v|cff3FC7EB%s", "1.2.35")
+            ["title"] = format("CVARs |T134063:16:16:0:0|t v|cff3FC7EB%s", "1.2.36")
         }
     )
 
@@ -36,7 +36,7 @@ function CVARs:InitSettings()
     cvars_settings.helptext:SetFont("Fonts\\FRIZQT__.TTF", 18, "OUTLINE")
     local y = -30
     if CVTAB["MMBTN"] == nil then
-        CVTAB["MMBTN"] = true
+        CVTAB["MMBTN"] = CVARs:GetWoWBuild() ~= "RETAIL"
     end
 
     CVARs:AddCategory(
@@ -163,12 +163,16 @@ function CVARs:InitMinimapButton()
         1,
         function()
             CVTAB["MMBTNTAB"] = CVTAB["MMBTNTAB"] or {}
+            if CVTAB["MMBTN"] == nil then
+                CVTAB["MMBTN"] = CVARs:GetWoWBuild() ~= "RETAIL"
+            end
+
             CVARs:CreateMinimapButton(
                 {
                     ["name"] = "CVArs",
                     ["icon"] = 134063,
                     ["dbtab"] = CVTAB,
-                    ["vTT"] = {{"CVArs |T134063:16:16:0:0|t", "v|cff3FC7EB1.2.35"}, {"Leftclick", "Options"}, {"Rightclick", "Hide Minimap"}},
+                    ["vTT"] = {{"CVArs |T134063:16:16:0:0|t", "v|cff3FC7EB1.2.36"}, {"Leftclick", "Options"}, {"Rightclick", "Hide Minimap"}},
                     ["funcL"] = function()
                         CVARs:ToggleSettings()
                     end,
