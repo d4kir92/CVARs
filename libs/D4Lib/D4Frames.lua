@@ -107,9 +107,30 @@ function D4:CreateSlider(tab)
     tab.steps = tab.steps or 1
     tab.decimals = tab.decimals or 0
     tab.key = tab.key or tab.name or ""
-    local slider = CreateFrame("Slider", tab.key, tab.parent, "OptionsSliderTemplate")
-    slider:SetWidth(tab.sw)
+    local slider = CreateFrame("Slider", tab.key, tab.parent, "UISliderTemplate")
+    slider:SetSize(tab.sw, 16)
     slider:SetPoint(unpack(tab.pTab))
+    if slider.Low == nil then
+        slider.Low = slider:CreateFontString(nil, nil, "GameFontNormal")
+        slider.Low:SetPoint("BOTTOMLEFT", slider, "BOTTOMLEFT", 0, -12)
+        slider.Low:SetFont(STANDARD_TEXT_FONT, 10, "THINOUTLINE")
+        slider.Low:SetTextColor(1, 1, 1)
+    end
+
+    if slider.High == nil then
+        slider.High = slider:CreateFontString(nil, nil, "GameFontNormal")
+        slider.High:SetPoint("BOTTOMRIGHT", slider, "BOTTOMRIGHT", 0, -12)
+        slider.High:SetFont(STANDARD_TEXT_FONT, 10, "THINOUTLINE")
+        slider.High:SetTextColor(1, 1, 1)
+    end
+
+    if slider.Text == nil then
+        slider.Text = slider:CreateFontString(nil, nil, "GameFontNormal")
+        slider.Text:SetPoint("TOP", slider, "TOP", 0, 16)
+        slider.Text:SetFont(STANDARD_TEXT_FONT, 12, "THINOUTLINE")
+        slider.Text:SetTextColor(1, 1, 1)
+    end
+
     slider.Low:SetText(tab.vmin)
     slider.High:SetText(tab.vmax)
     local struct = D4:Trans(tab.key)
@@ -312,5 +333,65 @@ function D4:AppendSlider(key, value, min, max, steps, decimals, func, lstr)
     slider.func = func
     slider.pTab = {"TOPLEFT", 10, Y}
     D4:CreateSlider(slider)
+    Y = Y - 30
+end
+
+function D4:CreateDropdown(key, value, choices, parent)
+    if TAB[key] == nil then
+        TAB[key] = value
+    end
+
+    local text = parent:CreateFontString(nil, nil, "GameFontNormal")
+    text:SetPoint("TOPLEFT", 10, Y)
+    text:SetText(D4:Trans(key))
+    Y = Y - 18
+    if D4:GetWoWBuild() == "RETAIL" then
+        local Dropdown = CreateFrame("DropdownButton", key, parent, "WowStyle1DropdownTemplate")
+        Dropdown:SetDefaultText(choices[TAB[key]])
+        Dropdown:SetPoint("TOPLEFT", 10, Y)
+        Dropdown:SetWidth(200)
+        Dropdown:SetupMenu(
+            function(dropdown, rootDescription)
+                rootDescription:CreateTitle(D4:Trans(key))
+                for i, v in pairs(choices) do
+                    rootDescription:CreateButton(
+                        i,
+                        function()
+                            TAB[key] = v
+                            Dropdown:SetDefaultText(i)
+                        end
+                    )
+                end
+            end
+        )
+    else
+        local dropDown = CreateFrame("Frame", "WPDemoDropDown", PARENT, "UIDropDownMenuTemplate")
+        dropDown:SetPoint("TOPLEFT", -10, Y)
+        UIDropDownMenu_SetWidth(dropDown, 200)
+        function WPDropDownDemo_Menu(frame, level, menuList)
+            local info = UIDropDownMenu_CreateInfo()
+            if level == 1 then
+                for i, v in pairs(choices) do
+                    info.text = v
+                    info.arg1 = i
+                    info.checked = v == choices[TAB[key]]
+                    info.func = dropDown.SetValue
+                    UIDropDownMenu_AddButton(info)
+                end
+            end
+        end
+
+        UIDropDownMenu_Initialize(dropDown, WPDropDownDemo_Menu)
+        UIDropDownMenu_SetText(dropDown, choices[TAB[key]])
+        function dropDown:SetValue(newValue)
+            TAB[key] = newValue
+            UIDropDownMenu_SetText(dropDown, newValue)
+            CloseDropDownMenus()
+        end
+    end
+end
+
+function D4:AppendDropdown(key, value, choices)
+    D4:CreateDropdown(key, value, choices, PARENT)
     Y = Y - 30
 end
