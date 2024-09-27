@@ -5,7 +5,20 @@ function CVARs:CVARMsg(name)
     local msg = name
     local set = CVTAB["Default"]["SETCVARS"][name]
     local val = CVTAB["Default"]["CVARSDB"][name]
-    if set then
+    if set == 1 then
+        msg = "|cff00ff00" .. msg .. " is set to: " .. tostring(val)
+    else
+        msg = "|cffff0000" .. msg .. " is not set by CVARs"
+    end
+
+    CVARs:MSG(msg)
+end
+
+function CVARs:CVARMsgSlider(name)
+    local msg = name
+    local set = CVTAB["Default"]["SETCVARSSLIDER"][name]
+    local val = CVTAB["Default"]["CVARSDBSLIDER"][name]
+    if set == 1 then
         msg = "|cff00ff00" .. msg .. " is set to: " .. tostring(val)
     else
         msg = "|cffff0000" .. msg .. " is not set by CVARs"
@@ -19,14 +32,16 @@ function CVARs:InitSettings()
     CVTAB["Default"] = CVTAB["Default"] or {}
     CVTAB["Default"]["SETCVARS"] = CVTAB["Default"]["SETCVARS"] or {}
     CVTAB["Default"]["CVARSDB"] = CVTAB["Default"]["CVARSDB"] or {}
-    CVARs:SetVersion(AddonName, 134063, "1.2.39")
+    CVTAB["Default"]["SETCVARSSLIDER"] = CVTAB["Default"]["SETCVARSSLIDER"] or {}
+    CVTAB["Default"]["CVARSDBSLIDER"] = CVTAB["Default"]["CVARSDBSLIDER"] or {}
+    CVARs:SetVersion(AddonName, 134063, "1.2.40")
     cvars_settings = CVARs:CreateFrame(
         {
             ["name"] = "CVARs Settings Frame",
             ["pTab"] = {"CENTER"},
             ["sw"] = 520,
-            ["sh"] = 520,
-            ["title"] = format("CVARs |T134063:16:16:0:0|t v|cff3FC7EB%s", "1.2.39")
+            ["sh"] = 700,
+            ["title"] = format("CVARs |T134063:16:16:0:0|t v|cff3FC7EB%s", "1.2.40")
         }
     )
 
@@ -73,6 +88,12 @@ function CVARs:InitSettings()
     end
 
     table.sort(cvarsSorted)
+    local cvarsSortedSlider = {}
+    for k in pairs(CVTAB["Default"]["SETCVARSSLIDER"]) do
+        tinsert(cvarsSortedSlider, k)
+    end
+
+    table.sort(cvarsSortedSlider)
     CVARs:AddCategory(
         {
             ["name"] = "CVARs",
@@ -124,6 +145,51 @@ function CVARs:InitSettings()
         y = y - 25
     end
 
+    y = y - 10
+    for i, name in pairs(cvarsSortedSlider) do
+        local val = CVTAB["Default"]["SETCVARSSLIDER"][name]
+        local val2 = CVTAB["Default"]["CVARSDBSLIDER"][name]
+        if val == nil then
+            val = 1
+        end
+
+        if val2 == nil then
+            val2 = 1
+        end
+
+        CVARs:CreateSliderForCVAR(
+            {
+                ["name"] = name,
+                ["parent"] = cvars_settings,
+                ["pTab"] = {"TOPLEFT", 10, y},
+                ["value"] = val,
+                ["value2"] = val2,
+                ["vmin"] = 0,
+                ["vmax"] = 10,
+                ["decimals"] = 2,
+                ["steps"] = 0.05,
+                ["funcV"] = function(sel, checked)
+                    if checked then
+                        CVTAB["Default"]["SETCVARSSLIDER"][name] = 1
+                    else
+                        CVTAB["Default"]["SETCVARSSLIDER"][name] = 0
+                    end
+
+                    CVARs:CVARMsgSlider(name)
+                end,
+                ["funcV2"] = function(sel, value)
+                    if value then
+                        CVTAB["Default"]["CVARSDBSLIDER"][name] = value
+                    end
+
+                    CVARs:CVARMsgSlider(name)
+                end
+            }
+        )
+
+        y = y - 55
+    end
+
     y = y - 30
     CVARs:AddCategory(
         {
@@ -172,7 +238,7 @@ function CVARs:InitMinimapButton()
                     ["name"] = "CVArs",
                     ["icon"] = 134063,
                     ["dbtab"] = CVTAB,
-                    ["vTT"] = {{"CVArs |T134063:16:16:0:0|t", "v|cff3FC7EB1.2.39"}, {"Leftclick", "Options"}, {"Rightclick", "Hide Minimap"}},
+                    ["vTT"] = {{"CVArs |T134063:16:16:0:0|t", "v|cff3FC7EB1.2.40"}, {"Leftclick", "Options"}, {"Rightclick", "Hide Minimap"}},
                     ["funcL"] = function()
                         CVARs:ToggleSettings()
                     end,

@@ -30,6 +30,10 @@ CVARs:AddTrans("deDE", "nameplateShowFriendlyNpcs", "Freundliche Npc-Namensplake
 CVARs:AddTrans("enUS", "ActionButtonUseKeyDown", "ActionButtonUseKeyDown")
 CVARs:AddTrans("deDE", "ActionButtonUseKeyDown", "ActionButtonUseKeyDown")
 CVARs:AddTrans("enUS", "Need more CVARs? Join the Discord", "Need more CVARs? Join the Discord")
+CVARs:AddTrans("enUS", "nameplateOverlapH", "Nameplate Overlap Horizontal %s")
+CVARs:AddTrans("deDE", "nameplateOverlapH", "Namensplaketten Überlappen Horizontal %s")
+CVARs:AddTrans("enUS", "nameplateOverlapV", "Nameplate Overlap Vertical %s")
+CVARs:AddTrans("deDE", "nameplateOverlapV", "Namensplaketten Überlappen Vertikal %s")
 --[[ CATEGORIES ]]
 CVARs:AddTrans("enUS", "general", "General")
 CVARs:AddTrans("deDE", "general", "Allgemein")
@@ -41,6 +45,17 @@ function CVARs:AddCVar(name, val, val2)
 	if CVTAB["Default"]["SETCVARS"][name] == nil or CVTAB["Default"]["CVARSDB"][name] == nil then
 		CVTAB["Default"]["SETCVARS"][name] = val
 		CVTAB["Default"]["CVARSDB"][name] = val2
+	end
+end
+
+function CVARs:AddCVarSlider(name, val, val2)
+	CVTAB = CVTAB or {}
+	CVTAB["Default"] = CVTAB["Default"] or {}
+	CVTAB["Default"]["SETCVARSSLIDER"] = CVTAB["Default"]["SETCVARSSLIDER"] or {}
+	CVTAB["Default"]["CVARSDBSLIDER"] = CVTAB["Default"]["CVARSDBSLIDER"] or {}
+	if CVTAB["Default"]["SETCVARSSLIDER"][name] == nil or CVTAB["Default"]["CVARSDBSLIDER"][name] == nil then
+		CVTAB["Default"]["SETCVARSSLIDER"][name] = val
+		CVTAB["Default"]["CVARSDBSLIDER"][name] = val2
 	end
 end
 
@@ -74,9 +89,17 @@ function CVARs:OnInitialize(event, ...)
 		CVARs:AddCVar("nameplateShowFriends", 0, 0) -- Show Nameplates: Friends
 		CVARs:AddCVar("nameplateShowFriendlyNpcs", 0, 0) -- Show Nameplates: Friendly Npcs
 		CVARs:AddCVar("ActionButtonUseKeyDown", 0, 1)
+		CVARs:AddCVarSlider("nameplateOverlapH", 0, 0.8)
+		CVARs:AddCVarSlider("nameplateOverlapV", 0, 1.1)
 		--[[SETTING CVARS]]
 		for name, val in pairs(CVTAB["Default"]["CVARSDB"]) do
 			if CVTAB["Default"]["SETCVARS"][name] then
+				SetCVar(name, val)
+			end
+		end
+
+		for name, val in pairs(CVTAB["Default"]["CVARSDBSLIDER"]) do
+			if CVTAB["Default"]["SETCVARSSLIDER"][name] then
 				SetCVar(name, val)
 			end
 		end
