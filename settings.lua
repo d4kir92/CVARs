@@ -34,14 +34,14 @@ function CVARs:InitSettings()
     CVTAB["Default"]["CVARSDB"] = CVTAB["Default"]["CVARSDB"] or {}
     CVTAB["Default"]["SETCVARSSLIDER"] = CVTAB["Default"]["SETCVARSSLIDER"] or {}
     CVTAB["Default"]["CVARSDBSLIDER"] = CVTAB["Default"]["CVARSDBSLIDER"] or {}
-    CVARs:SetVersion(AddonName, 134063, "1.2.42")
+    CVARs:SetVersion(AddonName, 134063, "1.2.43")
     cvars_settings = CVARs:CreateFrame(
         {
             ["name"] = "CVARs Settings Frame",
             ["pTab"] = {"CENTER"},
             ["sw"] = 520,
             ["sh"] = 700,
-            ["title"] = format("CVARs |T134063:16:16:0:0|t v|cff3FC7EB%s", "1.2.42")
+            ["title"] = format("CVARs |T134063:16:16:0:0|t v|cff3FC7EB%s", "1.2.43")
         }
     )
 
@@ -238,7 +238,7 @@ function CVARs:InitMinimapButton()
                     ["name"] = "CVArs",
                     ["icon"] = 134063,
                     ["dbtab"] = CVTAB,
-                    ["vTT"] = {{"CVArs |T134063:16:16:0:0|t", "v|cff3FC7EB1.2.42"}, {"Leftclick", "Options"}, {"Rightclick", "Hide Minimap"}},
+                    ["vTT"] = {{"CVArs |T134063:16:16:0:0|t", "v|cff3FC7EB1.2.43"}, {"Leftclick", "Options"}, {"Rightclick", "Hide Minimap"}},
                     ["funcL"] = function()
                         CVARs:ToggleSettings()
                     end,
