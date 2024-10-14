@@ -34,14 +34,14 @@ function CVARs:InitSettings()
     CVTAB["Default"]["CVARSDB"] = CVTAB["Default"]["CVARSDB"] or {}
     CVTAB["Default"]["SETCVARSSLIDER"] = CVTAB["Default"]["SETCVARSSLIDER"] or {}
     CVTAB["Default"]["CVARSDBSLIDER"] = CVTAB["Default"]["CVARSDBSLIDER"] or {}
-    CVARs:SetVersion(AddonName, 134063, "1.2.43")
+    CVARs:SetVersion(AddonName, 134063, "1.2.44")
     cvars_settings = CVARs:CreateFrame(
         {
             ["name"] = "CVARs Settings Frame",
             ["pTab"] = {"CENTER"},
             ["sw"] = 520,
             ["sh"] = 700,
-            ["title"] = format("CVARs |T134063:16:16:0:0|t v|cff3FC7EB%s", "1.2.43")
+            ["title"] = format("CVARs |T134063:16:16:0:0|t v|cff3FC7EB%s", "1.2.44")
         }
     )
 
@@ -225,37 +225,32 @@ function CVARs:ToggleSettings()
 end
 
 function CVARs:InitMinimapButton()
-    C_Timer.After(
-        1,
-        function()
-            CVTAB["MMBTNTAB"] = CVTAB["MMBTNTAB"] or {}
-            if CVTAB["MMBTN"] == nil then
-                CVTAB["MMBTN"] = CVARs:GetWoWBuild() ~= "RETAIL"
-            end
+    CVTAB["MMBTNTAB"] = CVTAB["MMBTNTAB"] or {}
+    if CVTAB["MMBTN"] == nil then
+        CVTAB["MMBTN"] = CVARs:GetWoWBuild() ~= "RETAIL"
+    end
 
-            CVARs:CreateMinimapButton(
-                {
-                    ["name"] = "CVArs",
-                    ["icon"] = 134063,
-                    ["dbtab"] = CVTAB,
-                    ["vTT"] = {{"CVArs |T134063:16:16:0:0|t", "v|cff3FC7EB1.2.43"}, {"Leftclick", "Options"}, {"Rightclick", "Hide Minimap"}},
-                    ["funcL"] = function()
-                        CVARs:ToggleSettings()
-                    end,
-                    ["funcR"] = function()
-                        CVTAB["MMBTN"] = false
-                        CVARs:HideMMBtn("CVArs")
-                    end
-                }
-            )
-
-            if CVTAB["MMBTN"] then
-                CVARs:ShowMMBtn("CVArs")
-            else
+    CVARs:CreateMinimapButton(
+        {
+            ["name"] = "CVArs",
+            ["icon"] = 134063,
+            ["dbtab"] = CVTAB,
+            ["vTT"] = {{"CVArs |T134063:16:16:0:0|t", "v|cff3FC7EB1.2.44"}, {"Leftclick", "Options"}, {"Rightclick", "Hide Minimap"}},
+            ["funcL"] = function()
+                CVARs:ToggleSettings()
+            end,
+            ["funcR"] = function()
+                CVTAB["MMBTN"] = false
                 CVARs:HideMMBtn("CVArs")
             end
-        end
+        }
     )
+
+    if CVTAB["MMBTN"] then
+        CVARs:ShowMMBtn("CVArs")
+    else
+        CVARs:HideMMBtn("CVArs")
+    end
 
     CVARs:AddSlash("cvars", CVARs.ToggleSettings)
 end
