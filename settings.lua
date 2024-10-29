@@ -11,6 +11,7 @@ function CVARs:CVARMsg(name)
         msg = "|cffff0000" .. msg .. " is not set by CVARs"
     end
 
+    SetCVar(name, val)
     CVARs:MSG(msg)
 end
 
@@ -24,6 +25,7 @@ function CVARs:CVARMsgSlider(name)
         msg = "|cffff0000" .. msg .. " is not set by CVARs"
     end
 
+    SetCVar(name, val)
     CVARs:MSG(msg)
 end
 
@@ -34,14 +36,18 @@ function CVARs:InitSettings()
     CVTAB["Default"]["CVARSDB"] = CVTAB["Default"]["CVARSDB"] or {}
     CVTAB["Default"]["SETCVARSSLIDER"] = CVTAB["Default"]["SETCVARSSLIDER"] or {}
     CVTAB["Default"]["CVARSDBSLIDER"] = CVTAB["Default"]["CVARSDBSLIDER"] or {}
-    CVARs:SetVersion(AddonName, 134063, "1.2.45")
+    CVTAB["Default"]["VMIN"] = CVTAB["Default"]["VMIN"] or {}
+    CVTAB["Default"]["VMAX"] = CVTAB["Default"]["VMAX"] or {}
+    CVTAB["Default"]["VDEC"] = CVTAB["Default"]["VDEC"] or {}
+    CVTAB["Default"]["VSTE"] = CVTAB["Default"]["VSTE"] or {}
+    CVARs:SetVersion(AddonName, 134063, "1.2.46")
     cvars_settings = CVARs:CreateFrame(
         {
             ["name"] = "CVARs Settings Frame",
             ["pTab"] = {"CENTER"},
             ["sw"] = 520,
             ["sh"] = 700,
-            ["title"] = format("CVARs |T134063:16:16:0:0|t v|cff3FC7EB%s", "1.2.45")
+            ["title"] = format("CVARs |T134063:16:16:0:0|t v|cff3FC7EB%s", "1.2.46")
         }
     )
 
@@ -164,10 +170,10 @@ function CVARs:InitSettings()
                 ["pTab"] = {"TOPLEFT", 10, y},
                 ["value"] = val,
                 ["value2"] = val2,
-                ["vmin"] = 0,
-                ["vmax"] = 10,
-                ["decimals"] = 2,
-                ["steps"] = 0.05,
+                ["vmin"] = CVTAB["Default"]["VMIN"][name] or 0,
+                ["vmax"] = CVTAB["Default"]["VMAX"][name] or 9,
+                ["decimals"] = CVTAB["Default"]["VDEC"][name] or 0,
+                ["steps"] = CVTAB["Default"]["VSTE"][name] or 1,
                 ["funcV"] = function(sel, checked)
                     if checked then
                         CVTAB["Default"]["SETCVARSSLIDER"][name] = 1
@@ -199,7 +205,6 @@ function CVARs:InitSettings()
         }
     )
 
-    y = y - 15
     local dc = CVARs:CreateEditBox(
         {
             ["name"] = "",
@@ -235,7 +240,7 @@ function CVARs:InitMinimapButton()
             ["name"] = "CVArs",
             ["icon"] = 134063,
             ["dbtab"] = CVTAB,
-            ["vTT"] = {{"CVArs |T134063:16:16:0:0|t", "v|cff3FC7EB1.2.45"}, {"Leftclick", "Options"}, {"Rightclick", "Hide Minimap"}},
+            ["vTT"] = {{"CVArs |T134063:16:16:0:0|t", "v|cff3FC7EB1.2.46"}, {"Leftclick", "Options"}, {"Rightclick", "Hide Minimap"}},
             ["funcL"] = function()
                 CVARs:ToggleSettings()
             end,

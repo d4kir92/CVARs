@@ -34,6 +34,14 @@ CVARs:AddTrans("enUS", "nameplateOverlapH", "Nameplate Overlap Horizontal %s")
 CVARs:AddTrans("deDE", "nameplateOverlapH", "Namensplaketten Überlappen Horizontal %s")
 CVARs:AddTrans("enUS", "nameplateOverlapV", "Nameplate Overlap Vertical %s")
 CVARs:AddTrans("deDE", "nameplateOverlapV", "Namensplaketten Überlappen Vertikal %s")
+CVARs:AddTrans("enUS", "cameraReduceUnexpectedMovement", "Camera Reduce Unexpected Movement")
+CVARs:AddTrans("deDE", "cameraReduceUnexpectedMovement", "Kamera Unerwartete Bewegung reduzieren")
+CVARs:AddTrans("enUS", "cameraDistanceMaxZoomFactor", "Camera Distance Max Zoom Factor: %s")
+CVARs:AddTrans("deDE", "cameraDistanceMaxZoomFactor", "Kameraabstand Max. Zoom-Faktor: %s")
+CVARs:AddTrans("enUS", "ResampleAlwaysSharpen", "Resample Always Sharpen")
+CVARs:AddTrans("deDE", "ResampleAlwaysSharpen", "Neuabtastung immer schärfen")
+CVARs:AddTrans("enUS", "cameraFov", "Camera FOV: %s")
+CVARs:AddTrans("deDE", "cameraFov", "Kamera FOV: %s")
 --[[ CATEGORIES ]]
 CVARs:AddTrans("enUS", "general", "General")
 CVARs:AddTrans("deDE", "general", "Allgemein")
@@ -48,14 +56,22 @@ function CVARs:AddCVar(name, val, val2)
 	end
 end
 
-function CVARs:AddCVarSlider(name, val, val2)
+function CVARs:AddCVarSlider(name, val, val2, vmin, vmax, vdec, vste)
 	CVTAB = CVTAB or {}
 	CVTAB["Default"] = CVTAB["Default"] or {}
 	CVTAB["Default"]["SETCVARSSLIDER"] = CVTAB["Default"]["SETCVARSSLIDER"] or {}
 	CVTAB["Default"]["CVARSDBSLIDER"] = CVTAB["Default"]["CVARSDBSLIDER"] or {}
-	if CVTAB["Default"]["SETCVARSSLIDER"][name] == nil or CVTAB["Default"]["CVARSDBSLIDER"][name] == nil then
+	CVTAB["Default"]["VMIN"] = CVTAB["Default"]["VMIN"] or {}
+	CVTAB["Default"]["VMAX"] = CVTAB["Default"]["VMAX"] or {}
+	CVTAB["Default"]["VDEC"] = CVTAB["Default"]["VDEC"] or {}
+	CVTAB["Default"]["VSTE"] = CVTAB["Default"]["VSTE"] or {}
+	if CVTAB["Default"]["SETCVARSSLIDER"][name] == nil or CVTAB["Default"]["CVARSDBSLIDER"][name] == nil or CVTAB["Default"]["VMIN"] == nil or CVTAB["Default"]["VMAX"] == nil or CVTAB["Default"]["VDEC"] == nil or CVTAB["Default"]["VSTE"] == nil then
 		CVTAB["Default"]["SETCVARSSLIDER"][name] = val
 		CVTAB["Default"]["CVARSDBSLIDER"][name] = val2
+		CVTAB["Default"]["VMIN"][name] = vmin or 0
+		CVTAB["Default"]["VMAX"][name] = vmax or 1
+		CVTAB["Default"]["VDEC"][name] = vdec or 0
+		CVTAB["Default"]["VSTE"][name] = vste or 1
 	end
 end
 
@@ -89,8 +105,17 @@ function CVARs:OnInitialize(event, ...)
 		CVARs:AddCVar("nameplateShowFriends", 0, 0) -- Show Nameplates: Friends
 		CVARs:AddCVar("nameplateShowFriendlyNpcs", 0, 0) -- Show Nameplates: Friendly Npcs
 		CVARs:AddCVar("ActionButtonUseKeyDown", 0, 1)
-		CVARs:AddCVarSlider("nameplateOverlapH", 0, 0.8)
-		CVARs:AddCVarSlider("nameplateOverlapV", 0, 1.1)
+		CVARs:AddCVar("ResampleAlwaysSharpen", 1, 1)
+		CVARs:AddCVar("cameraReduceUnexpectedMovement", 0, 1)
+		local maxZoom = 4.0
+		if CVARs:GetWoWBuild() == "RETAIL" then
+			maxZoom = 2.6
+		end
+
+		CVARs:AddCVarSlider("cameraDistanceMaxZoomFactor", 0, maxZoom, 0, maxZoom, 1, 0.1)
+		CVARs:AddCVarSlider("nameplateOverlapH", 0, 0.8, 0, 10, 2, 0.05)
+		CVARs:AddCVarSlider("nameplateOverlapV", 0, 1.1, 0, 10, 2, 0.05)
+		CVARs:AddCVarSlider("cameraFov", 0, 90, 50, 90, 0, 1)
 		--[[SETTING CVARS]]
 		for name, val in pairs(CVTAB["Default"]["CVARSDB"]) do
 			if CVTAB["Default"]["SETCVARS"][name] then
