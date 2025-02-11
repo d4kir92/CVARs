@@ -232,6 +232,18 @@ function D4:CreateMinimapButton(params)
             }
         )
     end
+
+    if params.dbkey and params.dbkey ~= "" then
+        if D4.IsEnabled and D4:IsEnabled(params.dbkey, D4:GetWoWBuild() ~= "RETAIL") then
+            D4:ShowMMBtn(params.name)
+        elseif D4:GV(params.dbtab, params.dbkey, D4:GetWoWBuild() ~= "RETAIL") then
+            D4:ShowMMBtn(params.name)
+        else
+            D4:HideMMBtn(params.name)
+        end
+    elseif params.dbkey == nil then
+        D4:MSG("Missing dbkey in CreateMinimapButton", params.name, params.dbkey)
+    end
 end
 
 function D4:ShowMMBtn(name)

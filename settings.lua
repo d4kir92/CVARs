@@ -40,14 +40,14 @@ function CVARs:InitSettings()
     CVTAB["Default"]["VMAX"] = CVTAB["Default"]["VMAX"] or {}
     CVTAB["Default"]["VDEC"] = CVTAB["Default"]["VDEC"] or {}
     CVTAB["Default"]["VSTE"] = CVTAB["Default"]["VSTE"] or {}
-    CVARs:SetVersion(AddonName, 134063, "1.2.52")
+    CVARs:SetVersion(AddonName, 134063, "1.2.53")
     cvars_settings = CVARs:CreateFrame(
         {
             ["name"] = "CVARs Settings Frame",
             ["pTab"] = {"CENTER"},
             ["sw"] = 520,
             ["sh"] = 700,
-            ["title"] = format("CVARs |T134063:16:16:0:0|t v|cff3FC7EB%s", "1.2.52")
+            ["title"] = format("CVARs |T134063:16:16:0:0|t v|cff3FC7EB%s", "1.2.53")
         }
     )
 
@@ -240,22 +240,17 @@ function CVARs:InitMinimapButton()
             ["name"] = "CVArs",
             ["icon"] = 134063,
             ["dbtab"] = CVTAB,
-            ["vTT"] = {{"CVArs |T134063:16:16:0:0|t", "v|cff3FC7EB1.2.52"}, {"Leftclick", "Options"}, {"Rightclick", "Hide Minimap"}},
+            ["vTT"] = {{"CVArs |T134063:16:16:0:0|t", "v|cff3FC7EB1.2.53"}, {"Leftclick", "Options"}, {"Rightclick", "Hide Minimap"}},
             ["funcL"] = function()
                 CVARs:ToggleSettings()
             end,
             ["funcR"] = function()
                 CVTAB["MMBTN"] = false
                 CVARs:HideMMBtn("CVArs")
-            end
+            end,
+            ["dbkey"] = "MMBTN"
         }
     )
-
-    if CVTAB["MMBTN"] then
-        CVARs:ShowMMBtn("CVArs")
-    else
-        CVARs:HideMMBtn("CVArs")
-    end
 
     CVARs:AddSlash("cvars", CVARs.ToggleSettings)
 end
