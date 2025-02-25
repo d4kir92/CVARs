@@ -46,7 +46,7 @@ function CVARs:InitSettings()
             ["pTab"] = {"CENTER"},
             ["sw"] = 520,
             ["sh"] = 700,
-            ["title"] = format("|T134063:16:16:0:0|t CVARs v|cff3FC7EB%s", CVARs:GetVersion())
+            ["title"] = format("|T134063:16:16:0:0|t CVAR|cff3FC7EBs|r v|cff3FC7EB%s", CVARs:GetVersion())
         }
     )
 
@@ -239,7 +239,7 @@ function CVARs:InitMinimapButton()
             ["name"] = "CVARs",
             ["icon"] = 134063,
             ["dbtab"] = CVTAB,
-            ["vTT"] = {{"|T134063:16:16:0:0|t CVARs", "v|cff3FC7EB" .. CVARs:GetVersion()}, {CVARs:Trans("LID_LEFTCLICK"), CVARs:Trans("LID_OPENSETTINGS")}, {CVARs:Trans("LID_RIGHTCLICK"), CVARs:Trans("LID_HIDEMINIMAPBUTTON")}},
+            ["vTT"] = {{"|T134063:16:16:0:0|t CVAR|cff3FC7EBs", "v|cff3FC7EB" .. CVARs:GetVersion()}, {CVARs:Trans("LID_LEFTCLICK"), CVARs:Trans("LID_OPENSETTINGS")}, {CVARs:Trans("LID_RIGHTCLICK"), CVARs:Trans("LID_HIDEMINIMAPBUTTON")}},
             ["funcL"] = function()
                 CVARs:ToggleSettings()
             end,
