@@ -4,10 +4,11 @@
 ## Interface-Cata: 40401, 40402
 ## Interface: 110007, 110100
 
-## Version: 1.2.55
+## Version: 1.2.56
 ## Title: CVARs by |cff3FC7EBD4KiR |T132115:16:16:0:0|t 
 ## Notes: Set, ForceSet CVARs
 ## Author: D4KiR
+## X-Category: D4KiR
 ## DefaultState: enabled
 ## SavedVariables: CVTAB
 ## SavedVariablesPerCharacter: CVTABPC
