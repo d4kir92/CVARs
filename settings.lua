@@ -40,14 +40,13 @@ function CVARs:InitSettings()
     CVTAB["Default"]["VMAX"] = CVTAB["Default"]["VMAX"] or {}
     CVTAB["Default"]["VDEC"] = CVTAB["Default"]["VDEC"] or {}
     CVTAB["Default"]["VSTE"] = CVTAB["Default"]["VSTE"] or {}
-    CVARs:SetVersion(AddonName, 134063, "1.2.54")
     cvars_settings = CVARs:CreateFrame(
         {
             ["name"] = "CVARs Settings Frame",
             ["pTab"] = {"CENTER"},
             ["sw"] = 520,
             ["sh"] = 700,
-            ["title"] = format("CVARs |T134063:16:16:0:0|t v|cff3FC7EB%s", "1.2.54")
+            ["title"] = format("|T134063:16:16:0:0|t CVARs v|cff3FC7EB%s", CVARs:GetVersion())
         }
     )
 
@@ -78,9 +77,9 @@ function CVARs:InitSettings()
             ["funcV"] = function(sel, checked)
                 CVTAB["MMBTN"] = checked
                 if CVTAB["MMBTN"] then
-                    CVARs:ShowMMBtn("CVArs")
+                    CVARs:ShowMMBtn("CVARs")
                 else
-                    CVARs:HideMMBtn("CVArs")
+                    CVARs:HideMMBtn("CVARs")
                 end
             end
         }
@@ -237,16 +236,16 @@ function CVARs:InitMinimapButton()
 
     CVARs:CreateMinimapButton(
         {
-            ["name"] = "CVArs",
+            ["name"] = "CVARs",
             ["icon"] = 134063,
             ["dbtab"] = CVTAB,
-            ["vTT"] = {{"CVArs |T134063:16:16:0:0|t", "v|cff3FC7EB1.2.54"}, {"Leftclick", "Options"}, {"Rightclick", "Hide Minimap"}},
+            ["vTT"] = {{"|T134063:16:16:0:0|t CVARs", "v|cff3FC7EB" .. CVARs:GetVersion()}, {CVARs:Trans("LID_LEFTCLICK"), CVARs:Trans("LID_OPENSETTINGS")}, {CVARs:Trans("LID_RIGHTCLICK"), CVARs:Trans("LID_HIDEMINIMAPBUTTON")}},
             ["funcL"] = function()
                 CVARs:ToggleSettings()
             end,
             ["funcR"] = function()
                 CVTAB["MMBTN"] = false
-                CVARs:HideMMBtn("CVArs")
+                CVARs:HideMMBtn("CVARs")
             end,
             ["dbkey"] = "MMBTN"
         }
