@@ -2,6 +2,8 @@ local _, CVARs = ...
 local CVARS_DEBUG = false
 --[[ Minimap Button ]]
 CVARs:AddTrans("enUS", "CVARs", "CVARs")
+CVARs:AddTrans("enUS", "", "")
+CVARs:AddTrans("deDE", "", "")
 CVARs:AddTrans("enUS", "MMBTN", "Show Minimap Button")
 CVARs:AddTrans("deDE", "MMBTN", "Minimap Knopf anzeigen")
 --[[ CVARS ]]
@@ -77,7 +79,7 @@ end
 
 function CVARs:OnInitialize(event, ...)
 	if event == "PLAYER_LOGIN" then
-		CVARs:SetVersion(134063, "1.2.58")
+		CVARs:SetVersion(134063, "1.2.59")
 		for i = 1, 100 do
 			if GetCVar("nameplateMaxDistance", i) ~= nil then
 				local currentDist = tonumber(GetCVar("nameplateMaxDistance", i))
