@@ -72,6 +72,64 @@ function D4:RegisterEvent(frame, event, unit)
     end
 end
 
+function D4:ForeachChildren(frame, callback, from)
+    if frame == nil then
+        D4:MSG("[ForeachChildren] frame == nil", from)
+
+        return
+    end
+
+    if frame.GetNumChildren == nil or frame.GetChildren == nil then
+        D4:MSG("[ForeachChildren] frame.GetNumChildren == nil or  frame.GetChildren == nil", from)
+
+        return
+    end
+
+    if callback == nil then
+        D4:MSG("[ForeachChildren] Missing Callback", from)
+
+        return
+    end
+
+    for x = 1, frame:GetNumChildren() do
+        local child = select(x, frame:GetChildren())
+        if child then
+            callback(child, x)
+        else
+            return
+        end
+    end
+end
+
+function D4:ForeachRegions(frame, callback, from)
+    if frame == nil then
+        D4:MSG("[ForeachRegions] frame == nil", from)
+
+        return
+    end
+
+    if frame.GetNumRegions == nil or frame.GetRegions == nil then
+        D4:MSG("[ForeachRegions] frame.GetNumRegions == nil or  frame.GetRegions == nil", from)
+
+        return
+    end
+
+    if callback == nil then
+        D4:MSG("[ForeachRegions] Missing Callback", from)
+
+        return
+    end
+
+    for x = 1, frame:GetNumRegions() do
+        local region = select(x, frame:GetRegions())
+        if region then
+            callback(region, x)
+        else
+            return
+        end
+    end
+end
+
 --[[ QOL ]]
 local ICON_TAG_LIST_EN = {
     ["star"] = 1,
@@ -180,12 +238,6 @@ function D4:IsAddOnLoaded(name)
     if C_AddOns and C_AddOns.IsAddOnLoaded then return C_AddOns.IsAddOnLoaded(name) end
     if IsAddOnLoaded then return IsAddOnLoaded(name) end
     D4:MSG("[D4][IsAddOnLoaded] FAILED")
-
-    return nil
-end
-
-function D4:GetName(frameOrTexture)
-    if frameOrTexture and frameOrTexture.GetName then return frameOrTexture:GetName() end
 
     return nil
 end
@@ -672,6 +724,30 @@ function D4:GetHeroSpecId()
     end
 
     return heroSpecID
+end
+
+function D4:GetFrameByName(name)
+    local frame = _G[name]
+    if type(frame) == "table" then return frame end
+    if name:find("%.") then
+        local parts = {strsplit(".", name)}
+        frame = _G[parts[1]]
+        for i = 2, #parts do
+            if type(frame) ~= "table" then return nil end
+            frame = frame[parts[i]]
+        end
+
+        return type(frame) == "table" and frame or nil
+    end
+
+    local baseName, index = name:match("([^%[]+)%[(%d+)%]")
+    if baseName and index then
+        local f = _G[baseName]
+
+        return f and select(tonumber(index), f:GetRegions()) or nil
+    end
+
+    return nil
 end
 
 local f = CreateFrame("Frame")
