@@ -4,7 +4,7 @@
 ## Interface-Cata: 40401, 40402
 ## Interface: 110007, 110100
 
-## Version: 1.2.61
+## Version: 1.2.62
 ## Title: CVAR|cff3FC7EBs|r |T134063:16:16:0:0|t by |cff3FC7EBD4KiR |T132115:16:16:0:0|t
 ## Notes: Set, ForceSet CVARs
 ## Author: D|cff3FC7EB4KiR |T132115:16:16:0:0|t
