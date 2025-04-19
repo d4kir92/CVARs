@@ -1,5 +1,5 @@
 ## Interface: 11507
-## Version: 1.2.63
+## Version: 1.2.64
 ## Title: CVAR|cff3FC7EBs|r |T134063:16:16:0:0|t by |cff3FC7EBD4KiR |T132115:16:16:0:0|t
 ## Notes: Set, ForceSet CVAR|cff3FC7EBs|r
 ## Author: D|cff3FC7EB4KiR |T132115:16:16:0:0|t
