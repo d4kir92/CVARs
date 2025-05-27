@@ -46,10 +46,18 @@ if C_Timer == nil then
     D4.oldWow = true
 end
 
+function D4:GetClassColor(class)
+    local colorTab = CUSTOM_CLASS_COLORS or RAID_CLASS_COLORS
+    if CUSTOM_CLASS_COLORS == nil and D4:GetWoWBuild() == "CLASSIC" and class == "SHAMAN" then return 0, 0.44, 0.87, "FF0070DE" end
+    if colorTab[class] then return colorTab[class].r, colorTab[class].g, colorTab[class].b, colorTab[class].colorStr end
+
+    return 1, 1, 1, "ffffffff"
+end
+
 if GetClassColor == nil then
     D4:MSG("[D4] ADD GetClassColor")
-    GetClassColor = function(classFilename)
-        local color = RAID_CLASS_COLORS[classFilename]
+    GetClassColor = function(class)
+        local color = D4:GetClassColor(class)
         if color then return color.r, color.g, color.b, color.colorStr end
 
         return 1, 1, 1, "ffffffff"
@@ -432,11 +440,20 @@ function D4:GetClassIcon(class)
 end
 
 function D4:GetRaceAtlas(race, gender)
-    return ("raceicon-%s-%s"):format(race, gender)
+    return ("raceicon-%s-%s"):format(race:lower(), gender:lower())
 end
 
 function D4:GetRaceIcon(race, gender)
-    return "|A:" .. D4:GetRaceAtlas(race, genderNames[gender]) .. ":16:16:0:0|a"
+    if race:lower() == "scourge" and C_Texture.GetAtlasInfo(D4:GetRaceAtlas(race, genderNames[gender])) == nil then
+        race = "Undead"
+    end
+
+    local atlas = "|A:" .. D4:GetRaceAtlas(race, genderNames[gender]) .. ":16:16:0:0|a"
+    if C_Texture.GetAtlasInfo(D4:GetRaceAtlas(race, genderNames[gender])) == nil then
+        D4:INFO("[D4][GetRaceIcon] INVALID ATLAS", race, gender)
+    end
+
+    return atlas
 end
 
 local units = {"player"}

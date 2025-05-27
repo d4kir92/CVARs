@@ -79,7 +79,7 @@ end
 
 function CVARs:OnInitialize(event, ...)
 	if event == "PLAYER_LOGIN" then
-		CVARs:SetVersion(134063, "1.2.64")
+		CVARs:SetVersion(134063, "1.2.65")
 		for i = 1, 100 do
 			if GetCVar("nameplateMaxDistance", i) ~= nil then
 				local currentDist = tonumber(GetCVar("nameplateMaxDistance", i))
