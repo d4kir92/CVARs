@@ -1,52 +1,51 @@
-local _, CVARs = ...
+local AddonName, CVARs = ...
 local CVARS_DEBUG = false
 --[[ Minimap Button ]]
-CVARs:AddTrans("enUS", "CVARs", "CVARs")
-CVARs:AddTrans("enUS", "", "")
-CVARs:AddTrans("deDE", "", "")
-CVARs:AddTrans("enUS", "MMBTN", "Show Minimap Button")
-CVARs:AddTrans("deDE", "MMBTN", "Minimap Knopf anzeigen")
---[[ CVARS ]]
-CVARs:AddTrans("enUS", "autoLootDefault", "Fast Looting")
-CVARs:AddTrans("deDE", "autoLootDefault", "Schnell Plündern")
-CVARs:AddTrans("enUS", "enableFloatingCombatText", "Enable Floating Combat Text")
-CVARs:AddTrans("deDE", "enableFloatingCombatText", "Aktiviere Fliegender Kampftext")
-CVARs:AddTrans("enUS", "floatingCombatTextCombatHealing", "Enable Floating Combat Healing Text")
-CVARs:AddTrans("deDE", "floatingCombatTextCombatHealing", "Aktiviere Fliegenden Heilung (Kampftext)")
-CVARs:AddTrans("enUS", "floatingCombatTextReactives", "Enable Reactive Spells and Abilities")
-CVARs:AddTrans("deDE", "floatingCombatTextReactives", "Aktiviere Reaktive Zauber und Fähigkeiten")
-CVARs:AddTrans("enUS", "xpBarText", "XP Bar Text")
-CVARs:AddTrans("deDE", "xpBarText", "EP Bar Text")
-CVARs:AddTrans("enUS", "showTargetCastbar", "Show TargetFrame Castbar")
-CVARs:AddTrans("deDE", "showTargetCastbar", "Ziel-Zauberleiste anzeigen")
-CVARs:AddTrans("enUS", "windowResizeLock", "Windowmode resize lock")
-CVARs:AddTrans("deDE", "windowResizeLock", "Sperrung der Größenänderung im Fenstermodus")
-CVARs:AddTrans("enUS", "nameplateMotion", "Namplate Stacking")
-CVARs:AddTrans("deDE", "nameplateMotion", "Namensplaketten stapeln")
-CVARs:AddTrans("enUS", "nameplateShowEnemies", "Show Enemy Nameplates")
-CVARs:AddTrans("deDE", "nameplateShowEnemies", "Gegner-Namensplaketten anzeigen")
-CVARs:AddTrans("enUS", "nameplateShowFriends", "Show Friend Nameplates")
-CVARs:AddTrans("deDE", "nameplateShowFriends", "Freund-Namensplaketten anzeigen")
-CVARs:AddTrans("enUS", "nameplateShowFriendlyNpcs", "Show Friendly Npc Nameplates")
-CVARs:AddTrans("deDE", "nameplateShowFriendlyNpcs", "Freundliche Npc-Namensplaketten anzeigen")
-CVARs:AddTrans("enUS", "ActionButtonUseKeyDown", "ActionButtonUseKeyDown")
-CVARs:AddTrans("deDE", "ActionButtonUseKeyDown", "ActionButtonUseKeyDown")
-CVARs:AddTrans("enUS", "Need more CVARs? Join the Discord", "Need more CVARs? Join the Discord")
-CVARs:AddTrans("enUS", "nameplateOverlapH", "Nameplate Overlap Horizontal %s")
-CVARs:AddTrans("deDE", "nameplateOverlapH", "Namensplaketten Überlappen Horizontal %s")
-CVARs:AddTrans("enUS", "nameplateOverlapV", "Nameplate Overlap Vertical %s")
-CVARs:AddTrans("deDE", "nameplateOverlapV", "Namensplaketten Überlappen Vertikal %s")
-CVARs:AddTrans("enUS", "cameraReduceUnexpectedMovement", "Camera Reduce Unexpected Movement")
-CVARs:AddTrans("deDE", "cameraReduceUnexpectedMovement", "Kamera Unerwartete Bewegung reduzieren")
-CVARs:AddTrans("enUS", "cameraDistanceMaxZoomFactor", "Camera Distance Max Zoom Factor: %s")
-CVARs:AddTrans("deDE", "cameraDistanceMaxZoomFactor", "Kameraabstand Max. Zoom-Faktor: %s")
-CVARs:AddTrans("enUS", "ResampleAlwaysSharpen", "Resample Always Sharpen")
-CVARs:AddTrans("deDE", "ResampleAlwaysSharpen", "Neuabtastung immer schärfen")
-CVARs:AddTrans("enUS", "cameraFov", "Camera FOV: %s")
-CVARs:AddTrans("deDE", "cameraFov", "Kamera FOV: %s")
---[[ CATEGORIES ]]
-CVARs:AddTrans("enUS", "general", "General")
-CVARs:AddTrans("deDE", "general", "Allgemein")
+CVARs:AddTrans("enUS", "LID_MMBTN", "Show Minimap Button")
+CVARs:AddTrans("enUS", "LID_CVARs", "CVARs")
+CVARs:AddTrans("enUS", "LID_autoLootDefault", "Fast Looting")
+CVARs:AddTrans("enUS", "LID_enableFloatingCombatText", "Enable Floating Combat Text")
+CVARs:AddTrans("enUS", "LID_floatingCombatTextCombatHealing", "Enable Floating Combat Healing Text")
+CVARs:AddTrans("enUS", "LID_floatingCombatTextReactives", "Enable Reactive Spells and Abilities")
+CVARs:AddTrans("enUS", "LID_xpBarText", "XP Bar Text")
+CVARs:AddTrans("enUS", "LID_showTargetCastbar", "Show TargetFrame Castbar")
+CVARs:AddTrans("enUS", "LID_windowResizeLock", "Windowmode resize lock")
+CVARs:AddTrans("enUS", "LID_nameplateMotion", "Namplate Stacking")
+CVARs:AddTrans("enUS", "LID_nameplateShowEnemies", "Show Enemy Nameplates")
+CVARs:AddTrans("enUS", "LID_nameplateShowFriends", "Show Friend Nameplates")
+CVARs:AddTrans("enUS", "LID_nameplateShowFriendlyNpcs", "Show Friendly Npc Nameplates")
+CVARs:AddTrans("enUS", "LID_ActionButtonUseKeyDown", "ActionButtonUseKeyDown")
+CVARs:AddTrans("enUS", "LID_Need more CVARs? Join the Discord", "Need more CVARs? Join the Discord")
+CVARs:AddTrans("enUS", "LID_nameplateOverlapH", "Nameplate Overlap Horizontal %s")
+CVARs:AddTrans("enUS", "LID_nameplateOverlapV", "Nameplate Overlap Vertical %s")
+CVARs:AddTrans("enUS", "LID_cameraReduceUnexpectedMovement", "Camera Reduce Unexpected Movement")
+CVARs:AddTrans("enUS", "LID_cameraDistanceMaxZoomFactor", "Camera Distance Max Zoom Factor: %s")
+CVARs:AddTrans("enUS", "LID_ResampleAlwaysSharpen", "Resample Always Sharpen")
+CVARs:AddTrans("enUS", "LID_cameraFov", "Camera FOV: %s")
+CVARs:AddTrans("enUS", "LID_GENERAL", "General")
+CVARs:AddTrans("enUS", "LID_discord", "Discord")
+CVARs:AddTrans("deDE", "LID_MMBTN", "Minimap Knopf anzeigen")
+CVARs:AddTrans("deDE", "LID_CVARs", "CVARs")
+CVARs:AddTrans("deDE", "LID_autoLootDefault", "Schnell Plündern")
+CVARs:AddTrans("deDE", "LID_enableFloatingCombatText", "Aktiviere Fliegender Kampftext")
+CVARs:AddTrans("deDE", "LID_floatingCombatTextCombatHealing", "Aktiviere Fliegenden Heilung (Kampftext)")
+CVARs:AddTrans("deDE", "LID_floatingCombatTextReactives", "Aktiviere Reaktive Zauber und Fähigkeiten")
+CVARs:AddTrans("deDE", "LID_xpBarText", "EP Bar Text")
+CVARs:AddTrans("deDE", "LID_showTargetCastbar", "Ziel-Zauberleiste anzeigen")
+CVARs:AddTrans("deDE", "LID_windowResizeLock", "Sperrung der Größenänderung im Fenstermodus")
+CVARs:AddTrans("deDE", "LID_nameplateMotion", "Namensplaketten stapeln")
+CVARs:AddTrans("deDE", "LID_nameplateShowEnemies", "Gegner-Namensplaketten anzeigen")
+CVARs:AddTrans("deDE", "LID_nameplateShowFriends", "Freund-Namensplaketten anzeigen")
+CVARs:AddTrans("deDE", "LID_nameplateShowFriendlyNpcs", "Freundliche Npc-Namensplaketten anzeigen")
+CVARs:AddTrans("deDE", "LID_ActionButtonUseKeyDown", "ActionButtonUseKeyDown")
+CVARs:AddTrans("deDE", "LID_nameplateOverlapH", "Namensplaketten Überlappen Horizontal %s")
+CVARs:AddTrans("deDE", "LID_nameplateOverlapV", "Namensplaketten Überlappen Vertikal %s")
+CVARs:AddTrans("deDE", "LID_cameraReduceUnexpectedMovement", "Kamera Unerwartete Bewegung reduzieren")
+CVARs:AddTrans("deDE", "LID_cameraDistanceMaxZoomFactor", "Kameraabstand Max. Zoom-Faktor: %s")
+CVARs:AddTrans("deDE", "LID_ResampleAlwaysSharpen", "Neuabtastung immer schärfen")
+CVARs:AddTrans("deDE", "LID_cameraFov", "Kamera FOV: %s")
+CVARs:AddTrans("deDE", "LID_GENERAL", "Allgemein")
+CVARs:AddTrans("deDE", "LID_discord", "Discord")
 function CVARs:AddCVar(name, val, val2)
 	CVTAB = CVTAB or {}
 	CVTAB["Default"] = CVTAB["Default"] or {}
@@ -78,69 +77,72 @@ function CVARs:AddCVarSlider(name, val, val2, vmin, vmax, vdec, vste)
 end
 
 function CVARs:OnInitialize(event, ...)
-	if event == "PLAYER_LOGIN" then
-		CVARs:SetVersion(134063, "1.2.66")
-		for i = 1, 100 do
-			if GetCVar("nameplateMaxDistance", i) ~= nil then
-				local currentDist = tonumber(GetCVar("nameplateMaxDistance", i))
-				if i > currentDist then
-					SetCVar("nameplateMaxDistance", i)
-					currentDist = tonumber(GetCVar("nameplateMaxDistance", i))
-					if currentDist ~= i then break end
+	if event == "ADDON_LOADED" then
+		local addonName = select(1, ...)
+		if addonName == AddonName then
+			CVARs:SetVersion(134063, "1.2.67")
+			for i = 1, 100 do
+				if GetCVar("nameplateMaxDistance", i) ~= nil then
+					local currentDist = tonumber(GetCVar("nameplateMaxDistance", i))
+					if i > currentDist then
+						SetCVar("nameplateMaxDistance", i)
+						currentDist = tonumber(GetCVar("nameplateMaxDistance", i))
+						if currentDist ~= i then break end
+					end
 				end
 			end
-		end
 
-		CVTAB = CVTAB or {}
-		CVTAB["Default"] = CVTAB["Default"] or {}
-		CVTAB["Default"]["SETCVARS"] = CVTAB["Default"]["SETCVARS"] or {}
-		CVTAB["Default"]["CVARSDB"] = CVTAB["Default"]["CVARSDB"] or {}
-		--[[INIT CVARS]]
-		CVARs:AddCVar("autoLootDefault", 1, 1) -- Fast looting
-		CVARs:AddCVar("enableFloatingCombatText", 1, 1) -- Combattext
-		CVARs:AddCVar("floatingCombatTextCombatHealing", 1, 1) -- Combattext:Healing
-		CVARs:AddCVar("floatingCombatTextReactives", 1, 1) -- Combattext:Reactives
-		CVARs:AddCVar("xpBarText", 1, 1) -- Show XP Text
-		CVARs:AddCVar("showTargetCastbar", 1, 1) -- Show Target Castbar
-		CVARs:AddCVar("windowResizeLock", 0, 0) -- Game Window Mode Resize Lock
-		CVARs:AddCVar("nameplateMotion", 1, 1) -- Nameplate stacking
-		CVARs:AddCVar("nameplateShowEnemies", 0, 0) -- Show Nameplates: Enemies
-		CVARs:AddCVar("nameplateShowFriends", 0, 0) -- Show Nameplates: Friends
-		CVARs:AddCVar("nameplateShowFriendlyNpcs", 0, 0) -- Show Nameplates: Friendly Npcs
-		CVARs:AddCVar("ActionButtonUseKeyDown", 0, 1)
-		CVARs:AddCVar("ResampleAlwaysSharpen", 1, 1)
-		CVARs:AddCVar("cameraReduceUnexpectedMovement", 0, 1)
-		local maxZoom = 4.0
-		if CVARs:GetWoWBuild() == "RETAIL" then
-			maxZoom = 2.6
-		end
-
-		CVARs:AddCVarSlider("cameraDistanceMaxZoomFactor", 0, maxZoom, 0, maxZoom, 1, 0.1)
-		CVARs:AddCVarSlider("nameplateOverlapH", 0, 0.8, 0, 10, 2, 0.05)
-		CVARs:AddCVarSlider("nameplateOverlapV", 0, 1.1, 0, 10, 2, 0.05)
-		CVARs:AddCVarSlider("cameraFov", 0, 90, 50, 90, 0, 1)
-		--[[SETTING CVARS]]
-		for name, val in pairs(CVTAB["Default"]["CVARSDB"]) do
-			if CVTAB["Default"]["SETCVARS"][name] then
-				SetCVar(name, val)
+			CVTAB = CVTAB or {}
+			CVTAB["Default"] = CVTAB["Default"] or {}
+			CVTAB["Default"]["SETCVARS"] = CVTAB["Default"]["SETCVARS"] or {}
+			CVTAB["Default"]["CVARSDB"] = CVTAB["Default"]["CVARSDB"] or {}
+			--[[INIT CVARS]]
+			CVARs:AddCVar("autoLootDefault", 1, 1) -- Fast looting
+			CVARs:AddCVar("enableFloatingCombatText", 1, 1) -- Combattext
+			CVARs:AddCVar("floatingCombatTextCombatHealing", 1, 1) -- Combattext:Healing
+			CVARs:AddCVar("floatingCombatTextReactives", 1, 1) -- Combattext:Reactives
+			CVARs:AddCVar("xpBarText", 1, 1) -- Show XP Text
+			CVARs:AddCVar("showTargetCastbar", 1, 1) -- Show Target Castbar
+			CVARs:AddCVar("windowResizeLock", 0, 0) -- Game Window Mode Resize Lock
+			CVARs:AddCVar("nameplateMotion", 1, 1) -- Nameplate stacking
+			CVARs:AddCVar("nameplateShowEnemies", 0, 0) -- Show Nameplates: Enemies
+			CVARs:AddCVar("nameplateShowFriends", 0, 0) -- Show Nameplates: Friends
+			CVARs:AddCVar("nameplateShowFriendlyNpcs", 0, 0) -- Show Nameplates: Friendly Npcs
+			CVARs:AddCVar("ActionButtonUseKeyDown", 0, 1)
+			CVARs:AddCVar("ResampleAlwaysSharpen", 1, 1)
+			CVARs:AddCVar("cameraReduceUnexpectedMovement", 0, 1)
+			local maxZoom = 4.0
+			if CVARs:GetWoWBuild() == "RETAIL" then
+				maxZoom = 2.6
 			end
-		end
 
-		for name, val in pairs(CVTAB["Default"]["CVARSDBSLIDER"]) do
-			if CVTAB["Default"]["SETCVARSSLIDER"][name] then
-				SetCVar(name, val)
+			CVARs:AddCVarSlider("cameraDistanceMaxZoomFactor", 0, maxZoom, 0, maxZoom, 1, 0.1)
+			CVARs:AddCVarSlider("nameplateOverlapH", 0, 0.8, 0, 10, 2, 0.05)
+			CVARs:AddCVarSlider("nameplateOverlapV", 0, 1.1, 0, 10, 2, 0.05)
+			CVARs:AddCVarSlider("cameraFov", 0, 90, 50, 90, 0, 1)
+			--[[SETTING CVARS]]
+			for name, val in pairs(CVTAB["Default"]["CVARSDB"]) do
+				if CVTAB["Default"]["SETCVARS"][name] then
+					SetCVar(name, val)
+				end
 			end
-		end
 
-		CVARs:InitMinimapButton()
-		CVARs:InitSettings()
+			for name, val in pairs(CVTAB["Default"]["CVARSDBSLIDER"]) do
+				if CVTAB["Default"]["SETCVARSSLIDER"][name] then
+					SetCVar(name, val)
+				end
+			end
+
+			CVARs:InitMinimapButton()
+			CVARs:InitSettings()
+		end
 	elseif event == "CVAR_UPDATE" then
 		print("CVARS", event, ...)
 	end
 end
 
 local f = CreateFrame("FRAME")
-f:RegisterEvent("PLAYER_LOGIN")
+f:RegisterEvent("ADDON_LOADED")
 if CVARS_DEBUG then
 	f:RegisterEvent("CVAR_UPDATE")
 end

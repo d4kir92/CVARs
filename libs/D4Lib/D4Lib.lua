@@ -4,6 +4,8 @@ local buildNr = select(4, GetBuildInfo())
 local buildName = "CLASSIC"
 if buildNr >= 100000 then
     buildName = "RETAIL"
+elseif buildNr >= 50000 then
+    buildName = "MISTS"
 elseif buildNr >= 40000 then
     buildName = "CATA"
 elseif buildNr >= 30000 then
@@ -263,18 +265,24 @@ local function FixIconChat(sel, event, message, author, ...)
     return false, message, author, ...
 end
 
-local chatChannels = {}
-for i, v in pairs(_G) do
-    if string.find(i, "CHAT_MSG_", 1, true) and not tContains(chatChannels, i) then
-        tinsert(chatChannels, i)
+C_Timer.After(
+    2,
+    function()
+        local chatChannels = {}
+        for i, v in pairs(_G) do
+            if string.find(i, "CHAT_MSG_", 1, true) and not tContains(chatChannels, i) then
+                tinsert(chatChannels, i)
+            end
+        end
+
+        for id, channelName in pairs(chatChannels) do
+            ChatFrame_AddMessageEventFilter(channelName, FixIconChat)
+        end
+
+        ChatFrame_AddMessageEventFilter("CHAT_MSG_CHANNEL", FixIconChat)
     end
-end
+)
 
-for i, v in pairs(chatChannels) do
-    ChatFrame_AddMessageEventFilter(i, FixIconChat)
-end
-
-ChatFrame_AddMessageEventFilter("CHAT_MSG_CHANNEL", FixIconChat)
 if D4:GetWoWBuild() == "CLASSIC" then
     C_Timer.After(
         2,

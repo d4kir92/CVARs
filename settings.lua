@@ -61,7 +61,7 @@ function CVARs:InitSettings()
 
     CVARs:AddCategory(
         {
-            ["name"] = "general",
+            ["name"] = "GENERAL",
             ["parent"] = cvars_settings,
             ["pTab"] = {"TOPLEFT", 15, y},
         }
@@ -82,7 +82,7 @@ function CVARs:InitSettings()
                     CVARs:HideMMBtn("CVARs")
                 end
             end
-        }
+        }, "MMBTN"
     )
 
     y = y - 25
@@ -206,7 +206,7 @@ function CVARs:InitSettings()
 
     local dc = CVARs:CreateEditBox(
         {
-            ["name"] = "",
+            ["name"] = "discord",
             ["parent"] = cvars_settings,
             ["pTab"] = {"BOTTOMRIGHT", -8, 4},
             ["sw"] = 150,
