@@ -47,7 +47,21 @@ function D4:UpdatePosition(button, position, parent)
         y = max(-h, min(y * drh, h))
     end
 
+    if InCombatLockdown() and button:IsProtected() then
+        D4:After(
+            0.1,
+            function()
+                D4:UpdatePosition(button, position, parent)
+            end, "UpdatePosition"
+        )
+
+        return false
+    end
+
+    button:ClearAllPoints()
     button:SetPoint("CENTER", parent, "CENTER", x, y)
+
+    return true
 end
 
 function D4:GetMMBtn(name)
@@ -56,20 +70,23 @@ end
 
 if GetD4MinimapHover == nil then
     local MinimapHover = false
-    local minimapHover = CreateFrame("Frame")
-    minimapHover:HookScript(
-        "OnUpdate",
-        function()
-            local mouseFocus = D4:GetMouseFocus()
-            local btnFocus = false
-            if mouseFocus and D4:GetParent(mouseFocus) ~= nil then
-                btnFocus = D4:GetParent(mouseFocus) == Minimap
-            end
-
-            MinimapHover = MouseIsOver(Minimap) or btnFocus
+    local function MinimapHoverThink()
+        local mouseFocus = D4:GetMouseFocus()
+        local btnFocus = false
+        if mouseFocus and D4:GetParent(mouseFocus) ~= nil then
+            btnFocus = D4:GetParent(mouseFocus) == Minimap
         end
-    )
 
+        MinimapHover = MouseIsOver(Minimap) or btnFocus
+        D4:After(
+            0.04,
+            function()
+                MinimapHoverThink()
+            end, "MinimapHoverThink"
+        )
+    end
+
+    MinimapHoverThink()
     function GetD4MinimapHover()
         return MinimapHover
     end
@@ -182,7 +199,7 @@ function D4:CreateMinimapButton(params)
         end
     )
 
-    btn:RegisterForClicks("anyUp")
+    btn:RegisterForClicks("AnyUp")
     btn:RegisterForDrag("LeftButton")
     btn:SetMovable(true)
     btn:SetScript(
@@ -267,31 +284,45 @@ function D4:CreateMinimapButton(params)
     animOut:SetStartDelay(1)
     btn.fadeOut:SetToFinalAlpha(true)
     btn.ia_visible = false
-    btn:HookScript(
-        "OnUpdate",
-        function()
-            if btn.ia_visible_old ~= GetD4MinimapHover() then
-                btn.ia_visible_old = GetD4MinimapHover()
-                if GetD4MinimapHover() then
-                    if D4:GetParent(btn) == Minimap then
-                        btn.fadeOut:Stop()
-                        btn:SetAlpha(1)
-                    else
-                        btn.fadeOut:Stop()
-                        btn:SetAlpha(1)
-                    end
+    local function BtnThink()
+        if btn.ia_visible_old ~= GetD4MinimapHover() then
+            btn.ia_visible_old = GetD4MinimapHover()
+            if GetD4MinimapHover() then
+                if D4:GetParent(btn) == Minimap then
+                    btn.fadeOut:Stop()
+                    btn:SetAlpha(1)
                 else
-                    if D4:GetParent(btn) == Minimap then
-                        btn.fadeOut:Play()
-                    else
-                        btn.fadeOut:Stop()
-                        btn:SetAlpha(1)
-                    end
+                    btn.fadeOut:Stop()
+                    btn:SetAlpha(1)
+                end
+            else
+                if D4:GetParent(btn) == Minimap then
+                    btn.fadeOut:Play()
+                else
+                    btn.fadeOut:Stop()
+                    btn:SetAlpha(1)
                 end
             end
         end
-    )
 
+        if InCombatLockdown() then
+            D4:After(
+                0.38,
+                function()
+                    BtnThink()
+                end, "D4 MinimapButton BtnThink inCombat"
+            )
+        else
+            D4:After(
+                0.19,
+                function()
+                    BtnThink()
+                end, "D4 MinimapButton BtnThink !inCombat"
+            )
+        end
+    end
+
+    BtnThink()
     if D4:GetParent(btn) == Minimap then
         btn.fadeOut:Play()
     end
@@ -371,9 +402,9 @@ function D4:UpdateLTP()
     end
 end
 
-C_Timer.After(
+D4:After(
     4,
     function()
         D4:UpdateLTP()
-    end
+    end, "UpdateLTP"
 )

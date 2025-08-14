@@ -4,17 +4,40 @@ local Y = 0
 local PARENT = nil
 local TAB = nil
 local TABIsNil = false
-function D4:GetName(frame)
-    if frame == nil then return nil end
+function D4:GetName(frame, bStr)
+    if frame == nil then
+        if bStr then
+            return ""
+        else
+            return nil
+        end
+    end
+
     local ok, name = pcall(
         function()
             if type(frame) == "table" and type(frame.GetName) == "function" then return frame:GetName() end
         end
     )
 
-    if ok then return name end
+    if ok then
+        if name ~= nil then
+            return name
+        else
+            if frame == nil then
+                if bStr then
+                    return ""
+                else
+                    return nil
+                end
+            end
+        end
+    end
 
-    return nil
+    if bStr then
+        return ""
+    else
+        return nil
+    end
 end
 
 function D4:GetParent(frame)
@@ -32,13 +55,13 @@ end
 
 function D4:GetText(frame)
     if frame == nil then return nil end
-    local ok, parent = pcall(
+    local ok, text = pcall(
         function()
             if type(frame) == "table" and type(frame.GetText) == "function" then return frame:GetText() end
         end
     )
 
-    if ok then return parent end
+    if ok then return text end
 
     return nil
 end
@@ -74,6 +97,7 @@ function D4:TrySetParent(frame, parent)
         return false
     end
 
+    if frame:IsProtected() and InCombatLockdown() then return false end
     local ok = pcall(
         function()
             if type(frame) == "table" and type(frame.SetParent) == "function" then
@@ -87,9 +111,44 @@ function D4:TrySetParent(frame, parent)
     return false
 end
 
-function D4:RunSec(callback, ...)
+function D4:TrySetScale(frame, scale)
+    if frame == nil then
+        D4:INFO("[D4] Missing Frame for TrySetScale", frame)
+
+        return false
+    end
+
+    if scale == nil then
+        D4:INFO("[D4] Missing Scale for TrySetScale", scale)
+
+        return false
+    end
+
+    if frame:IsProtected() and InCombatLockdown() then return false end
+    local ok = pcall(
+        function()
+            if type(frame) == "table" and type(frame.SetScale) == "function" then
+                frame:SetScale(scale)
+            end
+        end
+    )
+
+    if ok then return true end
+
+    return false
+end
+
+function D4:TryRun(callback, ...)
     if callback == nil then return end
     local ok, ret = pcall(function(...) return callback(...) end, ...)
+    if ok then return ret end
+
+    return nil
+end
+
+function D4:TrySec(callback, ...)
+    if callback == nil then return end
+    local ok, ret = securecall(function(...) return callback(...) end, ...)
     if ok then return ret end
 
     return nil
