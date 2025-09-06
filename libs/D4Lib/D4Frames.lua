@@ -1,4 +1,9 @@
 local _, D4 = ...
+local CreateFrame = getglobal("CreateFrame")
+local InCombatLockdown = getglobal("InCombatLockdown")
+local securecall = getglobal("securecall")
+local strsplit = getglobal("strsplit")
+local OpacitySliderFrame = getglobal("OpacitySliderFrame")
 local X = 0
 local Y = 0
 local PARENT = nil
@@ -170,10 +175,15 @@ end
 
 --[[ INPUTS ]]
 function D4:AddCategory(tab)
+    if tab.parent == nil then
+        D4:MSG("[D4] Missing Parent for AddCategory")
+
+        return
+    end
+
     tab.sw = tab.sw or 25
     tab.sh = tab.sh or 25
-    tab.parent = tab.parent or UIParent
-    tab.pTab = tab.pTab or "CENTER"
+    tab.pTab = tab.pTab or {"CENTER"}
     tab.parent.f = tab.parent:CreateFontString(nil, nil, "GameFontNormal")
     tab.parent.f:SetPoint(unpack(tab.pTab))
     if tab.key and tab.name and tab.name == "" then
@@ -184,16 +194,21 @@ function D4:AddCategory(tab)
 end
 
 function D4:CreateCheckbox(tab, text)
+    if tab.parent == nil then
+        D4:MSG("[D4] Missing Parent for CreateCheckbox")
+
+        return
+    end
+
     if text == nil then
         text = true
     end
 
     tab.sw = tab.sw or 25
     tab.sh = tab.sh or 25
-    tab.parent = tab.parent or UIParent
-    tab.pTab = tab.pTab or "CENTER"
+    tab.pTab = tab.pTab or {"CENTER"}
     tab.value = tab.value or nil
-    local cb = CreateFrame("CheckButton", tab.name, tab.parent, "UICheckButtonTemplate")
+    local cb = D4:CreateCheckButton(tab.name, tab.parent)
     cb:SetSize(tab.sw, tab.sh)
     cb:SetPoint(unpack(tab.pTab))
     if tab.value == true or tab.value == 1 then
@@ -229,27 +244,36 @@ function D4:CreateCheckboxForCVAR(tab)
         return
     end
 
+    if tab.parent == nil then
+        D4:MSG("[D4] Missing Parent for CreateCheckbox")
+
+        return
+    end
+
     tab.sw = tab.sw or 25
     tab.sh = tab.sh or 25
-    tab.parent = tab.parent or UIParent
-    tab.pTab = tab.pTab or "CENTER"
+    tab.pTab = tab.pTab or {"CENTER"}
     tab.value = tab.value or nil
     local cb = D4:CreateCheckbox(tab)
-    local cb2 = CreateFrame("CheckButton", tab.name, tab.parent, "UICheckButtonTemplate")
-    cb2:SetSize(tab.sw, tab.sh)
-    local p1, p2, p3 = unpack(tab.pTab)
-    cb2:SetPoint(p1, p2 + 25, p3)
-    cb2:SetChecked(tab.value2)
-    cb2:SetScript(
-        "OnClick",
-        function(sel)
-            tab:funcV2(sel:GetChecked())
-        end
-    )
+    if cb then
+        local cb2 = D4:CreateCheckButton(tab.name, tab.parent)
+        cb2:SetSize(tab.sw, tab.sh)
+        local p1, p2, p3 = unpack(tab.pTab)
+        cb2:SetPoint(p1, p2 + 25, p3)
+        cb2:SetChecked(tab.value2)
+        cb2:SetScript(
+            "OnClick",
+            function(sel)
+                tab:funcV2(sel:GetChecked())
+            end
+        )
 
-    cb.f:SetPoint("LEFT", cb, "RIGHT", 25, 0)
+        cb.f:SetPoint("LEFT", cb, "RIGHT", 25, 0)
 
-    return cb
+        return cb
+    end
+
+    return nil
 end
 
 function D4:CreateSliderForCVAR(tab)
@@ -275,10 +299,15 @@ function D4:CreateSliderForCVAR(tab)
 end
 
 function D4:CreateEditBox(tab)
+    if tab.parent == nil then
+        D4:MSG("[D4] Missing Parent for CreateEditBox")
+
+        return
+    end
+
     tab.sw = tab.sw or 200
     tab.sh = tab.sh or 25
-    tab.parent = tab.parent or UIParent
-    tab.pTab = tab.pTab or "CENTER"
+    tab.pTab = tab.pTab or {"CENTER"}
     tab.value = tab.value or nil
     tab.prefix = tab.prefix or ""
     tab.suffix = tab.suffix or ""
@@ -308,6 +337,12 @@ function D4:CreateEditBox(tab)
 end
 
 function D4:CreateSlider(tab)
+    if tab.parent == nil then
+        D4:MSG("[D4] Missing Parent for CreateSlider")
+
+        return
+    end
+
     if tab.key == nil then
         D4:MSG("[D4][CreateSlider] Missing format string:", tab.key, tab.value)
 
@@ -320,27 +355,40 @@ function D4:CreateSlider(tab)
 
     tab.sw = tab.sw or 200
     tab.sh = tab.sh or 25
-    tab.parent = tab.parent or UIParent
-    tab.pTab = tab.pTab or "CENTER"
+    tab.pTab = tab.pTab or {"CENTER"}
     tab.value = tab.value or 1
     tab.vmin = tab.vmin or 1
     tab.vmax = tab.vmax or 1
     tab.steps = tab.steps or 1
     tab.decimals = tab.decimals or 0
     tab.key = tab.key or tab.name or ""
-    local slider = CreateFrame("Slider", tab.key, tab.parent, "UISliderTemplate")
+    local slider = nil
+    if DoesTemplateExist and DoesTemplateExist("UISliderTemplate") then
+        slider = CreateFrame("Slider", tab.key, tab.parent, "UISliderTemplate")
+    else
+        slider = CreateFrame("Slider", tab.key, tab.parent, "OptionsSliderTemplate")
+    end
+
     slider:SetSize(tab.sw, 16)
     slider:SetPoint(unpack(tab.pTab))
-    if slider.Low == nil then
+    if getglobal(tab.key .. "Low") then
+        slider.Low = getglobal(tab.key .. "Low")
+    elseif slider.Low == nil then
         slider.Low = slider:CreateFontString(nil, nil, "GameFontNormal")
         slider.Low:SetPoint("BOTTOMLEFT", slider, "BOTTOMLEFT", 0, -12)
         slider.Low:SetTextColor(1, 1, 1)
     end
 
-    if slider.High == nil then
+    if getglobal(tab.key .. "High") then
+        slider.High = getglobal(tab.key .. "High")
+    elseif slider.High == nil then
         slider.High = slider:CreateFontString(nil, nil, "GameFontNormal")
         slider.High:SetPoint("BOTTOMRIGHT", slider, "BOTTOMRIGHT", 0, -12)
         slider.High:SetTextColor(1, 1, 1)
+    end
+
+    if getglobal(tab.key .. "High") then
+        setglobal(tab.key .. "High", slider.High)
     end
 
     if slider.Text == nil then
@@ -364,7 +412,10 @@ function D4:CreateSlider(tab)
     D4:SetFontSize(slider.High, 10, "THINOUTLINE")
     D4:SetFontSize(slider.Text, 10, "THINOUTLINE")
     slider:SetMinMaxValues(tab.vmin, tab.vmax)
-    slider:SetObeyStepOnDrag(true)
+    if slider.SetObeyStepOnDra then
+        slider:SetObeyStepOnDrag(true)
+    end
+
     slider:SetValueStep(tab.steps)
     if tab.value then
         slider:SetValue(tab.value)
@@ -397,6 +448,12 @@ function D4:CreateSlider(tab)
             end
         end
     )
+
+    if slider.SetText == nil then
+        function slider:SetText(text)
+            slider.Text:SetText(text)
+        end
+    end
 
     return slider
 end
@@ -476,7 +533,7 @@ function D4:AddColorPicker(key, value, func, x, y)
         TAB[key .. "_A"] = value.A
     end
 
-    local btn = CreateFrame("Button", key, PARENT, "UIPanelButtonTemplate")
+    local btn = D4:CreateButton(key, PARENT)
     btn:SetSize(180, 25)
     btn:SetPoint("TOPLEFT", PARENT, "TOPLEFT", x, Y)
     btn:SetText(D4:Trans("LID_" .. key))
@@ -522,34 +579,142 @@ function D4:AddColorPicker(key, value, func, x, y)
     )
 end
 
---[[ FRAMES ]]
-function D4:CreateFrame(tab)
-    tab.sw = tab.sw or 100
-    tab.sh = tab.sh or 100
-    tab.parent = tab.parent or UIParent
-    tab.pTab = tab.pTab or "CENTER"
-    tab.title = tab.title or ""
-    local fra = nil
-    if not D4:IsOldWow() then
-        tab.templates = tab.templates or "BasicFrameTemplateWithInset"
-        fra = CreateFrame("FRAME", tab.name, tab.parent, tab.templates)
+function D4:CheckTemplates(templates)
+    if templates == nil then return false end
+    templates = string.gsub(templates, "%s", "")
+    local tab = {strsplit(",", templates)}
+    for i, v in ipairs(tab) do
+        if not (DoesTemplateExist and DoesTemplateExist(v)) then return false end
+    end
+
+    return true
+end
+
+function D4:CreateFrame(name, parent, templates)
+    if templates and D4:CheckTemplates(templates) then
+        return CreateFrame("Frame", name, parent, templates)
+    elseif DoesTemplateExist and DoesTemplateExist("BasicFrameTemplateWithInset") then
+        return CreateFrame("Frame", name, parent, "BasicFrameTemplateWithInset")
     else
-        fra = CreateFrame("Frame", tab.name, tab.parent)
+        local fra = CreateFrame("Frame", name, parent)
         fra.TitleText = fra:CreateFontString(nil, nil, "GameFontNormal")
-        fra.TitleText:SetPoint("TOP", fra, "TOP", 0, 0)
-        fra.CloseButton = CreateFrame("Button", tab.name .. ".CloseButton", fra, "UIPanelButtonTemplate")
+        fra.TitleText:SetPoint("TOP", fra, "TOP", 0, -4)
+        fra.CloseButton = D4:CreateButton(name .. ".CloseButton", fra)
         fra.CloseButton:SetPoint("TOPRIGHT", fra, "TOPRIGHT", 0, 0)
         fra.CloseButton:SetSize(25, 25)
         fra.CloseButton:SetText("X")
-        fra.bg = fra:CreateTexture(tab.name .. ".bg", "ARTWORK")
+        fra.CloseButton:SetScript(
+            "OnClick",
+            function(sel, btm)
+                fra:Hide()
+            end
+        )
+
+        fra.bg = fra:CreateTexture(name .. ".bg", "ARTWORK")
         fra.bg:SetAllPoints(fra)
         if fra.bg.SetColorTexture then
             fra.bg:SetColorTexture(0.03, 0.03, 0.03, 0.5)
         else
             fra.bg:SetTexture(0.03, 0.03, 0.03, 0.5)
         end
-    end
 
+        return fra
+    end
+end
+
+function D4:CreateButton(name, parent, noDefaultTemplate, templates)
+    noDefaultTemplate = noDefaultTemplate or false
+    if noDefaultTemplate then
+        return CreateFrame("Button", name, parent, templates)
+    elseif templates and D4:CheckTemplates(templates) then
+        return CreateFrame("Button", name, parent, templates)
+    elseif DoesTemplateExist and DoesTemplateExist("UIPanelButtonTemplate") then
+        return CreateFrame("Button", name, parent, "UIPanelButtonTemplate")
+    else
+        local btn = CreateFrame("Button", name, parent)
+        btn.bg = btn:CreateTexture(name .. ".bg", "ARTWORK")
+        btn.bg:SetAllPoints(btn)
+        if btn.bg.SetColorTexture then
+            btn.bg:SetColorTexture(0.03, 0.03, 0.03, 0.5)
+        else
+            btn.bg:SetTexture(0.03, 0.03, 0.03, 0.5)
+        end
+
+        btn.Text = btn:CreateFontString(nil, nil, "GameFontNormal")
+        btn.Text:SetPoint("CENTER", btn, "CENTER", 0, 0)
+        function btn:SetText(text)
+            btn.Text:SetText(text)
+        end
+
+        return btn
+    end
+end
+
+function D4:CreateCheckButton(name, parent, templates)
+    if templates and D4:CheckTemplates(templates) then
+        return CreateFrame("CheckButton", name, parent, templates)
+    elseif DoesTemplateExist and DoesTemplateExist("ChatConfigCheckButtonTemplate") then
+        return CreateFrame("CheckButton", name, parent, "ChatConfigCheckButtonTemplate")
+    else
+        local btn = CreateFrame("Button", name, parent)
+        btn.cb = CreateFrame("CheckButton", name .. ".cb", btn)
+        btn.cb:SetSize(24, 24)
+        btn.cb:SetPoint("LEFT", btn, "LEFT", 0, 0)
+        btn.cb:HookScript(
+            "OnClick",
+            function(sel, button)
+                btn:Click()
+                if btn.cb:GetChecked() then
+                    btn.X:SetText("X")
+                else
+                    btn.X:SetText("")
+                end
+            end
+        )
+
+        btn.bg = btn:CreateTexture(name .. ".bg", "ARTWORK")
+        btn.bg:SetAllPoints(btn.cb)
+        if btn.bg.SetColorTexture then
+            btn.bg:SetColorTexture(0.03, 0.03, 0.03, 0.5)
+        else
+            btn.bg:SetTexture(0.03, 0.03, 0.03, 0.5)
+        end
+
+        btn.X = btn.cb:CreateFontString(nil, nil, "GameFontNormal")
+        btn.X:SetPoint("CENTER", btn.cb, "CENTER", 0, 0)
+        btn.Text = btn:CreateFontString(nil, nil, "GameFontNormal")
+        btn.Text:SetPoint("CENTER", btn, "CENTER", 0, 0)
+        function btn:SetText(text)
+            btn.Text:SetText(text)
+        end
+
+        function btn:SetChecked(bo)
+            if bo then
+                btn.X:SetText("X")
+            else
+                btn.X:SetText("")
+            end
+
+            btn.cb:SetChecked(bo)
+        end
+
+        function btn:GetChecked()
+            return btn.cb:GetChecked()
+        end
+
+        return btn
+    end
+end
+
+--[[ FRAMES ]]
+function D4:CreateWindow(tab)
+    tab.parent = tab.parent or UIParent
+    tab.sw = tab.sw or 100
+    tab.sh = tab.sh or 100
+    tab.pTab = tab.pTab or {"CENTER"}
+    tab.title = tab.title or ""
+    tab.templates = tab.templates
+    local fra = D4:CreateFrame(tab.name, tab.parent, tab.templates)
     fra:SetSize(tab.sw, tab.sh)
     fra:SetPoint(unpack(tab.pTab))
     D4:SetClampedToScreen(fra, true)
@@ -752,6 +917,12 @@ function D4:AppendEditbox(key, value, func, x, y, numeric, tab, prefix, suffix, 
 end
 
 function D4:CreateDropdown(key, value, choices, parent, func)
+    if TAB == nil then
+        D4:MSG("[D4] Missing TAB in CreateDropdown")
+
+        return
+    end
+
     if TAB[key] == nil then
         TAB[key] = value
     end
@@ -762,16 +933,20 @@ function D4:CreateDropdown(key, value, choices, parent, func)
         return nil
     end
 
-    local text = parent:CreateFontString(nil, nil, "GameFontNormal")
-    text:SetPoint("TOPLEFT", X + 5, Y)
-    text:SetText(D4:Trans("LID_" .. key))
+    if choices[TAB[key]] == nil then
+        D4:INFO("[D4][CreateDropdown] key not exists in TAB")
+
+        return nil
+    end
+
+    local DropDown = nil
     Y = Y - 18
     if D4:GetWoWBuild() == "RETAIL" then
-        local Dropdown = CreateFrame("DropdownButton", key, parent, "WowStyle1DropdownTemplate")
-        Dropdown:SetDefaultText(D4:Trans("LID_" .. choices[TAB[key]]))
-        Dropdown:SetPoint("TOPLEFT", X + 5, Y)
-        Dropdown:SetWidth(200)
-        Dropdown:SetupMenu(
+        DropDown = CreateFrame("DropdownButton", key, parent, "WowStyle1DropdownTemplate")
+        DropDown:SetDefaultText(D4:Trans("LID_" .. choices[TAB[key]]))
+        DropDown:SetPoint("TOPLEFT", X + 5, Y)
+        DropDown:SetWidth(200)
+        DropDown:SetupMenu(
             function(dropdown, rootDescription)
                 if key and key == "" then
                     D4:INFO("[D4][CreateDropdown] has no key")
@@ -787,7 +962,7 @@ function D4:CreateDropdown(key, value, choices, parent, func)
                         D4:Trans("LID_" .. name),
                         function()
                             TAB[key] = data
-                            Dropdown:SetDefaultText(D4:Trans("LID_" .. name))
+                            DropDown:SetDefaultText(D4:Trans("LID_" .. name))
                             if func then
                                 func(data)
                             end
@@ -797,9 +972,9 @@ function D4:CreateDropdown(key, value, choices, parent, func)
             end
         )
     else
-        local dropDown = CreateFrame("Frame", "WPDemoDropDown", PARENT, "UIDropDownMenuTemplate")
-        dropDown:SetPoint("TOPLEFT", -10, Y)
-        UIDropDownMenu_SetWidth(dropDown, 200)
+        DropDown = CreateFrame("Frame", "WPDemoDropDown", parent, "UIDropDownMenuTemplate")
+        DropDown:SetPoint("TOPLEFT", -10, Y)
+        UIDropDownMenu_SetWidth(DropDown, 200)
         function WPDropDownDemo_Menu(frame, level, menuList)
             local info = UIDropDownMenu_CreateInfo()
             if level == 1 then
@@ -813,23 +988,29 @@ function D4:CreateDropdown(key, value, choices, parent, func)
                     info.text = D4:Trans("LID_" .. name)
                     info.arg1 = data
                     info.checked = name == choices[TAB[key]]
-                    info.func = dropDown.SetValue
+                    info.func = DropDown.SetValue
                     UIDropDownMenu_AddButton(info)
                 end
             end
         end
 
-        UIDropDownMenu_Initialize(dropDown, WPDropDownDemo_Menu)
-        UIDropDownMenu_SetText(dropDown, D4:Trans("LID_" .. choices[TAB[key]]))
-        function dropDown:SetValue(newValue)
+        UIDropDownMenu_Initialize(DropDown, WPDropDownDemo_Menu)
+        UIDropDownMenu_SetText(DropDown, D4:Trans("LID_" .. choices[TAB[key]]))
+        function DropDown:SetValue(newValue)
             TAB[key] = newValue
-            UIDropDownMenu_SetText(dropDown, newValue)
+            UIDropDownMenu_SetText(DropDown, newValue)
             CloseDropDownMenus()
             if func then
                 func(newValue)
             end
         end
     end
+
+    local text = parent:CreateFontString(nil, nil, "GameFontNormal")
+    text:SetPoint("BOTTOMLEFT", DropDown, "TOPLEFT", X + 16, 2)
+    text:SetText(D4:Trans("LID_" .. key))
+
+    return DropDown
 end
 
 function D4:AppendDropdown(key, value, choices, func)

@@ -1,4 +1,7 @@
 local _, D4 = ...
+local CreateFrame = getglobal("CreateFrame")
+local InCombatLockdown = getglobal("InCombatLockdown")
+local GetCursorPosition = getglobal("GetCursorPosition")
 local deg, atan2 = math.deg, math.atan2
 local rad, cos, sin, sqrt, max, min = math.rad, math.cos, math.sin, math.sqrt, math.max, math.min
 local mmShapes = {
@@ -32,6 +35,7 @@ function D4:UpdatePosition(button, position, parent)
         q = q + 2
     end
 
+    local GetMinimapShape = getglobal("GetMinimapShape")
     local minimapShape = GetMinimapShape and GetMinimapShape() or "ROUND"
     local qt = mmShapes[minimapShape]
     local w = (Minimap:GetWidth() / 2) + button:GetWidth() / 2 - button:GetWidth() / 5
@@ -65,30 +69,37 @@ function D4:UpdatePosition(button, position, parent)
 end
 
 function D4:GetMMBtn(name)
-    return _G[name]
+    return getglobal(name)
 end
 
 if GetD4MinimapHover == nil then
     local MinimapHover = false
-    local function MinimapHoverThink()
-        local mouseFocus = D4:GetMouseFocus()
-        local btnFocus = false
-        if mouseFocus and D4:GetParent(mouseFocus) ~= nil then
-            btnFocus = D4:GetParent(mouseFocus) == Minimap
+    if Minimap.IsMouseOver == nil then
+        local function MinimapHoverThink()
+            local mouseFocus = D4:GetMouseFocus()
+            local btnFocus = false
+            if mouseFocus and D4:GetParent(mouseFocus) ~= nil then
+                btnFocus = D4:GetParent(mouseFocus) == Minimap
+            end
+
+            MinimapHover = MouseIsOver(Minimap) or btnFocus
+            D4:After(
+                0.15,
+                function()
+                    MinimapHoverThink()
+                end, "MinimapHoverThink"
+            )
         end
 
-        MinimapHover = MouseIsOver(Minimap) or btnFocus
-        D4:After(
-            0.04,
-            function()
-                MinimapHoverThink()
-            end, "MinimapHoverThink"
-        )
+        MinimapHoverThink()
     end
 
-    MinimapHoverThink()
     function GetD4MinimapHover()
-        return MinimapHover
+        if Minimap.IsMouseOver == nil then
+            return MinimapHover
+        else
+            return Minimap:IsMouseOver()
+        end
     end
 end
 
@@ -118,8 +129,9 @@ function D4:CreateMinimapButton(params)
     end
 
     params.dbtab[params.name] = params.dbtab[params.name] or {}
-    _G["MinimapButton_D4Lib_LibDBIcon_" .. params.name] = CreateFrame("Button", "MinimapButton_D4Lib_LibDBIcon_" .. params.name, Minimap)
+    _G["MinimapButton_D4Lib_LibDBIcon_" .. params.name] = CreateFrame("Button", "MinimapButton_D4Lib_LibDBIcon_" .. params.name, params.parent or Minimap)
     local btn = _G["MinimapButton_D4Lib_LibDBIcon_" .. params.name]
+    btn:SetFrameLevel(501)
     btn.border = params.border
     btn.db = params.dbtab
     btn.db.minimapPos = btn.db.minimapPos or 0
@@ -137,7 +149,50 @@ function D4:CreateMinimapButton(params)
     end
 
     btn:SetSize(params.sw, params.sh)
-    D4:UpdatePosition(btn, btn.db.minimapPos)
+    if params.point ~= nil and params.parent ~= nil then
+        btn:SetPoint(unpack(params.point))
+    else
+        D4:UpdatePosition(btn, btn.db.minimapPos)
+        btn:RegisterForClicks("AnyUp")
+        btn:RegisterForDrag("LeftButton")
+        btn:SetMovable(true)
+        btn:SetScript(
+            "OnDragStart",
+            function(sel)
+                sel.isMouseDown = true
+                sel:SetScript(
+                    "OnUpdate",
+                    function(se)
+                        local mx, my = Minimap:GetCenter()
+                        local px, py = GetCursorPosition()
+                        local scale = Minimap:GetEffectiveScale()
+                        px, py = px / scale, py / scale
+                        local posi = 0
+                        if se.db then
+                            posi = deg(atan2(py - my, px - mx)) % 360
+                            se.db.minimapPos = posi
+                        else
+                            posi = deg(atan2(py - my, px - mx)) % 360
+                            se.minimapPos = posi
+                        end
+
+                        D4:UpdatePosition(se, posi)
+                    end
+                )
+
+                sel.tooltip:Hide()
+            end
+        )
+
+        btn:SetScript(
+            "OnDragStop",
+            function(sel)
+                sel:SetScript("OnUpdate", nil)
+                sel.isMouseDown = false
+            end
+        )
+    end
+
     btn.overlay = btn:CreateTexture(nil, "OVERLAY")
     if D4:GetWoWBuild() == "RETAIL" then
         btn.overlay:SetSize(params.sw * 0.95, params.sh * 0.95)
@@ -199,45 +254,6 @@ function D4:CreateMinimapButton(params)
         end
     )
 
-    btn:RegisterForClicks("AnyUp")
-    btn:RegisterForDrag("LeftButton")
-    btn:SetMovable(true)
-    btn:SetScript(
-        "OnDragStart",
-        function(sel)
-            sel.isMouseDown = true
-            sel:SetScript(
-                "OnUpdate",
-                function(se)
-                    local mx, my = Minimap:GetCenter()
-                    local px, py = GetCursorPosition()
-                    local scale = Minimap:GetEffectiveScale()
-                    px, py = px / scale, py / scale
-                    local posi = 0
-                    if se.db then
-                        posi = deg(atan2(py - my, px - mx)) % 360
-                        se.db.minimapPos = posi
-                    else
-                        posi = deg(atan2(py - my, px - mx)) % 360
-                        se.minimapPos = posi
-                    end
-
-                    D4:UpdatePosition(se, posi)
-                end
-            )
-
-            sel.tooltip:Hide()
-        end
-    )
-
-    btn:SetScript(
-        "OnDragStop",
-        function(sel)
-            sel:SetScript("OnUpdate", nil)
-            sel.isMouseDown = false
-        end
-    )
-
     if AddonCompartmentFrame and (params.addoncomp == nil or params.addoncomp == true) then
         AddonCompartmentFrame:RegisterAddon(
             {
@@ -279,10 +295,19 @@ function D4:CreateMinimapButton(params)
     local animOut = btn.fadeOut:CreateAnimation("Alpha")
     animOut:SetOrder(1)
     animOut:SetDuration(0.2)
-    animOut:SetFromAlpha(1)
-    animOut:SetToAlpha(0)
+    if animOut.SetFromAlpha then
+        animOut:SetFromAlpha(1)
+    end
+
+    if animOut.SetToAlpha then
+        animOut:SetToAlpha(0)
+    end
+
     animOut:SetStartDelay(1)
-    btn.fadeOut:SetToFinalAlpha(true)
+    if animOut.fadeOut and animOut.fadeOut.SetToFinalAlpha then
+        btn.fadeOut:SetToFinalAlpha(true)
+    end
+
     btn.ia_visible = false
     local function BtnThink()
         if btn.ia_visible_old ~= GetD4MinimapHover() then
@@ -344,6 +369,8 @@ function D4:CreateMinimapButton(params)
     elseif params.dbkey == nil then
         D4:MSG("Missing dbkey in CreateMinimapButton", params.name, params.dbkey)
     end
+
+    return btn
 end
 
 function D4:ShowMMBtn(name)
@@ -377,6 +404,7 @@ function D4:HideMMBtn(name)
 end
 
 function D4:UpdateLTP()
+    local LeaPlusDB = getglobal("LeaPlusDB")
     local MinimapModder = LeaPlusDB and LeaPlusDB["MinimapModder"] and LeaPlusDB["MinimapModder"] == "On"
     if MinimapModder then
         local CombineAddonButtons = LeaPlusDB["CombineAddonButtons"] == "On"

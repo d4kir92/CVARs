@@ -80,13 +80,13 @@ function CVARs:OnInitialize(event, ...)
 	if event == "ADDON_LOADED" then
 		local addonName = select(1, ...)
 		if addonName == AddonName then
-			CVARs:SetVersion(134063, "1.2.69")
+			CVARs:SetVersion(134063, "1.2.70")
 			for i = 1, 100 do
-				if GetCVar("nameplateMaxDistance", i) ~= nil then
-					local currentDist = tonumber(GetCVar("nameplateMaxDistance", i))
+				if GetCVar("nameplateMaxDistance") ~= nil then
+					local currentDist = tonumber(GetCVar("nameplateMaxDistance"))
 					if i > currentDist then
 						SetCVar("nameplateMaxDistance", i)
-						currentDist = tonumber(GetCVar("nameplateMaxDistance", i))
+						currentDist = tonumber(GetCVar("nameplateMaxDistance"))
 						if currentDist ~= i then break end
 					end
 				end

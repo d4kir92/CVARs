@@ -1,4 +1,5 @@
 local _, D4 = ...
+local hooksecurefunc = getglobal("hooksecurefunc")
 local cmds = {}
 function D4:AddSlash(name, func)
     if name == nil then
@@ -33,7 +34,7 @@ function D4:InitSlash()
                     local cmd = string.upper(lastMessage)
                     if cmds[cmd] ~= nil then
                         cmds[cmd]()
-                        lastMessage = nil
+                        lastMessage = ""
                     end
                 end
             end

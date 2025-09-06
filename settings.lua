@@ -40,7 +40,7 @@ function CVARs:InitSettings()
     CVTAB["Default"]["VMAX"] = CVTAB["Default"]["VMAX"] or {}
     CVTAB["Default"]["VDEC"] = CVTAB["Default"]["VDEC"] or {}
     CVTAB["Default"]["VSTE"] = CVTAB["Default"]["VSTE"] or {}
-    cvars_settings = CVARs:CreateFrame(
+    cvars_settings = CVARs:CreateWindow(
         {
             ["name"] = "CVARs Settings Frame",
             ["pTab"] = {"CENTER"},
