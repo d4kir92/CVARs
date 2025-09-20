@@ -45,7 +45,7 @@ function CVARs:InitSettings()
             ["name"] = "CVARs Settings Frame",
             ["pTab"] = {"CENTER"},
             ["sw"] = 520,
-            ["sh"] = 700,
+            ["sh"] = 510,
             ["title"] = format("|T134063:16:16:0:0|t CVAR|cff3FC7EBs|r v|cff3FC7EB%s", CVARs:GetVersion())
         }
     )
@@ -54,7 +54,20 @@ function CVARs:InitSettings()
     cvars_settings.helptext:SetPoint("TOP", cvars_settings, "TOP", 0, 30)
     cvars_settings.helptext:SetText("Left-Checkbox: Set CVAR by CVARs    Right-Checkbox: CVAR Value")
     cvars_settings.helptext:SetFont("Fonts\\FRIZQT__.TTF", 18, "OUTLINE")
-    local y = -30
+    cvars_settings.SF = CreateFrame("ScrollFrame", "cvars_settings_SF", cvars_settings, "UIPanelScrollFrameTemplate")
+    cvars_settings.SF:SetPoint("TOPLEFT", cvars_settings, 8, -30)
+    cvars_settings.SF:SetPoint("BOTTOMRIGHT", cvars_settings, -32, 24 + 8)
+    cvars_settings.SC = CreateFrame("Frame", "cvars_settings_SC", cvars_settings.SF)
+    cvars_settings.SC:SetSize(cvars_settings.SF:GetSize())
+    cvars_settings.SC:SetPoint("TOPLEFT", cvars_settings.SF, "TOPLEFT", 0, 0)
+    cvars_settings.SF:SetScrollChild(cvars_settings.SC)
+    cvars_settings.SF.bg = cvars_settings.SF:CreateTexture("cvars_settings.SF.bg", "ARTWORK")
+    cvars_settings.SF.bg:SetAllPoints(cvars_settings.SF)
+    if cvars_settings.SF.bg.SetColorTexture then
+        cvars_settings.SF.bg:SetColorTexture(0.03, 0.03, 0.03, 0.5)
+    end
+
+    local y = -8
     if CVTAB["MMBTN"] == nil then
         CVTAB["MMBTN"] = CVARs:GetWoWBuild() ~= "RETAIL"
     end
@@ -62,7 +75,7 @@ function CVARs:InitSettings()
     CVARs:AddCategory(
         {
             ["name"] = "GENERAL",
-            ["parent"] = cvars_settings,
+            ["parent"] = cvars_settings.SC,
             ["pTab"] = {"TOPLEFT", 15, y},
         }
     )
@@ -71,7 +84,7 @@ function CVARs:InitSettings()
     CVARs:CreateCheckbox(
         {
             ["name"] = "MMBTN",
-            ["parent"] = cvars_settings,
+            ["parent"] = cvars_settings.SC,
             ["pTab"] = {"TOPLEFT", 10, y},
             ["value"] = CVTAB["MMBTN"],
             ["funcV"] = function(sel, checked)
@@ -102,7 +115,7 @@ function CVARs:InitSettings()
     CVARs:AddCategory(
         {
             ["name"] = "CVARs",
-            ["parent"] = cvars_settings,
+            ["parent"] = cvars_settings.SC,
             ["pTab"] = {"TOPLEFT", 15, y},
         }
     )
@@ -122,7 +135,7 @@ function CVARs:InitSettings()
         CVARs:CreateCheckboxForCVAR(
             {
                 ["name"] = name,
-                ["parent"] = cvars_settings,
+                ["parent"] = cvars_settings.SC,
                 ["pTab"] = {"TOPLEFT", 10, y},
                 ["value"] = val,
                 ["value2"] = val2,
@@ -165,7 +178,7 @@ function CVARs:InitSettings()
         CVARs:CreateSliderForCVAR(
             {
                 ["name"] = name,
-                ["parent"] = cvars_settings,
+                ["parent"] = cvars_settings.SC,
                 ["pTab"] = {"TOPLEFT", 10, y},
                 ["value"] = val,
                 ["value2"] = val2,
@@ -198,15 +211,15 @@ function CVARs:InitSettings()
     y = y - 30
     CVARs:AddCategory(
         {
-            ["name"] = "Need more CVARs? Join the Discord",
+            ["name"] = "needmorecvars",
             ["parent"] = cvars_settings,
-            ["pTab"] = {"TOPLEFT", 15, y},
+            ["pTab"] = {"BOTTOMLEFT", 15, 8},
         }
     )
 
     local dc = CVARs:CreateEditBox(
         {
-            ["name"] = "discord",
+            ["name"] = "",
             ["parent"] = cvars_settings,
             ["pTab"] = {"BOTTOMRIGHT", -8, 4},
             ["sw"] = 150,

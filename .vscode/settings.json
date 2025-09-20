@@ -32,5 +32,6 @@
         "MouseIsOver",
         "ChatEdit_ParseText",
         "ChatEdit_SendText"
-    ]
+    ],
+    "Lua.type.weakUnionCheck": true
 }

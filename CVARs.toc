@@ -5,9 +5,10 @@
 ## Interface-Mists: 50500
 ## Interface: 110200
 
-## Version: 1.2.71
+## Version: 1.2.72
 ## Title: CVAR|cff3FC7EBs|r |T134063:16:16:0:0|t by |cff3FC7EBD4KiR |T132115:16:16:0:0|t
-## Notes: Set, ForceSet CVARs
+## Notes: Sets console variables
+## Notes-deDE: Setzt Consolen Variablen
 ## Author: D|cff3FC7EB4KiR |T132115:16:16:0:0|t
 ## Category: D|cff3FC7EB4KiR |T132115:16:16:0:0|t
 ## X-Category: D|cff3FC7EB4KiR |T132115:16:16:0:0|t
@@ -19,6 +20,16 @@
 ## IconTexture: 134063
 
 libs\D4Lib\D4Lib.xml
+
+locale\enUS.lua
+locale\deDE.lua
+locale\esES.lua
+locale\frFR.lua
+locale\itIT.lua
+locale\koKR.lua
+locale\ptBR.lua
+locale\ruRU.lua
+locale\zhCN.lua
 
 settings.lua
 core.lua
