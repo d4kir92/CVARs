@@ -1,4 +1,5 @@
 local _, CVARs = ...
+-- https://wowpedia.fandom.com/wiki/Console_variables
 CVARs:SetAddonOutput("CVARs", 134063)
 local cvars_settings = nil
 function CVARs:CVARMsg(name)
@@ -186,6 +187,7 @@ function CVARs:InitSettings()
                 ["vmax"] = CVTAB["Default"]["VMAX"][name] or 9,
                 ["decimals"] = CVTAB["Default"]["VDEC"][name] or 0,
                 ["steps"] = CVTAB["Default"]["VSTE"][name] or 1,
+                ["defaultValue"] = CVTAB["Default"]["DEFAULTVALUE"][name] or nil,
                 ["funcV"] = function(sel, checked)
                     if checked then
                         CVTAB["Default"]["SETCVARSSLIDER"][name] = 1
@@ -196,11 +198,10 @@ function CVARs:InitSettings()
                     CVARs:CVARMsgSlider(name)
                 end,
                 ["funcV2"] = function(sel, value)
-                    if value then
+                    if value and CVTAB["Default"]["CVARSDBSLIDER"][name] ~= value then
                         CVTAB["Default"]["CVARSDBSLIDER"][name] = value
+                        CVARs:CVARMsgSlider(name)
                     end
-
-                    CVARs:CVARMsgSlider(name)
                 end
             }
         )

@@ -1,4 +1,5 @@
 local AddonName, CVARs = ...
+-- https://wowpedia.fandom.com/wiki/Console_variables
 local CVARS_DEBUG = false
 --[[ Minimap Button ]]
 function CVARs:AddCVar(name, toggle, value)
@@ -12,7 +13,7 @@ function CVARs:AddCVar(name, toggle, value)
 	end
 end
 
-function CVARs:AddCVarSlider(name, toggle, value, vmin, vmax, vdec, vste)
+function CVARs:AddCVarSlider(name, toggle, value, vmin, vmax, vdec, vste, defaultValue)
 	CVTAB = CVTAB or {}
 	CVTAB["Default"] = CVTAB["Default"] or {}
 	CVTAB["Default"]["SETCVARSSLIDER"] = CVTAB["Default"]["SETCVARSSLIDER"] or {}
@@ -21,6 +22,7 @@ function CVARs:AddCVarSlider(name, toggle, value, vmin, vmax, vdec, vste)
 	CVTAB["Default"]["VMAX"] = CVTAB["Default"]["VMAX"] or {}
 	CVTAB["Default"]["VDEC"] = CVTAB["Default"]["VDEC"] or {}
 	CVTAB["Default"]["VSTE"] = CVTAB["Default"]["VSTE"] or {}
+	CVTAB["Default"]["DEFAULTVALUE"] = CVTAB["Default"]["DEFAULTVALUE"] or {}
 	if CVTAB["Default"]["SETCVARSSLIDER"][name] == nil or CVTAB["Default"]["CVARSDBSLIDER"][name] == nil or CVTAB["Default"]["VMIN"] == nil or CVTAB["Default"]["VMAX"] == nil or CVTAB["Default"]["VDEC"] == nil or CVTAB["Default"]["VSTE"] == nil then
 		CVTAB["Default"]["SETCVARSSLIDER"][name] = toggle
 		CVTAB["Default"]["CVARSDBSLIDER"][name] = value
@@ -29,13 +31,17 @@ function CVARs:AddCVarSlider(name, toggle, value, vmin, vmax, vdec, vste)
 		CVTAB["Default"]["VDEC"][name] = vdec or 0
 		CVTAB["Default"]["VSTE"][name] = vste or 1
 	end
+
+	if CVTAB["Default"]["DEFAULTVALUE"][name] == nil then
+		CVTAB["Default"]["DEFAULTVALUE"][name] = defaultValue or nil
+	end
 end
 
 function CVARs:OnInitialize(event, ...)
 	if event == "ADDON_LOADED" then
 		local addonName = select(1, ...)
 		if addonName == AddonName then
-			CVARs:SetVersion(134063, "1.2.83")
+			CVARs:SetVersion(134063, "1.2.84")
 			for i = 1, 100 do
 				if GetCVar("nameplateMaxDistance") ~= nil then
 					local currentDist = tonumber(GetCVar("nameplateMaxDistance"))
@@ -67,14 +73,16 @@ function CVARs:OnInitialize(event, ...)
 			CVARs:AddCVar("ResampleAlwaysSharpen", 1, 1)
 			CVARs:AddCVar("cameraReduceUnexpectedMovement", 0, 1)
 			--CVARs:AddCVarSlider(name, toggle, value, vmin, vmax, vdec, vste)
-			CVARs:AddCVarSlider("cameraDistanceMaxZoomFactor", 0, 4.0, 0, 4.0, 1, 0.1)
-			CVARs:AddCVarSlider("nameplateOverlapH", 0, 0.8, 0, 10, 2, 0.05)
-			CVARs:AddCVarSlider("nameplateOverlapV", 0, 1.1, 0, 10, 2, 0.05)
-			CVARs:AddCVarSlider("cameraFov", 0, 90, 50, 90, 0, 1)
-			CVARs:AddCVarSlider("WorldTextScale", 0, 1.0, 0.01, 4.00, 2)
-			CVARs:AddCVarSlider("WorldTextScreenY", 0, 0.015, 0.001, 2.000, 3)
-			CVARs:AddCVarSlider("WorldTextCritScreenY", 0, 0.0275, 0.0001, 2.0000, 4)
-			CVARs:AddCVarSlider("SoftTargetInteractRange", 0, 10, 1, 40, 1, 1)
+			CVARs:AddCVarSlider("cameraDistanceMaxZoomFactor", 0, 4.0, 0, 4.0, 1, 0.1, 1.900000)
+			CVARs:AddCVarSlider("nameplateOverlapH", 0, 0.8, 0, 10, 2, 0.01, 0.8)
+			CVARs:AddCVarSlider("nameplateOverlapV", 0, 1.1, 0, 10, 2, 0.01, 1.1)
+			CVARs:AddCVarSlider("nameplateOtherTopInset", 0, 0.08, 0, 0.50, 2, 0.01, 0.08)
+			CVARs:AddCVarSlider("nameplateOtherBottomInset", 0, 0.10, 0, 0.50, 2, 0.01, 0.10)
+			CVARs:AddCVarSlider("cameraFov", 0, 90, 50, 90, 0, 1, 90)
+			CVARs:AddCVarSlider("WorldTextScale", 0, 1.0, 0.01, 4.00, 2, 0.01, 1.0)
+			CVARs:AddCVarSlider("WorldTextScreenY", 0, 0.015, 0.001, 2.000, 3, 0.001, 0.015)
+			CVARs:AddCVarSlider("WorldTextCritScreenY", 0, 0.0275, 0.0001, 2.0000, 4, 0.0001, 0.0275)
+			CVARs:AddCVarSlider("SoftTargetInteractRange", 0, 10, 1, 40, 1, 1, 1)
 			--[[SETTING CVARS]]
 			for name, val in pairs(CVTAB["Default"]["CVARSDB"]) do
 				if CVTAB["Default"]["SETCVARS"][name] then
