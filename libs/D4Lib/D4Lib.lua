@@ -1,4 +1,4 @@
-local addonName, D4 = ...
+local _, D4 = ...
 local hooksecurefunc = getglobal("hooksecurefunc")
 local GetBuildInfo = getglobal("GetBuildInfo")
 local CreateFrame = getglobal("CreateFrame")
@@ -58,6 +58,33 @@ if getglobal("C_Timer") == nil then
     D4.oldWow = true
 end
 
+local eaf = CreateFrame("Frame")
+eaf.tab = {}
+eaf:Hide()
+eaf:SetScript(
+    "OnUpdate",
+    function(self, elapsed)
+        local currentTime = GetTime()
+        for i = #self.tab, 1, -1 do
+            local data = self.tab[i]
+            if data[1] <= currentTime then
+                local func = data[2]
+                table.remove(self.tab, i)
+                func()
+            end
+        end
+
+        if #self.tab == 0 then
+            self:Hide()
+        end
+    end
+)
+
+function D4:ExtraAfter(duration, callback, from)
+    table.insert(eaf.tab, {GetTime() + duration, callback, from})
+    eaf:Show()
+end
+
 if getglobal("C_Widget") == nil then
     setglobal("C_Widget", {})
     function C_Widget.IsWidget(frame)
@@ -73,6 +100,17 @@ local debug = false
 function D4:SetDebug(bo)
     debug = bo
 end
+
+local ready = false
+local test = CreateFrame("frame")
+test:RegisterEvent("PLAYER_ENTERING_WORLD")
+test:SetScript(
+    "OnEvent",
+    function(...)
+        ready = true
+        test:UnregisterEvent("PLAYER_ENTERING_WORLD")
+    end
+)
 
 function D4:After(time, callback, from)
     if from == nil then
@@ -90,6 +128,17 @@ function D4:After(time, callback, from)
     if debug then
         countAfter[from] = countAfter[from] or 0
         countAfter[from] = countAfter[from] + 1
+    end
+
+    if not ready then
+        D4:ExtraAfter(
+            time,
+            function()
+                callback()
+            end, from
+        )
+
+        return
     end
 
     C_Timer.After(
@@ -1244,10 +1293,10 @@ D4:After(
                     if unit == nil then return end
                     if not UnitIsPlayer(unit) then return end
                     if not IsInGroup() and not IsInRaid() then return end
-                    rootDescription:CreateDivider()
                     local isLeader = UnitIsGroupLeader("player")
                     local isAssistant = UnitIsGroupAssistant("player")
-                    local roleMenu = rootDescription:CreateButton(D4:Trans("LID_CHOOSEROLE") .. " (by D4KiR)")
+                    local roleMenu = MenuUtil.CreateButton(D4:Trans("LID_CHOOSEROLE") .. " (by D4KiR)")
+                    rootDescription:Insert(roleMenu, 2)
                     if UnitIsUnit(unit, "player") or isLeader or isAssistant then
                         roleMenu:SetEnabled(true)
                     else
