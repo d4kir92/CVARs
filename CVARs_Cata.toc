@@ -1,12 +1,21 @@
 ## Interface: 40402
-## Version: 1.2.92
-## Title: CVAR|cff3FC7EBs|r |T134063:16:16:0:0|t by |cff3FC7EBD4KiR |T132115:16:16:0:0|t
+## Version: 1.2.93
+## Title: CVARs |T134063:16:16:0:0|t by |cff55d2ffD4KiR |T132115:16:16:0:0|t
 ## Notes: Sets console variables
 ## Notes-deDE: Setzt Consolen Variablen
 ## Notes-ruRU: Устанавливает переменные консоли
-## Author: D|cff3FC7EB4KiR |T132115:16:16:0:0|t
-## Category: D|cff3FC7EB4KiR |T132115:16:16:0:0|t
-## X-Category: D|cff3FC7EB4KiR |T132115:16:16:0:0|t
+## Author: D4KiR |T132115:16:16:0:0|t
+## Category: Development Tools
+## Category-deDE: Entwicklungstools
+## Category-esES: Herramientas de Desarrollo
+## Category-esMX: Herramientas de Desarrollo
+## Category-frFR: Outils de Développement
+## Category-itIT: Strumenti di sviluppo
+## Category-koKR: 개발 도구
+## Category-ptBR: Ferramentas de Desenvolvimento
+## Category-ruRU: Инструменты разработки
+## Category-zhCN: 开发工具
+## Category-zhTW: 開發工具
 ## DefaultState: enabled
 ## SavedVariables: CVTAB
 ## SavedVariablesPerCharacter: CVTABPC
