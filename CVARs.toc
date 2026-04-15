@@ -5,8 +5,8 @@
 ## Interface-Mists: 50503
 ## Interface: 120001
 
-## Version: 1.2.93
-## Title: CVARs |T134063:16:16:0:0|t by |cff55d2ffD4KiR |T132115:16:16:0:0|t
+## Version: 1.2.94
+## Title: CVARs by |cff55d2ffD4KiR |T132115:16:16:0:0|t
 ## Notes: Sets console variables
 ## Notes-deDE: Setzt Consolen Variablen
 ## Notes-ruRU: Устанавливает переменные консоли
