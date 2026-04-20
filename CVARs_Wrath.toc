@@ -1,5 +1,5 @@
 ## Interface: 30300, 30403
-## Version: 1.2.94
+## Version: 1.2.95
 ## Title: CVARs |T134063:16:16:0:0|t by |cff55d2ffD4KiR |T132115:16:16:0:0|t
 ## Notes: Sets console variables
 ## Notes-deDE: Setzt Consolen Variablen
