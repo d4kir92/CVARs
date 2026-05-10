@@ -41,7 +41,7 @@ function CVARs:OnInitialize(event, ...)
 	if event == "ADDON_LOADED" then
 		local addonName = select(1, ...)
 		if addonName == AddonName then
-			CVARs:SetVersion(134063, "1.2.96")
+			CVARs:SetVersion(134063, "1.2.97")
 			for i = 1, 100 do
 				if GetCVar("nameplateMaxDistance") ~= nil then
 					local currentDist = tonumber(GetCVar("nameplateMaxDistance"))
@@ -72,6 +72,7 @@ function CVARs:OnInitialize(event, ...)
 			CVARs:AddCVar("ActionButtonUseKeyDown", 0, 1)
 			CVARs:AddCVar("ResampleAlwaysSharpen", 1, 1)
 			CVARs:AddCVar("cameraReduceUnexpectedMovement", 0, 1)
+			CVARs:AddCVar("showPartyPets", 0, 1)
 			--CVARs:AddCVarSlider(name, toggle, value, vmin, vmax, vdec, vste)
 			CVARs:AddCVarSlider("cameraDistanceMaxZoomFactor", 0, 4.0, 0, 4.0, 1, 0.1, 1.900000)
 			CVARs:AddCVarSlider("nameplateOverlapH", 0, 0.8, 0, 10, 2, 0.01, 0.8)
