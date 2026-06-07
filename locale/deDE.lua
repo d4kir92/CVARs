@@ -30,3 +30,4 @@ CVARs:AddTrans("deDE", "LID_WorldTextScreenY", "Welttext Bildschirmposition Y: %
 CVARs:AddTrans("deDE", "LID_WorldTextCritScreenY", "Welttext Krit Bildschirmposition Y: %s")
 CVARs:AddTrans("deDE", "LID_SoftTargetInteractRange", "Entfernung fürs Leichte-Interagieren: %s")
 CVARs:AddTrans("deDE", "LID_showPartyPets", "Zeige Gruppe-Pets")
+CVARs:AddTrans("deDE", "LID_SpellQueueWindow", "Zauberwarteschlangen-Fenster: %s ms")

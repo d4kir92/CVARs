@@ -41,7 +41,7 @@ function CVARs:OnInitialize(event, ...)
 	if event == "ADDON_LOADED" then
 		local addonName = select(1, ...)
 		if addonName == AddonName then
-			CVARs:SetVersion(134063, "1.2.99")
+			CVARs:SetVersion(134063, "1.2.100")
 			for i = 1, 100 do
 				if GetCVar("nameplateMaxDistance") ~= nil then
 					local currentDist = tonumber(GetCVar("nameplateMaxDistance"))
@@ -84,6 +84,7 @@ function CVARs:OnInitialize(event, ...)
 			CVARs:AddCVarSlider("WorldTextScreenY", 0, 0.015, 0.001, 2.000, 3, 0.001, 0.015)
 			CVARs:AddCVarSlider("WorldTextCritScreenY", 0, 0.0275, 0.0001, 2.0000, 4, 0.0001, 0.0275)
 			CVARs:AddCVarSlider("SoftTargetInteractRange", 0, 10, 1, 40, 1, 1, 1)
+			CVARs:AddCVarSlider("SpellQueueWindow", 0, 0, 0, 400, 0, 1.0)
 			--[[SETTING CVARS]]
 			for name, val in pairs(CVTAB["Default"]["CVARSDB"]) do
 				if CVTAB["Default"]["SETCVARS"][name] then
