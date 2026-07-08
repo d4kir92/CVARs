@@ -1,4 +1,5 @@
 local _, D4 = ...
+local d4_isMouseDown = {}
 local deg, atan2 = math.deg, math.atan2
 local rad, cos, sin, sqrt, max, min = math.rad, math.cos, math.sin, math.sqrt, math.max, math.min
 local mmShapes = {
@@ -124,7 +125,7 @@ function D4:CreateMinimapButton(params)
         btn:SetScript(
             "OnDragStart",
             function(sel)
-                sel.isMouseDown = true
+                d4_isMouseDown[sel] = true
                 sel:SetScript(
                     "OnUpdate",
                     function(se)
@@ -153,7 +154,7 @@ function D4:CreateMinimapButton(params)
             "OnDragStop",
             function(sel)
                 sel:SetScript("OnUpdate", nil)
-                sel.isMouseDown = false
+                d4_isMouseDown[sel] = false
             end
         )
     end
@@ -180,7 +181,7 @@ function D4:CreateMinimapButton(params)
     btn:SetScript(
         "OnClick",
         function(sel, btnName)
-            if sel.isMouseDown then return end
+            if d4_isMouseDown[sel] then return end
             if btnName == "LeftButton" and IsShiftKeyDown() and params.funcSL then
                 params:funcSL()
             elseif btnName == "RightButton" and IsShiftKeyDown() and params.funcSR then
@@ -189,6 +190,8 @@ function D4:CreateMinimapButton(params)
                 params:funcL()
             elseif btnName == "RightButton" and params.funcR then
                 params:funcR()
+            elseif btnName == "MiddleButton" and params.funcM then
+                params:funcM()
             end
         end
     )
@@ -232,10 +235,14 @@ function D4:CreateMinimapButton(params)
                         params:funcSL()
                     elseif btnName == "RightButton" and IsShiftKeyDown() and params.funcSR then
                         params:funcSR()
+                    elseif btnName == "MiddleButton" and IsShiftKeyDown() and params.funcSM then
+                        params:funcSM()
                     elseif btnName == "LeftButton" and params.funcL then
                         params:funcL()
                     elseif btnName == "RightButton" and params.funcR then
                         params:funcR()
+                    elseif btnName == "MiddleButton" and params.funcM then
+                        params:funcM()
                     end
                 end,
                 funcOnEnter = function(button)
