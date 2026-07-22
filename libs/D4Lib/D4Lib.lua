@@ -288,7 +288,7 @@ D4:OnEvent(
     fSecure,
     function()
         xpcall(
-            function(call)
+            function(calls)
                 for i, func in pairs(calls) do
                     func()
                 end
@@ -342,6 +342,15 @@ function D4:GetItemInfo(itemID)
     if C_Item and C_Item.GetItemInfo then return C_Item.GetItemInfo(itemID) end
     if GetItemInfo then return GetItemInfo(itemID) end
     D4:MSG("[D4][GetItemInfo] FAILED")
+
+    return nil
+end
+
+function D4:GetItemInfoInstant(itemID)
+    if itemID == nil then return nil end
+    if C_Item and C_Item.GetItemInfoInstant then return C_Item.GetItemInfoInstant(itemID) end
+    if GetItemInfoInstant then return GetItemInfoInstant(itemID) end
+    D4:MSG("[D4][GetItemInfoInstant] FAILED")
 
     return nil
 end
@@ -1466,4 +1475,32 @@ function D4:SaveToItemLevelCache(guid, ilevel)
         ilevel = ilevel,
         expires = GetTime() + CACHE_DURATION
     }
+end
+
+local MBTNS = nil
+function D4:GetMicroMenuButtons()
+    if MBTNS == nil then
+        MBTNS = {}
+        if MICRO_BUTTONS == nil then
+            MBTNS = {"CharacterMicroButton", "SpellbookMicroButton", "TalentMicroButton", "AchievementMicroButton", "QuestLogMicroButton", "GuildMicroButton", "LFDMicroButton", "CollectionsMicroButton", "EJMicroButton", "StoreMicroButton", "HelpMicroButton", "MainMenuMicroButton"}
+        else
+            for i, v in pairs(MICRO_BUTTONS) do
+                if v ~= "SocialsMicroButton" then
+                    tinsert(MBTNS, v)
+                end
+            end
+        end
+
+        if D4:GetWoWBuild() == "RETAIL" then
+            MBTNS = {"CharacterMicroButton", "ProfessionMicroButton", "PlayerSpellsMicroButton", "SpellbookMicroButton", "TalentMicroButton", "AchievementMicroButton", "QuestLogMicroButton", "HousingMicroButton", "GuildMicroButton", "LFDMicroButton", "CollectionsMicroButton", "EJMicroButton", "StoreMicroButton", "HelpMicroButton", "MainMenuMicroButton"}
+        elseif D4:GetWoWBuild() == "CATA" then
+            MBTNS = {"CharacterMicroButton", "SpellbookMicroButton", "TalentMicroButton", "AchievementMicroButton", "QuestLogMicroButton", "GuildMicroButton", "LFDMicroButton", "CollectionsMicroButton", "PVPMicroButton", "LFGMicroButton", "EJMicroButton", "StoreMicroButton", "MainMenuMicroButton", "HelpMicroButton"}
+        elseif D4:GetWoWBuild() == "MISTS" then
+            MBTNS = {"CharacterMicroButton", "SpellbookMicroButton", "TalentMicroButton", "AchievementMicroButton", "QuestLogMicroButton", "GuildMicroButton", "PVPMicroButton", "LFGMicroButton", "CollectionsMicroButton", "EJMicroButton", "StoreMicroButton", "MainMenuMicroButton"}
+        elseif D4:GetWoWBuild() == "TBC" then
+            MBTNS = {"CharacterMicroButton", "SpellbookMicroButton", "TalentMicroButton", "QuestLogMicroButton", "GuildMicroButton", "LFDMicroButton", "WorldMapMicroButton", "MainMenuMicroButton", "HelpMicroButton", "StoreMicroButton"}
+        end
+    end
+
+    return MBTNS
 end
