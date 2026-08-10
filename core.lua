@@ -32,16 +32,14 @@ function CVARs:AddCVarSlider(name, toggle, value, vmin, vmax, vdec, vste, defaul
 		CVTAB["Default"]["VSTE"][name] = vste or 1
 	end
 
-	if CVTAB["Default"]["DEFAULTVALUE"][name] == nil then
-		CVTAB["Default"]["DEFAULTVALUE"][name] = defaultValue or nil
-	end
+	if CVTAB["Default"]["DEFAULTVALUE"][name] == nil then CVTAB["Default"]["DEFAULTVALUE"][name] = defaultValue or nil end
 end
 
 function CVARs:OnInitialize(event, ...)
 	if event == "ADDON_LOADED" then
 		local addonName = select(1, ...)
 		if addonName == AddonName then
-			CVARs:SetVersion(134063, "1.2.103")
+			CVARs:SetVersion(134063, "1.2.104")
 			for i = 1, 100 do
 				if GetCVar("nameplateMaxDistance") ~= nil then
 					local currentDist = tonumber(GetCVar("nameplateMaxDistance"))
@@ -87,15 +85,11 @@ function CVARs:OnInitialize(event, ...)
 			CVARs:AddCVarSlider("SpellQueueWindow", 0, 0, 0, 400, 0, 1.0)
 			--[[SETTING CVARS]]
 			for name, val in pairs(CVTAB["Default"]["CVARSDB"]) do
-				if CVTAB["Default"]["SETCVARS"][name] then
-					SetCVar(name, val)
-				end
+				if CVTAB["Default"]["SETCVARS"][name] then SetCVar(name, val) end
 			end
 
 			for name, val in pairs(CVTAB["Default"]["CVARSDBSLIDER"]) do
-				if CVTAB["Default"]["SETCVARSSLIDER"][name] then
-					SetCVar(name, val)
-				end
+				if CVTAB["Default"]["SETCVARSSLIDER"][name] then SetCVar(name, val) end
 			end
 
 			CVARs:InitMinimapButton()
@@ -108,8 +102,5 @@ end
 
 local f = CreateFrame("FRAME")
 f:RegisterEvent("ADDON_LOADED")
-if CVARS_DEBUG then
-	f:RegisterEvent("CVAR_UPDATE")
-end
-
+if CVARS_DEBUG then f:RegisterEvent("CVAR_UPDATE") end
 f:SetScript("OnEvent", CVARs.OnInitialize)
