@@ -41,15 +41,13 @@ function CVARs:InitSettings()
     CVTAB["Default"]["VMAX"] = CVTAB["Default"]["VMAX"] or {}
     CVTAB["Default"]["VDEC"] = CVTAB["Default"]["VDEC"] or {}
     CVTAB["Default"]["VSTE"] = CVTAB["Default"]["VSTE"] or {}
-    cvars_settings = CVARs:CreateWindow(
-        {
-            ["name"] = "CVARs Settings Frame",
-            ["pTab"] = {"CENTER"},
-            ["sw"] = 520,
-            ["sh"] = 510,
-            ["title"] = format("|T134063:16:16:0:0|t CVARs v%s", CVARs:GetVersion())
-        }
-    )
+    cvars_settings = CVARs:CreateWindow({
+        ["name"] = "CVARs Settings Frame",
+        ["pTab"] = {"CENTER"},
+        ["sw"] = 520,
+        ["sh"] = 510,
+        ["title"] = format("|T134063:16:16:0:0|t CVARs v%s", CVARs:GetVersion())
+    })
 
     cvars_settings.helptext = cvars_settings:CreateFontString(nil, nil, "GameFontNormal")
     cvars_settings.helptext:SetPoint("TOP", cvars_settings, "TOP", 0, 30)
@@ -64,40 +62,30 @@ function CVARs:InitSettings()
     cvars_settings.SF:SetScrollChild(cvars_settings.SC)
     cvars_settings.SF.bg = cvars_settings.SF:CreateTexture("cvars_settings.SF.bg", "ARTWORK")
     cvars_settings.SF.bg:SetAllPoints(cvars_settings.SF)
-    if cvars_settings.SF.bg.SetColorTexture then
-        cvars_settings.SF.bg:SetColorTexture(0.03, 0.03, 0.03, 0.5)
-    end
-
+    if cvars_settings.SF.bg.SetColorTexture then cvars_settings.SF.bg:SetColorTexture(0.03, 0.03, 0.03, 0.5) end
     local y = -8
-    if CVTAB["MMBTN"] == nil then
-        CVTAB["MMBTN"] = CVARs:GetWoWBuild() ~= "RETAIL"
-    end
-
-    CVARs:AddCategory(
-        {
-            ["name"] = "GENERAL",
-            ["parent"] = cvars_settings.SC,
-            ["pTab"] = {"TOPLEFT", 15, y},
-        }
-    )
+    if CVTAB["MMBTN"] == nil then CVTAB["MMBTN"] = CVARs:GetWoWBuild() ~= "RETAIL" end
+    CVARs:AddCategory({
+        ["name"] = "GENERAL",
+        ["parent"] = cvars_settings.SC,
+        ["pTab"] = {"TOPLEFT", 15, y},
+    })
 
     y = y - 15
-    CVARs:CreateCheckbox(
-        {
-            ["name"] = "MMBTN",
-            ["parent"] = cvars_settings.SC,
-            ["pTab"] = {"TOPLEFT", 10, y},
-            ["value"] = CVTAB["MMBTN"],
-            ["funcV"] = function(sel, checked)
-                CVTAB["MMBTN"] = checked
-                if CVTAB["MMBTN"] then
-                    CVARs:ShowMMBtn("CVARs")
-                else
-                    CVARs:HideMMBtn("CVARs")
-                end
+    CVARs:CreateCheckbox({
+        ["name"] = "MMBTN",
+        ["parent"] = cvars_settings.SC,
+        ["pTab"] = {"TOPLEFT", 10, y},
+        ["value"] = CVTAB["MMBTN"],
+        ["funcV"] = function(sel, checked)
+            CVTAB["MMBTN"] = checked
+            if CVTAB["MMBTN"] then
+                CVARs:ShowMMBtn("CVARs")
+            else
+                CVARs:HideMMBtn("CVARs")
             end
-        }, "MMBTN"
-    )
+        end
+    }, "MMBTN")
 
     y = y - 25
     y = y - 15
@@ -113,53 +101,43 @@ function CVARs:InitSettings()
     end
 
     table.sort(cvarsSortedSlider)
-    CVARs:AddCategory(
-        {
-            ["name"] = "CVARs",
-            ["parent"] = cvars_settings.SC,
-            ["pTab"] = {"TOPLEFT", 15, y},
-        }
-    )
+    CVARs:AddCategory({
+        ["name"] = "CVARs",
+        ["parent"] = cvars_settings.SC,
+        ["pTab"] = {"TOPLEFT", 15, y},
+    })
 
     y = y - 15
     for i, name in pairs(cvarsSorted) do
         local val = false
         local val2 = false
-        if CVTAB["Default"]["SETCVARS"][name] == 1 then
-            val = true
-        end
-
-        if CVTAB["Default"]["CVARSDB"][name] == 1 then
-            val2 = true
-        end
-
-        CVARs:CreateCheckboxForCVAR(
-            {
-                ["name"] = name,
-                ["parent"] = cvars_settings.SC,
-                ["pTab"] = {"TOPLEFT", 10, y},
-                ["value"] = val,
-                ["value2"] = val2,
-                ["funcV"] = function(sel, checked)
-                    if checked then
-                        CVTAB["Default"]["SETCVARS"][name] = 1
-                    else
-                        CVTAB["Default"]["SETCVARS"][name] = 0
-                    end
-
-                    CVARs:CVARMsg(name)
-                end,
-                ["funcV2"] = function(sel, checked)
-                    if checked then
-                        CVTAB["Default"]["CVARSDB"][name] = 1
-                    else
-                        CVTAB["Default"]["CVARSDB"][name] = 0
-                    end
-
-                    CVARs:CVARMsg(name)
+        if CVTAB["Default"]["SETCVARS"][name] == 1 then val = true end
+        if CVTAB["Default"]["CVARSDB"][name] == 1 then val2 = true end
+        CVARs:CreateCheckboxForCVAR({
+            ["name"] = name,
+            ["parent"] = cvars_settings.SC,
+            ["pTab"] = {"TOPLEFT", 10, y},
+            ["value"] = val,
+            ["value2"] = val2,
+            ["funcV"] = function(sel, checked)
+                if checked then
+                    CVTAB["Default"]["SETCVARS"][name] = 1
+                else
+                    CVTAB["Default"]["SETCVARS"][name] = 0
                 end
-            }
-        )
+
+                CVARs:CVARMsg(name)
+            end,
+            ["funcV2"] = function(sel, checked)
+                if checked then
+                    CVTAB["Default"]["CVARSDB"][name] = 1
+                else
+                    CVTAB["Default"]["CVARSDB"][name] = 0
+                end
+
+                CVARs:CVARMsg(name)
+            end
+        })
 
         y = y - 25
     end
@@ -168,66 +146,54 @@ function CVARs:InitSettings()
     for i, name in pairs(cvarsSortedSlider) do
         local val = CVTAB["Default"]["SETCVARSSLIDER"][name]
         local val2 = CVTAB["Default"]["CVARSDBSLIDER"][name]
-        if val == nil then
-            val = 1
-        end
-
-        if val2 == nil then
-            val2 = 1
-        end
-
-        CVARs:CreateSliderForCVAR(
-            {
-                ["name"] = name,
-                ["parent"] = cvars_settings.SC,
-                ["pTab"] = {"TOPLEFT", 10, y},
-                ["value"] = val,
-                ["value2"] = val2,
-                ["vmin"] = CVTAB["Default"]["VMIN"][name] or 0,
-                ["vmax"] = CVTAB["Default"]["VMAX"][name] or 9,
-                ["decimals"] = CVTAB["Default"]["VDEC"][name] or 0,
-                ["steps"] = CVTAB["Default"]["VSTE"][name] or 1,
-                ["defaultValue"] = CVTAB["Default"]["DEFAULTVALUE"][name] or nil,
-                ["funcV"] = function(sel, checked)
-                    if checked then
-                        CVTAB["Default"]["SETCVARSSLIDER"][name] = 1
-                    else
-                        CVTAB["Default"]["SETCVARSSLIDER"][name] = 0
-                    end
-
-                    CVARs:CVARMsgSlider(name)
-                end,
-                ["funcV2"] = function(sel, value)
-                    if value and CVTAB["Default"]["CVARSDBSLIDER"][name] ~= value then
-                        CVTAB["Default"]["CVARSDBSLIDER"][name] = value
-                        CVARs:CVARMsgSlider(name)
-                    end
+        if val == nil then val = 1 end
+        if val2 == nil then val2 = 1 end
+        CVARs:CreateSliderForCVAR({
+            ["name"] = name,
+            ["parent"] = cvars_settings.SC,
+            ["pTab"] = {"TOPLEFT", 10, y},
+            ["value"] = val,
+            ["value2"] = val2,
+            ["vmin"] = CVTAB["Default"]["VMIN"][name] or 0,
+            ["vmax"] = CVTAB["Default"]["VMAX"][name] or 9,
+            ["decimals"] = CVTAB["Default"]["VDEC"][name] or 0,
+            ["steps"] = CVTAB["Default"]["VSTE"][name] or 1,
+            ["defaultValue"] = CVTAB["Default"]["DEFAULTVALUE"][name] or nil,
+            ["funcV"] = function(sel, checked)
+                if checked then
+                    CVTAB["Default"]["SETCVARSSLIDER"][name] = 1
+                else
+                    CVTAB["Default"]["SETCVARSSLIDER"][name] = 0
                 end
-            }
-        )
+
+                CVARs:CVARMsgSlider(name)
+            end,
+            ["funcV2"] = function(sel, value)
+                if value and CVTAB["Default"]["CVARSDBSLIDER"][name] ~= value then
+                    CVTAB["Default"]["CVARSDBSLIDER"][name] = value
+                    CVARs:CVARMsgSlider(name)
+                end
+            end
+        })
 
         y = y - 55
     end
 
     y = y - 30
-    CVARs:AddCategory(
-        {
-            ["name"] = "needmorecvars",
-            ["parent"] = cvars_settings,
-            ["pTab"] = {"BOTTOMLEFT", 15, 8},
-        }
-    )
+    CVARs:AddCategory({
+        ["name"] = "needmorecvars",
+        ["parent"] = cvars_settings,
+        ["pTab"] = {"BOTTOMLEFT", 15, 8},
+    })
 
-    local dc = CVARs:CreateEditBox(
-        {
-            ["name"] = "",
-            ["parent"] = cvars_settings,
-            ["pTab"] = {"BOTTOMRIGHT", -8, 4},
-            ["sw"] = 150,
-            ["value"] = "discord.gg/bhMKRMCa8d",
-            ["funcV"] = function(sel, text) end
-        }
-    )
+    local dc = CVARs:CreateEditBox({
+        ["name"] = "",
+        ["parent"] = cvars_settings,
+        ["pTab"] = {"BOTTOMRIGHT", -8, 4},
+        ["sw"] = 150,
+        ["value"] = "discord.gg/bhMKRMCa8d",
+        ["funcV"] = function(sel, text) end
+    })
 
     dc:SetAutoFocus(false)
 end
@@ -244,26 +210,19 @@ end
 
 function CVARs:InitMinimapButton()
     CVTAB["MMBTNTAB"] = CVTAB["MMBTNTAB"] or {}
-    if CVTAB["MMBTN"] == nil then
-        CVTAB["MMBTN"] = CVARs:GetWoWBuild() ~= "RETAIL"
-    end
-
-    CVARs:CreateMinimapButton(
-        {
-            ["name"] = "CVARs",
-            ["icon"] = 134063,
-            ["dbtab"] = CVTAB,
-            ["vTT"] = {{"|T134063:16:16:0:0|t CVARs", "v" .. CVARs:GetVersion()}, {CVARs:Trans("LID_LEFTCLICK"), CVARs:Trans("LID_OPENSETTINGS")}, {CVARs:Trans("LID_RIGHTCLICK"), CVARs:Trans("LID_HIDEMINIMAPBUTTON")}},
-            ["funcL"] = function()
-                CVARs:ToggleSettings()
-            end,
-            ["funcR"] = function()
-                CVTAB["MMBTN"] = false
-                CVARs:HideMMBtn("CVARs")
-            end,
-            ["dbkey"] = "MMBTN"
-        }
-    )
+    if CVTAB["MMBTN"] == nil then CVTAB["MMBTN"] = CVARs:GetWoWBuild() ~= "RETAIL" end
+    CVARs:CreateMinimapButton({
+        ["name"] = "CVARs",
+        ["icon"] = 134063,
+        ["dbtab"] = CVTAB,
+        ["vTT"] = {{"|T134063:16:16:0:0|t CVARs", "v" .. CVARs:GetVersion()}, {CVARs:Trans("LID_LEFTCLICK"), CVARs:Trans("LID_OPENSETTINGS")}, {CVARs:Trans("LID_RIGHTCLICK"), CVARs:Trans("LID_HIDEMINIMAPBUTTON")}},
+        ["funcL"] = function() CVARs:ToggleSettings() end,
+        ["funcR"] = function()
+            CVTAB["MMBTN"] = false
+            CVARs:HideMMBtn("CVARs")
+        end,
+        ["dbkey"] = "MMBTN"
+    })
 
     CVARs:AddSlash("cvars", CVARs.ToggleSettings)
 end
