@@ -13,19 +13,9 @@ function D4:GetName(frame, bStr)
         end
     end
 
-    local ok, name = pcall(function() if type(frame) == "table" and type(frame.GetName) == "function" then return frame:GetName() end end)
-    if ok then
-        if name ~= nil then
-            return name
-        else
-            if frame == nil then
-                if bStr then
-                    return ""
-                else
-                    return nil
-                end
-            end
-        end
+    if type(frame) == "table" and type(frame.GetName) == "function" then
+        local ok, name = pcall(frame.GetName, frame)
+        if ok and name ~= nil then return name end
     end
 
     if bStr then
@@ -37,15 +27,21 @@ end
 
 function D4:GetParent(frame)
     if frame == nil then return nil end
-    local ok, parent = pcall(function() if type(frame) == "table" and type(frame.GetParent) == "function" then return frame:GetParent() end end)
-    if ok then return parent end
+    if type(frame) == "table" and type(frame.GetParent) == "function" then
+        local ok, parent = pcall(frame.GetParent, frame)
+        if ok then return parent end
+    end
+
     return nil
 end
 
 function D4:GetText(frame)
     if frame == nil then return nil end
-    local ok, text = pcall(function() if type(frame) == "table" and type(frame.GetText) == "function" then return frame:GetText() end end)
-    if ok then return text end
+    if type(frame) == "table" and type(frame.GetText) == "function" then
+        local ok, text = pcall(frame.GetText, frame)
+        if ok then return text end
+    end
+
     return nil
 end
 
@@ -75,9 +71,13 @@ function D4:TrySetParent(frame, parent)
     end
 
     if frame:IsProtected() and InCombatLockdown() then return false end
-    local ok = pcall(function() if type(frame) == "table" and type(frame.SetParent) == "function" then frame:SetParent(parent) end end)
-    if ok then return true end
-    return false
+    if type(frame) == "table" and type(frame.SetParent) == "function" then
+        local ok = pcall(frame.SetParent, frame, parent)
+        if ok then return true end
+        return false
+    end
+
+    return true
 end
 
 function D4:TrySetScale(frame, scale)
@@ -92,14 +92,18 @@ function D4:TrySetScale(frame, scale)
     end
 
     if frame:IsProtected() and InCombatLockdown() then return false end
-    local ok = pcall(function() if type(frame) == "table" and type(frame.SetScale) == "function" then frame:SetScale(scale) end end)
-    if ok then return true end
-    return false
+    if type(frame) == "table" and type(frame.SetScale) == "function" then
+        local ok = pcall(frame.SetScale, frame, scale)
+        if ok then return true end
+        return false
+    end
+
+    return true
 end
 
 function D4:TryRun(callback, ...)
     if callback == nil then return end
-    local ok, ret = pcall(function(...) return callback(...) end, ...)
+    local ok, ret = pcall(callback, ...)
     if ok then return ret end
     return nil
 end
@@ -320,7 +324,7 @@ function D4:CreateSlider(tab)
     D4:SetFontSize(slider.High, 10, "THINOUTLINE")
     D4:SetFontSize(slider.Text, 10, "THINOUTLINE")
     slider:SetMinMaxValues(tab.vmin, tab.vmax)
-    if slider.SetObeyStepOnDra then slider:SetObeyStepOnDrag(true) end
+    if slider.SetObeyStepOnDrag then slider:SetObeyStepOnDrag(true) end
     slider:SetValueStep(tab.steps)
     if tab.value then slider:SetValue(tab.value) end
     slider:SetScript("OnValueChanged", function(sel, val)
@@ -742,34 +746,117 @@ function D4:CreateDropdown(key, value, choices, parent, func)
         return
     end
 
-    if TAB[key] == nil then TAB[key] = value end
+    local tab = TAB
+    if tab[key] == nil then tab[key] = value end
     if key and key == "" then
         D4:INFO("[D4][CreateDropdown] has no key")
         return nil
     end
 
-    if choices[TAB[key]] == nil then
+    if choices[tab[key]] == nil then
         D4:INFO("[D4][CreateDropdown] key not exists in TAB")
         return nil
     end
 
     local DropDown = nil
     Y = Y - 18
-    if D4:GetWoWBuild() == "RETAIL" then
-        DropDown = CreateFrame("DropdownButton", key, parent, "WowStyle1DropdownTemplate")
-        DropDown:SetDefaultText(D4:Trans("LID_" .. choices[TAB[key]]))
-        DropDown:SetPoint("TOPLEFT", X + 5, Y)
-        DropDown:SetWidth(200)
-        DropDown:SetupMenu(function(dropdown, rootDescription)
-            if key and key == "" then D4:INFO("[D4][CreateDropdown] has no key") end
+    if DoesTemplateExist and DoesTemplateExist("SettingsDropdownWithButtonsTemplate") then
+        local control = CreateFrame("Frame", key, parent, "SettingsDropdownWithButtonsTemplate")
+        control:SetPoint("TOPLEFT", X + 5, Y)
+        DropDown = control
+        control:SetWidth(270)
+        control.Dropdown:SetWidth(200)
+        local function SetLabel(txt)
+            control.Dropdown:SetDefaultText(txt)
+            if control.Dropdown.Update then control.Dropdown:Update() end
+            if control.Dropdown.SetText then control.Dropdown:SetText(txt) end
+        end
+
+        SetLabel(D4:Trans("LID_" .. choices[tab[key]]))
+        local order = {}
+        for data in pairs(choices) do
+            tinsert(order, data)
+        end
+
+        table.sort(order, function(a, b)
+            if type(a) == type(b) then return a < b end
+            return tostring(a) < tostring(b)
+        end)
+
+        local btnPrev = control.DecrementButton
+        local btnNext = control.IncrementButton
+        if btnPrev == nil or btnNext == nil then
+            local found = {}
+            for _, child in ipairs({control:GetChildren()}) do
+                if child ~= control.Dropdown and child.SetEnabled and child.GetObjectType and child:GetObjectType() == "Button" then tinsert(found, child) end
+            end
+
+            table.sort(found, function(a, b) return (a:GetLeft() or 0) < (b:GetLeft() or 0) end)
+            btnPrev = btnPrev or found[1]
+            btnNext = btnNext or found[2]
+        end
+
+        local function GetIndex()
+            for i, data in ipairs(order) do
+                if data == tab[key] then return i end
+            end
+            return 1
+        end
+
+        local setEnabled = {}
+        local function LockButton(btn)
+            if btn == nil then return end
+            setEnabled[btn] = btn.SetEnabled
+            local nop = function() end
+            btn.SetEnabled = nop
+            btn.Enable = nop
+            btn.Disable = nop
+        end
+
+        LockButton(btnPrev)
+        LockButton(btnNext)
+        local function UpdateSteppers()
+            local i = GetIndex()
+            if btnPrev then setEnabled[btnPrev](btnPrev, i > 1) end
+            if btnNext then setEnabled[btnNext](btnNext, i < #order) end
+        end
+
+        local function UpdateSteppersSoon()
+            UpdateSteppers()
+            C_Timer.After(0, UpdateSteppers)
+        end
+
+        local function SetValue(data)
+            tab[key] = data
+            SetLabel(D4:Trans("LID_" .. choices[data]))
+            UpdateSteppersSoon()
+            if func then func(data) end
+        end
+
+        if btnPrev then
+            btnPrev:SetScript("OnClick", function()
+                local i = GetIndex()
+                if i > 1 then SetValue(order[i - 1]) end
+            end)
+        end
+
+        if btnNext then
+            btnNext:SetScript("OnClick", function()
+                local i = GetIndex()
+                if i < #order then SetValue(order[i + 1]) end
+            end)
+        end
+
+        control:HookScript("OnShow", UpdateSteppersSoon)
+        UpdateSteppersSoon()
+        control.Dropdown:SetupMenu(function(dropdown, rootDescription)
+            UpdateSteppersSoon()
+            if key and key == "" then D4:INFO("[D4][ control.Dropdown] has no key") end
             rootDescription:CreateTitle(D4:Trans("LID_" .. key))
-            for data, name in pairs(choices) do
-                if key and name and name == "" then D4:INFO("[D4][CreateDropdown] " .. key .. " has no name") end
-                rootDescription:CreateButton(D4:Trans("LID_" .. name), function()
-                    TAB[key] = data
-                    DropDown:SetDefaultText(D4:Trans("LID_" .. name))
-                    if func then func(data) end
-                end)
+            for _, data in ipairs(order) do
+                local name = choices[data]
+                if key and name and name == "" then D4:INFO("[D4][ control.Dropdown] " .. key .. " has no name") end
+                rootDescription:CreateButton(D4:Trans("LID_" .. name), function() SetValue(data) end)
             end
         end)
     else
@@ -787,7 +874,7 @@ function D4:CreateDropdown(key, value, choices, parent, func)
 
                     info.text = D4:Trans("LID_" .. name)
                     info.arg1 = data
-                    info.checked = name == choices[TAB[key]]
+                    info.checked = name == choices[tab[key]]
                     info.func = DropDown.SetValue
                     UIDropDownMenu_AddButton(info)
                 end
@@ -795,9 +882,9 @@ function D4:CreateDropdown(key, value, choices, parent, func)
         end
 
         UIDropDownMenu_Initialize(DropDown, WPDropDownDemo_Menu)
-        UIDropDownMenu_SetText(DropDown, D4:Trans("LID_" .. choices[TAB[key]]))
+        UIDropDownMenu_SetText(DropDown, D4:Trans("LID_" .. choices[tab[key]]))
         function DropDown:SetValue(newValue)
-            TAB[key] = newValue
+            tab[key] = newValue
             UIDropDownMenu_SetText(DropDown, newValue)
             CloseDropDownMenus()
             if func then func(newValue) end

@@ -192,6 +192,16 @@ function D4:OnEvent(frame, callback, from)
     end)
 end
 
+local function ForeachVarArgs(callback, ...)
+    local num = select("#", ...)
+    for x = 1, num do
+        local ele = select(x, ...)
+        if ele == nil then return end
+        local ret = callback(ele, x)
+        if ret then return ret end
+    end
+end
+
 function D4:ForeachChildren(frame, callback, from)
     if frame == nil then
         D4:MSG("[ForeachChildren] frame == nil", from)
@@ -207,16 +217,7 @@ function D4:ForeachChildren(frame, callback, from)
         D4:MSG("[ForeachChildren] Missing Callback", from)
         return
     end
-
-    for x = 1, frame:GetNumChildren() do
-        local child = select(x, frame:GetChildren())
-        if child then
-            local ret = callback(child, x)
-            if ret then return ret end
-        else
-            return
-        end
-    end
+    return ForeachVarArgs(callback, frame:GetChildren())
 end
 
 function D4:ForeachRegions(frame, callback, from)
@@ -234,16 +235,7 @@ function D4:ForeachRegions(frame, callback, from)
         D4:MSG("[ForeachRegions] Missing Callback", from)
         return
     end
-
-    for x = 1, frame:GetNumRegions() do
-        local region = select(x, frame:GetRegions())
-        if region then
-            local ret = callback(region, x)
-            if ret then return ret end
-        else
-            return
-        end
-    end
+    return ForeachVarArgs(callback, frame:GetRegions())
 end
 
 -- QOL 
@@ -1222,17 +1214,71 @@ D4:After(1, function()
     if (D4:GetWoWBuild() == "TBC" or D4:GetWoWBuild() == "RETAIL") and PlayerFrame.RoleFix == nil then
         PlayerFrame.RoleFix = true
         D4:AddTrans("enUS", "LID_CHOOSEROLE", "Select Role")
-        D4:AddTrans("deDE", "LID_CHOOSEROLE", "Rolle wählen")
-        D4:AddTrans("enUS", "LID_NOTLEADER", "Not Leader")
-        D4:AddTrans("deDE", "LID_NOTLEADER", "Nicht Anführer")
-        D4:AddTrans("enUS", "LID_TANK", "Tank")
-        D4:AddTrans("deDE", "LID_TANK", "Schutz")
-        D4:AddTrans("enUS", "LID_HEALER", "Healer")
-        D4:AddTrans("deDE", "LID_HEALER", "Heiler")
         D4:AddTrans("enUS", "LID_DAMAGER", "Damage")
-        D4:AddTrans("deDE", "LID_DAMAGER", "Schadem")
+        D4:AddTrans("enUS", "LID_HEALER", "Healer")
         D4:AddTrans("enUS", "LID_NOROLE", "No Role")
+        D4:AddTrans("enUS", "LID_NOTLEADER", "Not Leader")
+        D4:AddTrans("enUS", "LID_TANK", "Tank")
+        D4:AddTrans("deDE", "LID_CHOOSEROLE", "Rolle wählen")
+        D4:AddTrans("deDE", "LID_DAMAGER", "Schadem")
+        D4:AddTrans("deDE", "LID_HEALER", "Heiler")
         D4:AddTrans("deDE", "LID_NOROLE", "Keine Rolle")
+        D4:AddTrans("deDE", "LID_NOTLEADER", "Nicht Anführer")
+        D4:AddTrans("deDE", "LID_TANK", "Schutz")
+        D4:AddTrans("esES", "LID_CHOOSEROLE", "Seleccionar rol")
+        D4:AddTrans("esES", "LID_DAMAGER", "Daño")
+        D4:AddTrans("esES", "LID_HEALER", "Sanador")
+        D4:AddTrans("esES", "LID_NOROLE", "Sin rol")
+        D4:AddTrans("esES", "LID_NOTLEADER", "No es líder")
+        D4:AddTrans("esES", "LID_TANK", "Tanque")
+        D4:AddTrans("esMX", "LID_CHOOSEROLE", "Seleccionar rol")
+        D4:AddTrans("esMX", "LID_DAMAGER", "Daño")
+        D4:AddTrans("esMX", "LID_HEALER", "Sanador")
+        D4:AddTrans("esMX", "LID_NOROLE", "Sin rol")
+        D4:AddTrans("esMX", "LID_NOTLEADER", "No es líder")
+        D4:AddTrans("esMX", "LID_TANK", "Tanque")
+        D4:AddTrans("frFR", "LID_CHOOSEROLE", "Choisir un rôle")
+        D4:AddTrans("frFR", "LID_DAMAGER", "Dégâts")
+        D4:AddTrans("frFR", "LID_HEALER", "Soigneur")
+        D4:AddTrans("frFR", "LID_NOROLE", "Aucun rôle")
+        D4:AddTrans("frFR", "LID_NOTLEADER", "Pas chef de groupe")
+        D4:AddTrans("frFR", "LID_TANK", "Tank")
+        D4:AddTrans("itIT", "LID_CHOOSEROLE", "Seleziona ruolo")
+        D4:AddTrans("itIT", "LID_DAMAGER", "Danno")
+        D4:AddTrans("itIT", "LID_HEALER", "Guaritore")
+        D4:AddTrans("itIT", "LID_NOROLE", "Nessun ruolo")
+        D4:AddTrans("itIT", "LID_NOTLEADER", "Non sei il capogruppo")
+        D4:AddTrans("itIT", "LID_TANK", "Tank")
+        D4:AddTrans("koKR", "LID_CHOOSEROLE", "역할 선택")
+        D4:AddTrans("koKR", "LID_DAMAGER", "딜러")
+        D4:AddTrans("koKR", "LID_HEALER", "힐러")
+        D4:AddTrans("koKR", "LID_NOROLE", "역할 없음")
+        D4:AddTrans("koKR", "LID_NOTLEADER", "파티장 아님")
+        D4:AddTrans("koKR", "LID_TANK", "탱커")
+        D4:AddTrans("ptBR", "LID_CHOOSEROLE", "Selecionar função")
+        D4:AddTrans("ptBR", "LID_DAMAGER", "Dano")
+        D4:AddTrans("ptBR", "LID_HEALER", "Curandeiro")
+        D4:AddTrans("ptBR", "LID_NOROLE", "Sem função")
+        D4:AddTrans("ptBR", "LID_NOTLEADER", "Não é líder")
+        D4:AddTrans("ptBR", "LID_TANK", "Tanque")
+        D4:AddTrans("ruRU", "LID_CHOOSEROLE", "Выбрать роль")
+        D4:AddTrans("ruRU", "LID_DAMAGER", "Урон")
+        D4:AddTrans("ruRU", "LID_HEALER", "Лекарь")
+        D4:AddTrans("ruRU", "LID_NOROLE", "Нет роли")
+        D4:AddTrans("ruRU", "LID_NOTLEADER", "Не лидер")
+        D4:AddTrans("ruRU", "LID_TANK", "Танк")
+        D4:AddTrans("zhCN", "LID_CHOOSEROLE", "选择角色")
+        D4:AddTrans("zhCN", "LID_DAMAGER", "输出")
+        D4:AddTrans("zhCN", "LID_HEALER", "治疗者")
+        D4:AddTrans("zhCN", "LID_NOROLE", "无角色")
+        D4:AddTrans("zhCN", "LID_NOTLEADER", "不是队长")
+        D4:AddTrans("zhCN", "LID_TANK", "坦克")
+        D4:AddTrans("zhTW", "LID_CHOOSEROLE", "選擇職責")
+        D4:AddTrans("zhTW", "LID_DAMAGER", "輸出")
+        D4:AddTrans("zhTW", "LID_HEALER", "治療者")
+        D4:AddTrans("zhTW", "LID_NOROLE", "無角色")
+        D4:AddTrans("zhTW", "LID_NOTLEADER", "不是隊長")
+        D4:AddTrans("zhTW", "LID_TANK", "坦克")
         local function IsRole(unit, role)
             return UnitGroupRolesAssigned(unit) == role
         end

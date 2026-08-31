@@ -3,7 +3,7 @@
 ## Interface-Wrath: 30403
 ## Interface-Cata: 40402
 ## Interface-Mists: 50504
-## Interface: 120100, 120007
+## Interface: 120100
 
 ## Version: 1.2.106
 ## Title: CVARs by |cff55d2ffD4KiR |T132115:16:16:0:0|t
