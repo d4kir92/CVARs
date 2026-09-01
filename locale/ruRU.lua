@@ -6,6 +6,8 @@ CVARs:AddTrans("ruRU", "LID_SETCONSOLEVARIABLE", "Установить конс�
 CVARs:AddTrans("ruRU", "LID_SETVALUETO", "Установить значение: %s")
 CVARs:AddTrans("ruRU", "LID_TRUE", "истина")
 CVARs:AddTrans("ruRU", "LID_FALSE", "ложь")
+CVARs:AddTrans("ruRU", "LID_MSGCVARSET", "%s теперь установлено в %s")
+CVARs:AddTrans("ruRU", "LID_MSGCVARUNSET", "%s не управляется CVARs")
 CVARs:AddTrans("ruRU", "LID_autoLootDefault", "Быстрая добыча")
 CVARs:AddTrans("ruRU", "LID_enableFloatingCombatText", "Включить плавающий текст боя")
 CVARs:AddTrans("ruRU", "LID_floatingCombatTextCombatHealing", "Включить плавающий текст боевого исцеления")

@@ -5,32 +5,57 @@ local cvars_settings = nil
 local DEFAULT_WIDTH = 520
 local DEFAULT_HEIGHT = 520
 local DISCORD = "discord.gg/bhMKRMCa8d"
+local function CleanLabel(text)
+    if text == nil then return "" end
+    text = gsub(text, "%%[%-%+ #0-9%.]*[sdfxXeEgGiu]", "")
+    text = gsub(text, "%s+", " ")
+    text = strtrim(text)
+    text = gsub(text, ":$", "")
+
+    return strtrim(text)
+end
+
+local function CVarLabel(name)
+    local key = "LID_" .. name
+    local text = CVARs:Trans(key)
+    if text == key then return name end
+
+    return CleanLabel(text)
+end
+
+local function CVarTitle(name)
+    local label = CVarLabel(name)
+    if label == name then return name end
+
+    return format("%s (%s)", label, name)
+end
+
+local function ValueText(checked)
+    if checked then return CVARs:Trans("LID_TRUE") end
+
+    return CVARs:Trans("LID_FALSE")
+end
+
+local function Msg(name, set, value)
+    if set == 1 then
+        CVARs:MSG("|cff00ff00" .. CVARs:Trans("LID_MSGCVARSET", nil, CVarTitle(name), value))
+    else
+        CVARs:MSG("|cffff0000" .. CVARs:Trans("LID_MSGCVARUNSET", nil, CVarTitle(name)))
+    end
+end
+
 function CVARs:CVARMsg(name)
-    local msg = name
     local set = CVTAB["Default"]["SETCVARS"][name]
     local val = CVTAB["Default"]["CVARSDB"][name]
-    if set == 1 then
-        msg = "|cff00ff00" .. msg .. " is set to: " .. tostring(val)
-    else
-        msg = "|cffff0000" .. msg .. " is not set by CVARs"
-    end
-
     SetCVar(name, val)
-    CVARs:MSG(msg)
+    Msg(name, set, ValueText(val == 1))
 end
 
 function CVARs:CVARMsgSlider(name)
-    local msg = name
     local set = CVTAB["Default"]["SETCVARSSLIDER"][name]
     local val = CVTAB["Default"]["CVARSDBSLIDER"][name]
-    if set == 1 then
-        msg = "|cff00ff00" .. msg .. " is set to: " .. tostring(val)
-    else
-        msg = "|cffff0000" .. msg .. " is not set by CVARs"
-    end
-
     SetCVar(name, val)
-    CVARs:MSG(msg)
+    Msg(name, set, tostring(val))
 end
 
 local function GetCollapsed(key)
@@ -50,30 +75,6 @@ local function SetCollapsed(key, collapsed)
     else
         CVTAB["COLLAPSED"][key] = nil
     end
-end
-
-local function CleanLabel(text)
-    if text == nil then return "" end
-    text = gsub(text, "%%[%-%+ #0-9%.]*[sdfxXeEgGiu]", "")
-    text = gsub(text, "%s+", " ")
-    text = strtrim(text)
-    text = gsub(text, ":$", "")
-
-    return strtrim(text)
-end
-
-local function CVarLabel(name)
-    local key = "LID_" .. name
-    local text = CVARs:Trans(key)
-    if text == key then return name end
-
-    return CleanLabel(text)
-end
-
-local function ValueText(checked)
-    if checked then return CVARs:Trans("LID_TRUE") end
-
-    return CVARs:Trans("LID_FALSE")
 end
 
 local function AddCVarCategory(name)

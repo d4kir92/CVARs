@@ -6,6 +6,8 @@ CVARs:AddTrans("frFR", "LID_SETCONSOLEVARIABLE", "Définir la variable de consol
 CVARs:AddTrans("frFR", "LID_SETVALUETO", "Définir la valeur sur : %s")
 CVARs:AddTrans("frFR", "LID_TRUE", "vrai")
 CVARs:AddTrans("frFR", "LID_FALSE", "faux")
+CVARs:AddTrans("frFR", "LID_MSGCVARSET", "%s est maintenant défini sur %s")
+CVARs:AddTrans("frFR", "LID_MSGCVARUNSET", "%s n'est pas géré par CVARs")
 CVARs:AddTrans("frFR", "LID_autoLootDefault", "Butinage rapide")
 CVARs:AddTrans("frFR", "LID_enableFloatingCombatText", "Activer le texte de combat flottant")
 CVARs:AddTrans("frFR", "LID_floatingCombatTextCombatHealing", "Activer le texte de soins flottant")
