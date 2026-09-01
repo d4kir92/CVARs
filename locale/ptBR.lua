@@ -2,6 +2,10 @@
 local _, CVARs = ...
 CVARs:AddTrans("ptBR", "LID_MMBTN", "Mostrar botão do minimapa")
 CVARs:AddTrans("ptBR", "LID_CVARs", "CVARs")
+CVARs:AddTrans("ptBR", "LID_SETCONSOLEVARIABLE", "Definir variável de console")
+CVARs:AddTrans("ptBR", "LID_SETVALUETO", "Definir valor para: %s")
+CVARs:AddTrans("ptBR", "LID_TRUE", "verdadeiro")
+CVARs:AddTrans("ptBR", "LID_FALSE", "falso")
 CVARs:AddTrans("ptBR", "LID_autoLootDefault", "Saque rápido")
 CVARs:AddTrans("ptBR", "LID_enableFloatingCombatText", "Ativar texto de combate flutuante")
 CVARs:AddTrans("ptBR", "LID_floatingCombatTextCombatHealing", "Ativar texto flutuante de cura em combate")

@@ -2,6 +2,10 @@
 local _, CVARs = ...
 CVARs:AddTrans("deDE", "LID_MMBTN", "Minimap Knopf anzeigen")
 CVARs:AddTrans("deDE", "LID_CVARs", "CVARs")
+CVARs:AddTrans("deDE", "LID_SETCONSOLEVARIABLE", "Konsolenvariable setzen")
+CVARs:AddTrans("deDE", "LID_SETVALUETO", "Wert setzen auf: %s")
+CVARs:AddTrans("deDE", "LID_TRUE", "wahr")
+CVARs:AddTrans("deDE", "LID_FALSE", "falsch")
 CVARs:AddTrans("deDE", "LID_autoLootDefault", "Schnell Plündern")
 CVARs:AddTrans("deDE", "LID_enableFloatingCombatText", "Aktiviere Fliegender Kampftext")
 CVARs:AddTrans("deDE", "LID_floatingCombatTextCombatHealing", "Aktiviere Fliegenden Heilung (Kampftext)")

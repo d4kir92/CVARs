@@ -2,6 +2,10 @@
 local _, CVARs = ...
 CVARs:AddTrans("zhTW", "LID_MMBTN", "顯示小地圖按鈕")
 CVARs:AddTrans("zhTW", "LID_CVARs", "CVARs")
+CVARs:AddTrans("zhTW", "LID_SETCONSOLEVARIABLE", "設定主控台變數")
+CVARs:AddTrans("zhTW", "LID_SETVALUETO", "設定值為: %s")
+CVARs:AddTrans("zhTW", "LID_TRUE", "真")
+CVARs:AddTrans("zhTW", "LID_FALSE", "假")
 CVARs:AddTrans("zhTW", "LID_autoLootDefault", "快速拾取")
 CVARs:AddTrans("zhTW", "LID_enableFloatingCombatText", "啟用浮動戰鬥文字")
 CVARs:AddTrans("zhTW", "LID_floatingCombatTextCombatHealing", "啟用浮動戰鬥治療文字")

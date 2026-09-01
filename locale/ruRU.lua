@@ -2,6 +2,10 @@
 local _, CVARs = ...
 CVARs:AddTrans("ruRU", "LID_MMBTN", "Показать кнопку на миникарте")
 CVARs:AddTrans("ruRU", "LID_CVARs", "CVARs")
+CVARs:AddTrans("ruRU", "LID_SETCONSOLEVARIABLE", "Установить консольную переменную")
+CVARs:AddTrans("ruRU", "LID_SETVALUETO", "Установить значение: %s")
+CVARs:AddTrans("ruRU", "LID_TRUE", "истина")
+CVARs:AddTrans("ruRU", "LID_FALSE", "ложь")
 CVARs:AddTrans("ruRU", "LID_autoLootDefault", "Быстрая добыча")
 CVARs:AddTrans("ruRU", "LID_enableFloatingCombatText", "Включить плавающий текст боя")
 CVARs:AddTrans("ruRU", "LID_floatingCombatTextCombatHealing", "Включить плавающий текст боевого исцеления")

@@ -2,6 +2,10 @@
 local _, CVARs = ...
 CVARs:AddTrans("enUS", "LID_MMBTN", "Show Minimap Button")
 CVARs:AddTrans("enUS", "LID_CVARs", "CVARs")
+CVARs:AddTrans("enUS", "LID_SETCONSOLEVARIABLE", "Set Console Variable")
+CVARs:AddTrans("enUS", "LID_SETVALUETO", "Set Value To: %s")
+CVARs:AddTrans("enUS", "LID_TRUE", "true")
+CVARs:AddTrans("enUS", "LID_FALSE", "false")
 CVARs:AddTrans("enUS", "LID_autoLootDefault", "Fast Looting")
 CVARs:AddTrans("enUS", "LID_enableFloatingCombatText", "Enable Floating Combat Text")
 CVARs:AddTrans("enUS", "LID_floatingCombatTextCombatHealing", "Enable Floating Combat Healing Text")

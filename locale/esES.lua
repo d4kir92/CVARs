@@ -2,6 +2,10 @@
 local _, CVARs = ...
 CVARs:AddTrans("esES", "LID_MMBTN", "Mostrar botón del minimapa")
 CVARs:AddTrans("esES", "LID_CVARs", "CVARs")
+CVARs:AddTrans("esES", "LID_SETCONSOLEVARIABLE", "Establecer variable de consola")
+CVARs:AddTrans("esES", "LID_SETVALUETO", "Establecer valor en: %s")
+CVARs:AddTrans("esES", "LID_TRUE", "verdadero")
+CVARs:AddTrans("esES", "LID_FALSE", "falso")
 CVARs:AddTrans("esES", "LID_autoLootDefault", "Saqueo rápido")
 CVARs:AddTrans("esES", "LID_enableFloatingCombatText", "Activar texto de combate flotante")
 CVARs:AddTrans("esES", "LID_floatingCombatTextCombatHealing", "Activar texto flotante de curación en combate")

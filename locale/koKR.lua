@@ -2,6 +2,10 @@
 local _, CVARs = ...
 CVARs:AddTrans("koKR", "LID_MMBTN", "미니맵 버튼 표시")
 CVARs:AddTrans("koKR", "LID_CVARs", "CVARs")
+CVARs:AddTrans("koKR", "LID_SETCONSOLEVARIABLE", "콘솔 변수 설정")
+CVARs:AddTrans("koKR", "LID_SETVALUETO", "값 설정: %s")
+CVARs:AddTrans("koKR", "LID_TRUE", "참")
+CVARs:AddTrans("koKR", "LID_FALSE", "거짓")
 CVARs:AddTrans("koKR", "LID_autoLootDefault", "빠른 전리품 획득")
 CVARs:AddTrans("koKR", "LID_enableFloatingCombatText", "떠다니는 전투 텍스트 활성화")
 CVARs:AddTrans("koKR", "LID_floatingCombatTextCombatHealing", "떠다니는 전투 치유 텍스트 활성화")

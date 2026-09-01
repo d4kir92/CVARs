@@ -2,6 +2,10 @@
 local _, CVARs = ...
 CVARs:AddTrans("frFR", "LID_MMBTN", "Afficher le bouton de la mini-carte")
 CVARs:AddTrans("frFR", "LID_CVARs", "CVARs")
+CVARs:AddTrans("frFR", "LID_SETCONSOLEVARIABLE", "Définir la variable de console")
+CVARs:AddTrans("frFR", "LID_SETVALUETO", "Définir la valeur sur : %s")
+CVARs:AddTrans("frFR", "LID_TRUE", "vrai")
+CVARs:AddTrans("frFR", "LID_FALSE", "faux")
 CVARs:AddTrans("frFR", "LID_autoLootDefault", "Butinage rapide")
 CVARs:AddTrans("frFR", "LID_enableFloatingCombatText", "Activer le texte de combat flottant")
 CVARs:AddTrans("frFR", "LID_floatingCombatTextCombatHealing", "Activer le texte de soins flottant")
