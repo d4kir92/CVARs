@@ -5,6 +5,7 @@ local cvars_settings = nil
 local DEFAULT_WIDTH = 520
 local DEFAULT_HEIGHT = 520
 local DISCORD = "discord.gg/bhMKRMCa8d"
+local CATEGORY_ORDER = {GAME = 1, GRAPHICS = 2, CVARS = 3}
 local function CleanLabel(text)
     if text == nil then return "" end
     text = gsub(text, "%%[%-%+ #0-9%.]*[sdfxXeEgGiu]", "")
@@ -77,12 +78,12 @@ local function SetCollapsed(key, collapsed)
     end
 end
 
-local function AddCVarCategory(name)
+local function AddCVarCategory(name, level)
     cvars_settings:AddCategory({
         ["label"] = CVarLabel(name),
         ["key"] = name,
         ["search"] = name,
-        ["level"] = 2
+        ["level"] = level or 2
     })
 end
 
@@ -215,76 +216,103 @@ function CVARs:InitSettings()
     })
 
     local cvarsSorted = {}
-    for k in pairs(CVTAB["Default"]["SETCVARS"]) do
-        tinsert(cvarsSorted, k)
+    for name in pairs(CVTAB["Default"]["SETCVARS"]) do
+        tinsert(cvarsSorted, {name = name, slider = false, category = CVARs.CVarCategories[name] or "CVARS", group = CVARs.CVarGroups[name]})
     end
 
-    table.sort(cvarsSorted)
-    local cvarsSortedSlider = {}
-    for k in pairs(CVTAB["Default"]["SETCVARSSLIDER"]) do
-        tinsert(cvarsSortedSlider, k)
+    for name in pairs(CVTAB["Default"]["SETCVARSSLIDER"]) do
+        tinsert(cvarsSorted, {name = name, slider = true, category = CVARs.CVarCategories[name] or "CVARS", group = CVARs.CVarGroups[name]})
     end
 
-    table.sort(cvarsSortedSlider)
-    cvars_settings:AddCategory({
-        ["label"] = "LID_CVARs",
-        ["key"] = "CVARs",
-        ["search"] = "CVARs"
-    })
+    table.sort(
+        cvarsSorted,
+        function(a, b)
+            local categoryA = CATEGORY_ORDER[a.category] or 99
+            local categoryB = CATEGORY_ORDER[b.category] or 99
+            if categoryA ~= categoryB then return categoryA < categoryB end
+            local groupA = a.group or ""
+            local groupB = b.group or ""
+            if groupA ~= groupB then return groupA < groupB end
 
-    for _, name in ipairs(cvarsSorted) do
-        local set = CVTAB["Default"]["SETCVARS"][name]
-        local valueBox = nil
-        AddCVarCategory(name)
-        AddSetCVarCheckbox(name, "SETCVARS", set, function(checked) SetCheckboxEnabled(valueBox, checked) end)
-        valueBox = cvars_settings:AddCheckbox({
-            ["search"] = name,
-            ["value"] = CVTAB["Default"]["CVARSDB"][name] == 1,
-            ["textFunc"] = function(cb) return CVARs:Trans("LID_SETVALUETO", nil, ValueText(cb:GetChecked())) end,
-            ["func"] = function(checked)
-                if checked then
-                    CVTAB["Default"]["CVARSDB"][name] = 1
-                else
-                    CVTAB["Default"]["CVARSDB"][name] = 0
+            return strlower(a.name) < strlower(b.name)
+        end
+    )
+
+    local currentCategory = nil
+    local currentGroup = nil
+    for _, entry in ipairs(cvarsSorted) do
+        local name = entry.name
+        if currentCategory ~= entry.category then
+            currentCategory = entry.category
+            currentGroup = nil
+            cvars_settings:AddCategory({
+                ["label"] = currentCategory == "CVARS" and "LID_CVARs" or "LID_" .. currentCategory,
+                ["key"] = currentCategory,
+                ["search"] = currentCategory
+            })
+        end
+        if entry.group and currentGroup ~= entry.group then
+            currentGroup = entry.group
+            cvars_settings:AddCategory({
+                ["label"] = "LID_" .. currentGroup,
+                ["key"] = currentCategory .. "_" .. currentGroup,
+                ["search"] = currentGroup,
+                ["level"] = 2
+            })
+        end
+
+        if not entry.slider then
+            local set = CVTAB["Default"]["SETCVARS"][name]
+            local valueBox = nil
+            AddCVarCategory(name, entry.group and 3 or 2)
+            AddSetCVarCheckbox(name, "SETCVARS", set, function(checked) SetCheckboxEnabled(valueBox, checked) end)
+            valueBox = cvars_settings:AddCheckbox({
+                ["search"] = name,
+                ["value"] = CVTAB["Default"]["CVARSDB"][name] == 1,
+                ["textFunc"] = function(cb) return CVARs:Trans("LID_SETVALUETO", nil, ValueText(cb:GetChecked())) end,
+                ["func"] = function(checked)
+                    if checked then
+                        CVTAB["Default"]["CVARSDB"][name] = 1
+                    else
+                        CVTAB["Default"]["CVARSDB"][name] = 0
+                    end
+
+                    CVARs:CVARMsg(name)
                 end
+            })
 
-                CVARs:CVARMsg(name)
-            end
-        })
-
-        IndentOne(valueBox)
-        SetCheckboxEnabled(valueBox, set == 1)
-    end
-
-    for _, name in ipairs(cvarsSortedSlider) do
-        local set = CVTAB["Default"]["SETCVARSSLIDER"][name]
-        local value = CVTAB["Default"]["CVARSDBSLIDER"][name]
-        if set == nil then set = 1 end
-        if value == nil then value = 1 end
-        local label = CVARs:Trans("LID_SETVALUETO")
-        local default = CVTAB["Default"]["DEFAULTVALUE"][name]
-        if default ~= nil then label = format("%s (%s: %s)", label, CVARs:Trans("LID_DEFAULT"), default) end
-        local valueSlider = nil
-        AddCVarCategory(name)
-        AddSetCVarCheckbox(name, "SETCVARSSLIDER", set, function(checked) SetSliderEnabled(valueSlider, checked) end)
-        valueSlider = cvars_settings:AddSlider({
-            ["label"] = label,
-            ["search"] = name,
-            ["value"] = value,
-            ["min"] = CVTAB["Default"]["VMIN"][name] or 0,
-            ["max"] = CVTAB["Default"]["VMAX"][name] or 9,
-            ["step"] = CVTAB["Default"]["VSTE"][name] or 1,
-            ["decimals"] = CVTAB["Default"]["VDEC"][name] or 0,
-            ["func"] = function(newValue)
-                if newValue and CVTAB["Default"]["CVARSDBSLIDER"][name] ~= newValue then
-                    CVTAB["Default"]["CVARSDBSLIDER"][name] = newValue
-                    CVARs:CVARMsgSlider(name)
+            IndentOne(valueBox)
+            SetCheckboxEnabled(valueBox, set == 1)
+        else
+            local set = CVTAB["Default"]["SETCVARSSLIDER"][name]
+            local value = CVTAB["Default"]["CVARSDBSLIDER"][name]
+            if set == nil then set = 1 end
+            if value == nil then value = 1 end
+            local label = CVARs:Trans("LID_SETVALUETO")
+            local default = CVTAB["Default"]["DEFAULTVALUE"][name]
+            if default ~= nil then label = format("%s (%s: %s)", label, CVARs:Trans("LID_DEFAULT"), default) end
+            local valueSlider = nil
+            AddCVarCategory(name, entry.group and 3 or 2)
+            AddSetCVarCheckbox(name, "SETCVARSSLIDER", set, function(checked) SetSliderEnabled(valueSlider, checked) end)
+            valueSlider = cvars_settings:AddSlider({
+                ["label"] = label,
+                ["search"] = name,
+                ["value"] = value,
+                ["min"] = CVTAB["Default"]["VMIN"][name] or 0,
+                ["max"] = CVTAB["Default"]["VMAX"][name] or 9,
+                ["step"] = CVTAB["Default"]["VSTE"][name] or 1,
+                ["decimals"] = CVTAB["Default"]["VDEC"][name] or 0,
+                ["func"] = function(newValue)
+                    if newValue and CVTAB["Default"]["CVARSDBSLIDER"][name] ~= newValue then
+                        CVTAB["Default"]["CVARSDBSLIDER"][name] = newValue
+                        CVARs:CVARMsgSlider(name)
+                    end
                 end
-            end
-        })
+            })
 
-        IndentOne(valueSlider)
-        SetSliderEnabled(valueSlider, set == 1)
+            IndentOne(valueSlider)
+            SetSliderEnabled(valueSlider, set == 1)
+        end
     end
 
     cvars_settings:ResumeLayout()
