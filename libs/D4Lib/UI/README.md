@@ -167,7 +167,9 @@ on top of the translated label.
   `UI:ChoicesFromMap(map, current)` builds one from a sparse `value → label` table,
   sorted, with `current` appended if the map does not contain it.
   The returned frame has `holder:SetValue(value)` to change the selection without
-  firing `func`, and `holder.control` is the widget itself.
+  firing `func`, `holder:SetEnabled(enabled)` to grey out the control (menu button and
+  steppers, or the fallback button) together with its label, and `holder.control` is
+  the widget itself.
 
   Where the client has `SettingsDropdownWithButtonsTemplate` (retail), the dropdown is
   Blizzard's own control from the options panel: a menu button flanked by a left and a
