@@ -312,6 +312,12 @@ win:AddOrderList({
 e.g. when it is docked to another frame), scrollable and starts hidden. `win:Toggle()`
 shows or hides it.
 
+Without `templates`, retail and WoW Forever build the window from Blizzard's
+`ButtonFrameTemplate` (portrait, attic and button bar hidden), so it gets the same
+nine-slice border as Blizzard's own panels, including Forever's own frame art. All
+other flavors keep `BasicFrameTemplateWithInset`. `win.TitleText` points to the
+title in both cases.
+
 ESC closes the window (it is added to `UISpecialFrames`). ESC only calls `Hide()`, so
 windows with `onClose` are left out by default; pass `escClose = true` or `false` to override.
 
