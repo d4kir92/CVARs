@@ -41,6 +41,7 @@ CVARs:AddTrans("itIT", "LID_WorldTextScreenY", "Posizione Y schermo testo del mo
 CVARs:AddTrans("itIT", "LID_WorldTextCritScreenY", "Posizione Y schermo testo critico del mondo: %s")
 CVARs:AddTrans("itIT", "LID_SoftTargetInteractRange", "Raggio di interazione bersaglio leggero: %s")
 CVARs:AddTrans("itIT", "LID_showPartyPets", "Mostra animali del gruppo")
+CVARs:AddTrans("itIT", "LID_threatShowNumeric", "Mostra percentuale di minaccia")
 CVARs:AddTrans("itIT", "LID_SpellQueueWindow", "Finestra coda incantesimi: %s ms")
 CVARs:AddTrans("itIT", "LID_volumeFog", "Nebbia volumetrica")
 CVARs:AddTrans("itIT", "LID_volumeFogInterior", "Nebbia volumetrica negli interni")

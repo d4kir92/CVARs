@@ -47,7 +47,7 @@ function CVARs:OnInitialize(event, ...)
 	if event == "ADDON_LOADED" then
 		local addonName = select(1, ...)
 		if addonName == AddonName then
-			CVARs:SetVersion(134063, "1.3.6")
+			CVARs:SetVersion(134063, "1.3.7")
 			for i = 1, 100 do
 				if GetCVar("nameplateMaxDistance") ~= nil then
 					local currentDist = tonumber(GetCVar("nameplateMaxDistance"))
@@ -79,6 +79,7 @@ function CVARs:OnInitialize(event, ...)
 			CVARs:AddCVar("ResampleAlwaysSharpen", 1, 1, "GRAPHICS")
 			CVARs:AddCVar("cameraReduceUnexpectedMovement", 0, 1, "GAME")
 			CVARs:AddCVar("showPartyPets", 0, 1, "GAME")
+			CVARs:AddCVar("threatShowNumeric", 0, 1, "GAME")
 			CVARs:AddCVar("volumeFog", 0, 0, "GRAPHICS", "FOG")
 			CVARs:AddCVar("volumeFogInterior", 0, 1, "GRAPHICS", "FOG")
 			CVARs:AddCVar("RAIDVolumeFog", 0, 0, "GRAPHICS", "FOG")

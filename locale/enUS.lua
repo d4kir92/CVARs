@@ -41,6 +41,7 @@ CVARs:AddTrans("enUS", "LID_WorldTextScreenY", "World Text Screen Position Y: %s
 CVARs:AddTrans("enUS", "LID_WorldTextCritScreenY", "World Text Crit Screen Position Y: %s")
 CVARs:AddTrans("enUS", "LID_SoftTargetInteractRange", "Soft Target Interact Range: %s")
 CVARs:AddTrans("enUS", "LID_showPartyPets", "Show Party-Pets")
+CVARs:AddTrans("enUS", "LID_threatShowNumeric", "Show Threat Percentage")
 CVARs:AddTrans("enUS", "LID_SpellQueueWindow", "Spell Queue Window: %s ms")
 CVARs:AddTrans("enUS", "LID_volumeFog", "Volume Fog")
 CVARs:AddTrans("enUS", "LID_volumeFogInterior", "Volume Fog Interiors")

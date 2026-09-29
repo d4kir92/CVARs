@@ -41,6 +41,7 @@ CVARs:AddTrans("ptBR", "LID_WorldTextScreenY", "Posição Y na tela do texto do 
 CVARs:AddTrans("ptBR", "LID_WorldTextCritScreenY", "Posição Y na tela do texto crítico do mundo: %s")
 CVARs:AddTrans("ptBR", "LID_SoftTargetInteractRange", "Alcance de interação com alvo leve: %s")
 CVARs:AddTrans("ptBR", "LID_showPartyPets", "Mostrar mascotes do grupo")
+CVARs:AddTrans("ptBR", "LID_threatShowNumeric", "Mostrar porcentagem de ameaça")
 CVARs:AddTrans("ptBR", "LID_SpellQueueWindow", "Janela de fila de magias: %s ms")
 CVARs:AddTrans("ptBR", "LID_volumeFog", "Névoa volumétrica")
 CVARs:AddTrans("ptBR", "LID_volumeFogInterior", "Névoa volumétrica em interiores")
