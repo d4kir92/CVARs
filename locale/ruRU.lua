@@ -42,7 +42,7 @@ CVARs:AddTrans("ruRU", "LID_WorldTextCritScreenY", "Положение текс�
 CVARs:AddTrans("ruRU", "LID_SoftTargetInteractRange", "Дальность взаимодействия с мягкой целью: %s")
 CVARs:AddTrans("ruRU", "LID_showPartyPets", "Показывать питомцев группы")
 CVARs:AddTrans("ruRU", "LID_threatShowNumeric", "Показывать угрозу в процентах")
-CVARs:AddTrans("ruRU", "LID_SpellQueueWindow", "Окно очереди заклинаний: %s мс")
+CVARs:AddTrans("ruRU", "LID_SpellQueueWindow", "Окно очереди заклинаний (мс): %s")
 CVARs:AddTrans("ruRU", "LID_volumeFog", "Объёмный туман")
 CVARs:AddTrans("ruRU", "LID_volumeFogInterior", "Объёмный туман в помещениях")
 CVARs:AddTrans("ruRU", "LID_volumeFogLevel", "Уровень объёмного тумана: %s")

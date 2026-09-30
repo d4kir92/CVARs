@@ -42,7 +42,7 @@ CVARs:AddTrans("zhTW", "LID_WorldTextCritScreenY", "世界文字暴擊螢幕Y位
 CVARs:AddTrans("zhTW", "LID_SoftTargetInteractRange", "軟目標互動範圍: %s")
 CVARs:AddTrans("zhTW", "LID_showPartyPets", "顯示隊伍寵物")
 CVARs:AddTrans("zhTW", "LID_threatShowNumeric", "顯示仇恨百分比")
-CVARs:AddTrans("zhTW", "LID_SpellQueueWindow", "法術佇列視窗: %s 毫秒")
+CVARs:AddTrans("zhTW", "LID_SpellQueueWindow", "法術佇列視窗 (毫秒): %s")
 CVARs:AddTrans("zhTW", "LID_volumeFog", "體積霧")
 CVARs:AddTrans("zhTW", "LID_volumeFogInterior", "室內體積霧")
 CVARs:AddTrans("zhTW", "LID_volumeFogLevel", "體積霧等級: %s")

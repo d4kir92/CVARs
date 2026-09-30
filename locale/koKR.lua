@@ -42,7 +42,7 @@ CVARs:AddTrans("koKR", "LID_WorldTextCritScreenY", "월드 텍스트 치명타 �
 CVARs:AddTrans("koKR", "LID_SoftTargetInteractRange", "소프트 타겟 상호작용 범위: %s")
 CVARs:AddTrans("koKR", "LID_showPartyPets", "파티 펫 표시")
 CVARs:AddTrans("koKR", "LID_threatShowNumeric", "위협 수준 백분율 표시")
-CVARs:AddTrans("koKR", "LID_SpellQueueWindow", "주문 대기열 창: %s ms")
+CVARs:AddTrans("koKR", "LID_SpellQueueWindow", "주문 대기열 창 (ms): %s")
 CVARs:AddTrans("koKR", "LID_volumeFog", "체적 안개")
 CVARs:AddTrans("koKR", "LID_volumeFogInterior", "실내 체적 안개")
 CVARs:AddTrans("koKR", "LID_volumeFogLevel", "체적 안개 단계: %s")

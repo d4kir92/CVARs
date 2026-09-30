@@ -42,7 +42,7 @@ CVARs:AddTrans("zhCN", "LID_WorldTextCritScreenY", "世界文字暴击屏幕Y位
 CVARs:AddTrans("zhCN", "LID_SoftTargetInteractRange", "软目标互动范围: %s")
 CVARs:AddTrans("zhCN", "LID_showPartyPets", "显示队伍宠物")
 CVARs:AddTrans("zhCN", "LID_threatShowNumeric", "显示仇恨百分比")
-CVARs:AddTrans("zhCN", "LID_SpellQueueWindow", "法术队列窗口: %s 毫秒")
+CVARs:AddTrans("zhCN", "LID_SpellQueueWindow", "法术队列窗口 (毫秒): %s")
 CVARs:AddTrans("zhCN", "LID_volumeFog", "体积雾")
 CVARs:AddTrans("zhCN", "LID_volumeFogInterior", "室内体积雾")
 CVARs:AddTrans("zhCN", "LID_volumeFogLevel", "体积雾等级: %s")

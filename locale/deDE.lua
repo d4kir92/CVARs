@@ -42,7 +42,7 @@ CVARs:AddTrans("deDE", "LID_WorldTextCritScreenY", "Welttext Krit Bildschirmposi
 CVARs:AddTrans("deDE", "LID_SoftTargetInteractRange", "Entfernung fürs Leichte-Interagieren: %s")
 CVARs:AddTrans("deDE", "LID_showPartyPets", "Zeige Gruppe-Pets")
 CVARs:AddTrans("deDE", "LID_threatShowNumeric", "Bedrohung in Prozent anzeigen")
-CVARs:AddTrans("deDE", "LID_SpellQueueWindow", "Zauberwarteschlangen-Fenster: %s ms")
+CVARs:AddTrans("deDE", "LID_SpellQueueWindow", "Zauberwarteschlangen-Fenster (ms): %s")
 CVARs:AddTrans("deDE", "LID_volumeFog", "Volumetrischer Nebel")
 CVARs:AddTrans("deDE", "LID_volumeFogInterior", "Volumetrischer Nebel in Innenräumen")
 CVARs:AddTrans("deDE", "LID_volumeFogLevel", "Stufe des volumetrischen Nebels: %s")

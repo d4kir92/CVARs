@@ -94,7 +94,7 @@ function CVARs:OnInitialize(event, ...)
 			CVARs:AddCVarSlider("WorldTextScreenY", 0, 0.015, 0.001, 2.000, 3, 0.001, 0.015, "GAME", "FLOATINGCOMBATTEXT")
 			CVARs:AddCVarSlider("WorldTextCritScreenY", 0, 0.0275, 0.0001, 2.0000, 4, 0.0001, 0.0275, "GAME", "FLOATINGCOMBATTEXT")
 			CVARs:AddCVarSlider("SoftTargetInteractRange", 0, 10, 1, 40, 1, 1, 1, "GAME")
-			CVARs:AddCVarSlider("SpellQueueWindow", 0, 0, 0, 400, 0, 1.0, nil, "GAME")
+			CVARs:AddCVarSlider("SpellQueueWindow", 0, 400, 0, 400, 0, 1, 400, "GAME")
 			CVARs:AddCVarSlider("volumeFogLevel", 0, 2, 0, 3, 0, 1, 2, "GRAPHICS", "FOG")
 			CVARs:AddCVarSlider("RAIDVolumeFogLevel", 0, 2, 0, 3, 0, 1, 2, "GRAPHICS", "FOG")
 			--[[SETTING CVARS]]

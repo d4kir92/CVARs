@@ -42,7 +42,7 @@ CVARs:AddTrans("esMX", "LID_WorldTextCritScreenY", "Posición Y en pantalla del 
 CVARs:AddTrans("esMX", "LID_SoftTargetInteractRange", "Alcance de interacción con objetivo suave: %s")
 CVARs:AddTrans("esMX", "LID_showPartyPets", "Mostrar mascotas del grupo")
 CVARs:AddTrans("esMX", "LID_threatShowNumeric", "Mostrar porcentaje de amenaza")
-CVARs:AddTrans("esMX", "LID_SpellQueueWindow", "Ventana de cola de hechizos: %s ms")
+CVARs:AddTrans("esMX", "LID_SpellQueueWindow", "Ventana de cola de hechizos (ms): %s")
 CVARs:AddTrans("esMX", "LID_volumeFog", "Niebla volumétrica")
 CVARs:AddTrans("esMX", "LID_volumeFogInterior", "Niebla volumétrica en interiores")
 CVARs:AddTrans("esMX", "LID_volumeFogLevel", "Nivel de niebla volumétrica: %s")

@@ -42,7 +42,7 @@ CVARs:AddTrans("frFR", "LID_WorldTextCritScreenY", "Position Y du texte de criti
 CVARs:AddTrans("frFR", "LID_SoftTargetInteractRange", "Portée d'interaction de cible légère : %s")
 CVARs:AddTrans("frFR", "LID_showPartyPets", "Afficher les familiers du groupe")
 CVARs:AddTrans("frFR", "LID_threatShowNumeric", "Afficher le pourcentage de menace")
-CVARs:AddTrans("frFR", "LID_SpellQueueWindow", "Fenêtre de mise en file d'attente des sorts : %s ms")
+CVARs:AddTrans("frFR", "LID_SpellQueueWindow", "Fenêtre de mise en file d'attente des sorts (ms) : %s")
 CVARs:AddTrans("frFR", "LID_volumeFog", "Brouillard volumétrique")
 CVARs:AddTrans("frFR", "LID_volumeFogInterior", "Brouillard volumétrique intérieur")
 CVARs:AddTrans("frFR", "LID_volumeFogLevel", "Niveau du brouillard volumétrique : %s")
