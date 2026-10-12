@@ -48,3 +48,4 @@ CVARs:AddTrans("ruRU", "LID_volumeFogInterior", "Объёмный туман в 
 CVARs:AddTrans("ruRU", "LID_volumeFogLevel", "Уровень объёмного тумана: %s")
 CVARs:AddTrans("ruRU", "LID_RAIDVolumeFog", "Объёмный туман в рейде")
 CVARs:AddTrans("ruRU", "LID_RAIDVolumeFogLevel", "Уровень объёмного тумана в рейде: %s")
+CVARs:AddTrans("ruRU", "LID_QUESTSPARKLE", "Сверкание предметов заданий (отключает режим контуров)")

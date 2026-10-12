@@ -43,6 +43,66 @@ function CVARs:AddCVarSlider(name, toggle, value, vmin, vmax, vdec, vste, defaul
 	if CVTAB["Default"]["DEFAULTVALUE"][name] == nil then CVTAB["Default"]["DEFAULTVALUE"][name] = defaultValue or nil end
 end
 
+CVARs.QuestSparkle = {
+	["SPARKLES"] = {
+		outlineModeShowLootEffectWhenDisabled = "1",
+		graphicsOutlineMode = "0",
+		OutlineEngineMode = "0",
+		raidGraphicsOutlineMode = "0",
+		RAIDOutlineEngineMode = "0",
+	},
+	["DISABLED"] = {
+		outlineModeShowLootEffectWhenDisabled = "0",
+		graphicsOutlineMode = "2",
+		OutlineEngineMode = "2",
+		raidGraphicsOutlineMode = "2",
+		RAIDOutlineEngineMode = "2",
+	},
+	["SPARKLEWATCH"] = {
+		graphicsquality = true,
+		raidgraphicsquality = true,
+	},
+}
+
+for name in pairs(CVARs.QuestSparkle["SPARKLES"]) do
+	CVARs.QuestSparkle["SPARKLEWATCH"][strlower(name)] = true
+end
+
+function CVARs:IsQuestSparkleSupported()
+	return GetCVar("outlineModeShowLootEffectWhenDisabled") ~= nil
+end
+
+function CVARs:ApplyQuestSparkleTable(tab)
+	for name, val in pairs(tab) do
+		local current = GetCVar(name)
+		if current ~= nil and current ~= val then SetCVar(name, val) end
+	end
+end
+
+function CVARs:UpdateQuestSparkle()
+	if CVTAB == nil or not CVTAB["QUESTSPARKLE"] then return end
+	if not CVARs:IsQuestSparkleSupported() then return end
+	CVARs:ApplyQuestSparkleTable(CVARs.QuestSparkle["SPARKLES"])
+end
+
+function CVARs:SetQuestSparkle(enabled)
+	CVTAB["QUESTSPARKLE"] = enabled
+	if enabled then
+		CVARs:UpdateQuestSparkle()
+	elseif CVARs:IsQuestSparkleSupported() then
+		CVARs:ApplyQuestSparkleTable(CVARs.QuestSparkle["DISABLED"])
+	end
+end
+
+function CVARs:QueueQuestSparkleUpdate()
+	if CVARs.QuestSparkle["PENDING"] then return end
+	CVARs.QuestSparkle["PENDING"] = true
+	C_Timer.After(0.1, function()
+		CVARs.QuestSparkle["PENDING"] = false
+		CVARs:UpdateQuestSparkle()
+	end)
+end
+
 function CVARs:OnInitialize(event, ...)
 	if event == "ADDON_LOADED" then
 		local addonName = select(1, ...)
@@ -106,15 +166,21 @@ function CVARs:OnInitialize(event, ...)
 				if CVTAB["Default"]["SETCVARSSLIDER"][name] then SetCVar(name, val) end
 			end
 
+			CVARs:UpdateQuestSparkle()
 			CVARs:InitMinimapButton()
 			CVARs:InitSettings()
 		end
+	elseif event == "PLAYER_ENTERING_WORLD" then
+		CVARs:QueueQuestSparkleUpdate()
 	elseif event == "CVAR_UPDATE" then
-		print("CVARS", event, ...)
+		local name = ...
+		if CVARS_DEBUG then print("CVARS", event, ...) end
+		if type(name) == "string" and CVARs.QuestSparkle["SPARKLEWATCH"][strlower(name)] then CVARs:QueueQuestSparkleUpdate() end
 	end
 end
 
 local f = CreateFrame("FRAME")
 f:RegisterEvent("ADDON_LOADED")
-if CVARS_DEBUG then f:RegisterEvent("CVAR_UPDATE") end
+f:RegisterEvent("PLAYER_ENTERING_WORLD")
+f:RegisterEvent("CVAR_UPDATE")
 f:SetScript("OnEvent", CVARs.OnInitialize)

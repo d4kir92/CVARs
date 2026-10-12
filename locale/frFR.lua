@@ -48,3 +48,4 @@ CVARs:AddTrans("frFR", "LID_volumeFogInterior", "Brouillard volumétrique intér
 CVARs:AddTrans("frFR", "LID_volumeFogLevel", "Niveau du brouillard volumétrique : %s")
 CVARs:AddTrans("frFR", "LID_RAIDVolumeFog", "Brouillard volumétrique en raid")
 CVARs:AddTrans("frFR", "LID_RAIDVolumeFogLevel", "Niveau du brouillard volumétrique en raid : %s")
+CVARs:AddTrans("frFR", "LID_QUESTSPARKLE", "Scintillement des objets de quête (désactive le mode contour)")

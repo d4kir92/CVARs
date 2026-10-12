@@ -48,3 +48,4 @@ CVARs:AddTrans("itIT", "LID_volumeFogInterior", "Nebbia volumetrica negli intern
 CVARs:AddTrans("itIT", "LID_volumeFogLevel", "Livello nebbia volumetrica: %s")
 CVARs:AddTrans("itIT", "LID_RAIDVolumeFog", "Nebbia volumetrica incursione")
 CVARs:AddTrans("itIT", "LID_RAIDVolumeFogLevel", "Livello nebbia volumetrica incursione: %s")
+CVARs:AddTrans("itIT", "LID_QUESTSPARKLE", "Scintillio oggetti missione (disattiva la modalità contorno)")

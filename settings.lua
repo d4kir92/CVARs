@@ -215,6 +215,15 @@ function CVARs:InitSettings()
         end
     })
 
+    if CVARs:IsQuestSparkleSupported() then
+        cvars_settings:AddCheckbox({
+            ["label"] = "LID_QUESTSPARKLE",
+            ["search"] = "QUESTSPARKLE",
+            ["value"] = CVTAB["QUESTSPARKLE"] == true,
+            ["func"] = function(value) CVARs:SetQuestSparkle(value) end
+        })
+    end
+
     local cvarsSorted = {}
     for name in pairs(CVTAB["Default"]["SETCVARS"]) do
         tinsert(cvarsSorted, {name = name, slider = false, category = CVARs.CVarCategories[name] or "CVARS", group = CVARs.CVarGroups[name]})

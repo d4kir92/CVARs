@@ -48,3 +48,4 @@ CVARs:AddTrans("ptBR", "LID_volumeFogInterior", "Névoa volumétrica em interior
 CVARs:AddTrans("ptBR", "LID_volumeFogLevel", "Nível de névoa volumétrica: %s")
 CVARs:AddTrans("ptBR", "LID_RAIDVolumeFog", "Névoa volumétrica de raide")
 CVARs:AddTrans("ptBR", "LID_RAIDVolumeFogLevel", "Nível de névoa volumétrica de raide: %s")
+CVARs:AddTrans("ptBR", "LID_QUESTSPARKLE", "Brilho de itens de missão (desativa o modo de contorno)")

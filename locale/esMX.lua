@@ -48,3 +48,4 @@ CVARs:AddTrans("esMX", "LID_volumeFogInterior", "Niebla volumétrica en interior
 CVARs:AddTrans("esMX", "LID_volumeFogLevel", "Nivel de niebla volumétrica: %s")
 CVARs:AddTrans("esMX", "LID_RAIDVolumeFog", "Niebla volumétrica de banda")
 CVARs:AddTrans("esMX", "LID_RAIDVolumeFogLevel", "Nivel de niebla volumétrica de banda: %s")
+CVARs:AddTrans("esMX", "LID_QUESTSPARKLE", "Destello de objetos de misión (desactiva el modo de contorno)")

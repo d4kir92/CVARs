@@ -48,3 +48,4 @@ CVARs:AddTrans("deDE", "LID_volumeFogInterior", "Volumetrischer Nebel in Innenr√
 CVARs:AddTrans("deDE", "LID_volumeFogLevel", "Stufe des volumetrischen Nebels: %s")
 CVARs:AddTrans("deDE", "LID_RAIDVolumeFog", "Volumetrischer Schlachtzugsnebel")
 CVARs:AddTrans("deDE", "LID_RAIDVolumeFogLevel", "Stufe des volumetrischen Schlachtzugsnebels: %s")
+CVARs:AddTrans("deDE", "LID_QUESTSPARKLE", "Questgegenst√§nde funkeln (deaktiviert Umrissmodus)")
