@@ -1,6 +1,6 @@
 local _, CVARs = ...
 -- https://wowpedia.fandom.com/wiki/Console_variables
-CVARs:SetAddonOutput("CVARs", 134063)
+CVARs:SetAddonOutput()
 local cvars_settings = nil
 local DEFAULT_WIDTH = 520
 local DEFAULT_HEIGHT = 520
@@ -189,7 +189,7 @@ function CVARs:InitSettings()
         end,
         ["getCollapsed"] = function(key) return GetCollapsed(key) end,
         ["setCollapsed"] = function(key, collapsed) SetCollapsed(key, collapsed) end,
-        ["title"] = format("|T134063:16:16:0:0|t CVARs v%s", CVARs:GetVersion())
+        ["title"] = format("|T%s:16:16:0:0|t CVARs v%s", CVARs:GetAddonIcon(), CVARs:GetVersion())
     })
 
     AddFooter()
@@ -337,9 +337,9 @@ function CVARs:InitMinimapButton()
     if CVTAB["MMBTN"] == nil then CVTAB["MMBTN"] = CVARs:GetWoWBuild() ~= "RETAIL" end
     CVARs:CreateMinimapButton({
         ["name"] = "CVARs",
-        ["icon"] = 134063,
+        ["icon"] = CVARs:GetAddonIcon(),
         ["dbtab"] = CVTAB,
-        ["vTT"] = {{"|T134063:16:16:0:0|t CVARs", "v" .. CVARs:GetVersion()}, {CVARs:Trans("LID_LEFTCLICK"), CVARs:Trans("LID_OPENSETTINGS")}, {CVARs:Trans("LID_RIGHTCLICK"), CVARs:Trans("LID_HIDEMINIMAPBUTTON")}},
+        ["vTT"] = {{format("|T%s:16:16:0:0|t CVARs", CVARs:GetAddonIcon()),"v" .. CVARs:GetVersion()}, {CVARs:Trans("LID_LEFTCLICK"), CVARs:Trans("LID_OPENSETTINGS")}, {CVARs:Trans("LID_RIGHTCLICK"), CVARs:Trans("LID_HIDEMINIMAPBUTTON")}},
         ["funcL"] = function() CVARs:ToggleSettings() end,
         ["funcR"] = function()
             CVTAB["MMBTN"] = false
