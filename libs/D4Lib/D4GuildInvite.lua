@@ -108,9 +108,13 @@ function D4:CreateGuildInvite(options)
 
     function Invite:IsOwnMessage(name, guid)
         if type(guid) == "string" and guid ~= "" and UnitGUID then return guid == UnitGUID("player") end
+        local key, ownName = D4:GetPlayerCharacterKey()
+        if key and (name == key or name == ownName) then return true end
         local short = strsplit("-", name)
+        if key and not D4:IsForever() then return short == ownName end
 
-        return short == UnitName("player")
+        local legacyName = UnitName("player")
+        return D4:CanAccessValue(legacyName) and short == legacyName
     end
 
     function Invite:IsRequest(msg)
@@ -160,7 +164,7 @@ function D4:CreateGuildInvite(options)
 
     local frame = CreateFrame("Frame")
     for _, event in ipairs(GUILDINVITE_EVENTS) do
-        frame:RegisterEvent(event)
+        if not options.whisperOnly or event == "CHAT_MSG_WHISPER" then frame:RegisterEvent(event) end
     end
 
     frame:SetScript("OnEvent", function(_, _, msg, name, _, _, _, _, _, _, _, _, _, guid) Invite:OnChat(msg, name, guid) end)
