@@ -157,13 +157,21 @@ function CVARs:OnInitialize(event, ...)
 			CVARs:AddCVarSlider("SpellQueueWindow", 0, 400, 0, 400, 0, 1, 400, "GAME")
 			CVARs:AddCVarSlider("volumeFogLevel", 0, 2, 0, 3, 0, 1, 2, "GRAPHICS", "FOG")
 			CVARs:AddCVarSlider("RAIDVolumeFogLevel", 0, 2, 0, 3, 0, 1, 2, "GRAPHICS", "FOG")
+			CVARs:AddCVar("HDROutput", 0, 0, "GRAPHICS", "HDR")
+			CVARs:AddCVar("useHDRBrightness", 0, 0, "GRAPHICS", "HDR")
+			CVARs:AddCVar("useHDRPeakBrightness", 0, 0, "GRAPHICS", "HDR")
+			CVARs:AddCVarSlider("HDRFactor", 0, 2, 1, 10, 2, 0.01, 2, "GRAPHICS", "HDR")
+			CVARs:AddCVarSlider("HDRBrightness", 0, 203, 1, 1000, 0, 1, 203, "GRAPHICS", "HDR")
+			CVARs:AddCVarSlider("HDRPeakBrightness", 0, 400, 1, 4000, 0, 1, 400, "GRAPHICS", "HDR")
 			--[[SETTING CVARS]]
 			for name, val in pairs(CVTAB["Default"]["CVARSDB"]) do
-				if CVTAB["Default"]["SETCVARS"][name] then SetCVar(name, val) end
+				local enabled = CVTAB["Default"]["SETCVARS"][name]
+				if enabled and (CVARs.CVarGroups[name] ~= "HDR" or (enabled == 1 and GetCVar(name) ~= nil)) then SetCVar(name, val) end
 			end
 
 			for name, val in pairs(CVTAB["Default"]["CVARSDBSLIDER"]) do
-				if CVTAB["Default"]["SETCVARSSLIDER"][name] then SetCVar(name, val) end
+				local enabled = CVTAB["Default"]["SETCVARSSLIDER"][name]
+				if enabled and (CVARs.CVarGroups[name] ~= "HDR" or (enabled == 1 and GetCVar(name) ~= nil)) then SetCVar(name, val) end
 			end
 
 			CVARs:UpdateQuestSparkle()
