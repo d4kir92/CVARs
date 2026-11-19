@@ -12,7 +12,14 @@ local NAV_BUTTON_PLAIN = 30
 local NAV_BUTTON_MIN_TEXT = 60
 local PIN_TOGGLE_OFFSET_X = 40
 local PIN_TOGGLE_OFFSET_Y = 10
-local SIDE_PANEL_BUTTONS = {"OpenButton", "CloseButton"}
+local FRAME_STRATA = {"BACKGROUND", "LOW", "MEDIUM", "HIGH", "DIALOG", "FULLSCREEN", "FULLSCREEN_DIALOG", "TOOLTIP"}
+local BOSS_SCALE = {
+    ["min"] = 0.5,
+    ["max"] = 1.5,
+    ["step"] = 0.05,
+    ["width"] = 120,
+    ["gap"] = 16,
+}
 local VIEW_MAX_ZOOM = 4
 local VIEW_WHEEL_FACTOR = 1.25
 local function GetChild()
@@ -326,6 +333,10 @@ function D4:CreateInstanceMap(provider)
             else
                 GameTooltip:SetHyperlink("item:" .. row[4])
             end
+        elseif row[1] == "queststart" or row[1] == "questend" then
+            GameTooltip:SetText(provider.getQuestName and provider.getQuestName(row) or row[5] or "")
+            local text = provider.getQuestKindText and provider.getQuestKindText(row)
+            if text then GameTooltip:AddLine(text, 1, 0.82, 0) end
         elseif row[1] == "level" then
             GameTooltip:SetText(GetLabel(shownLevels, shownLevels[pin.level]))
             local hint = provider.getLevelHint and provider.getLevelHint()
@@ -377,7 +388,15 @@ function D4:CreateInstanceMap(provider)
             return
         end
 
-        local key = format("%s|%.4f|%.1f|%.1f|%d", info.key, scale, overlay.art:GetWidth(), overlay.art:GetHeight(), #rows)
+        local questKey = {}
+        for _, row in ipairs(rows) do
+            if row[1] == "queststart" or row[1] == "questend" then
+                local visible = provider.isQuestPinVisible ~= nil and provider.isQuestPinVisible(row) or provider.isQuestPinVisible == nil and D4:IsInstanceQuestPinVisible(row)
+                tinsert(questKey, visible and "1" or "0")
+            end
+        end
+
+        local key = format("%s|%.4f|%.1f|%.1f|%d|%s", info.key, scale, overlay.art:GetWidth(), overlay.art:GetHeight(), #rows, table.concat(questKey))
         if key == mapPinKey then return end
         mapPinKey = key
         if mapPinSet == nil then
@@ -388,18 +407,52 @@ function D4:CreateInstanceMap(provider)
                 ["onMouseUp"] = OnMapPinMouseUp,
                 ["getLevel"] = function(row) return FindLevelIndex(shownLevels, row[4]) end,
                 ["isEnabled"] = provider.isPinEnabled,
+                ["isQuestVisible"] = provider.isQuestPinVisible,
                 ["setEnabled"] = function(kind, enabled)
                     if provider.setPinEnabled then provider.setPinEnabled(kind, enabled) end
                     mapPinKey = nil
                     Refresh()
                 end,
                 ["getToggleText"] = provider.getToggleText,
+                ["getBossScale"] = provider.getBossScale,
             })
 
             local container = WorldMapFrame.ScrollContainer
             local toggles = mapPinSet:CreateToggles(container)
             toggles:SetPoint("BOTTOMRIGHT", container, "BOTTOMRIGHT", -PIN_TOGGLE_OFFSET_X, PIN_TOGGLE_OFFSET_Y)
             toggles:SetFrameLevel(overlay:GetFrameLevel() + 1000)
+            if provider.getBossScale ~= nil and provider.setBossScale ~= nil then
+                local template = DoesTemplateExist ~= nil and (DoesTemplateExist("MinimalSliderTemplate") and "MinimalSliderTemplate" or DoesTemplateExist("UISliderTemplate") and "UISliderTemplate") or "OptionsSliderTemplate"
+                local slider = CreateFrame("Slider", nil, toggles, template)
+                slider:SetSize(BOSS_SCALE.width, 16)
+                slider:SetPoint("RIGHT", toggles, "LEFT", -BOSS_SCALE.gap, 0)
+                slider:SetMinMaxValues(BOSS_SCALE.min, BOSS_SCALE.max)
+                slider:SetValueStep(BOSS_SCALE.step)
+                if slider.SetObeyStepOnDrag ~= nil then slider:SetObeyStepOnDrag(true) end
+                for _, region in ipairs({slider:GetRegions()}) do
+                    if region.GetObjectType ~= nil and region:GetObjectType() == "FontString" then region:SetText("") end
+                end
+
+                slider.label = slider:CreateFontString(nil, "OVERLAY", "GameFontHighlightSmall")
+                slider.label:SetPoint("BOTTOM", slider, "TOP", 0, 1)
+                local function UpdateLabel(value)
+                    local percent = floor(value * 100 + 0.5)
+                    slider.label:SetText(provider.getBossScaleText ~= nil and provider.getBossScaleText(percent) or format("%d%%", percent))
+                end
+
+                slider:SetValue(provider.getBossScale() or 1)
+                UpdateLabel(slider:GetValue())
+                slider:SetScript("OnValueChanged", function(_, value)
+                    value = floor(value / BOSS_SCALE.step + 0.5) * BOSS_SCALE.step
+                    UpdateLabel(value)
+                    if abs(value - (provider.getBossScale() or 1)) < 0.001 then return end
+                    provider.setBossScale(value)
+                    mapPinKey = nil
+                    Refresh()
+                end)
+
+                toggles.bossScale = slider
+            end
         end
 
         mapPinSet:Update(rows, overlay.art, scale)
@@ -420,6 +473,31 @@ function D4:CreateInstanceMap(provider)
         overlay:SetScript("OnMouseDown", OnOverlayMouseDown)
         overlay:SetScript("OnMouseWheel", OnOverlayWheel)
         overlay:SetScript("OnUpdate", OnOverlayUpdate)
+        local toggle = WorldMapFrame.SidePanelToggle
+        if toggle ~= nil then
+            local originalStrata, raisedStrata
+            overlay:HookScript("OnShow", function()
+                local overlayStrata = overlay:GetFrameStrata()
+                local toggleStrata = toggle:GetFrameStrata()
+                local overlayIndex, toggleIndex
+                for index, strata in ipairs(FRAME_STRATA) do
+                    if strata == overlayStrata then overlayIndex = index end
+                    if strata == toggleStrata then toggleIndex = index end
+                end
+
+                if overlayIndex ~= nil and toggleIndex ~= nil and toggleIndex <= overlayIndex then
+                    raisedStrata = FRAME_STRATA[overlayIndex + 1]
+                    if raisedStrata ~= nil then
+                        originalStrata = toggleStrata
+                        toggle:SetFrameStrata(raisedStrata)
+                    end
+                end
+            end)
+            overlay:HookScript("OnHide", function()
+                if originalStrata ~= nil and toggle:GetFrameStrata() == raisedStrata then toggle:SetFrameStrata(originalStrata) end
+                originalStrata, raisedStrata = nil, nil
+            end)
+        end
         overlay:SetAllPoints(container)
         if overlay.SetClipsChildren ~= nil then overlay:SetClipsChildren(true) end
         overlay.bg = overlay:CreateTexture(nil, "BACKGROUND")
@@ -543,16 +621,6 @@ function D4:CreateInstanceMap(provider)
             if not levelButton:IsShown() then levelButton:Show() end
         elseif levelButton:IsShown() then
             levelButton:Hide()
-        end
-
-        local toggle = WorldMapFrame.SidePanelToggle
-        if toggle ~= nil and toggle.SetFrameLevel ~= nil then
-            local level = overlay:GetFrameLevel() + 2001
-            if toggle:GetFrameLevel() < level then toggle:SetFrameLevel(level) end
-            for _, name in ipairs(SIDE_PANEL_BUTTONS) do
-                local button = toggle[name]
-                if button ~= nil and button.SetFrameLevel ~= nil and button:GetFrameLevel() <= level then button:SetFrameLevel(level + 1) end
-            end
         end
 
         if not overlay:IsShown() then overlay:Show() end
