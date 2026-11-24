@@ -345,9 +345,10 @@ function CVARs:InitMinimapButton()
         ["name"] = "CVARs",
         ["icon"] = CVARs:GetAddonIcon(),
         ["dbtab"] = CVTAB,
-        ["vTT"] = {{format("|T%s:16:16:0:0|t CVARs", CVARs:GetAddonIcon()),"v" .. CVARs:GetVersion()}, {CVARs:Trans("LID_LEFTCLICK"), CVARs:Trans("LID_OPENSETTINGS")}, {CVARs:Trans("LID_RIGHTCLICK"), CVARs:Trans("LID_HIDEMINIMAPBUTTON")}},
+        ["vTT"] = {{format("|T%s:16:16:0:0|t CVARs", CVARs:GetAddonIcon()),"v" .. CVARs:GetVersion()}, {CVARs:Trans("LID_LEFTCLICK"), CVARs:Trans("LID_OPENSETTINGS")}, {CVARs:Trans("LID_RIGHTCLICK"), CVARs:Trans("LID_OPENSETTINGS")}, {CVARs:Trans("LID_SHIFTRIGHTCLICK"), CVARs:Trans("LID_HIDEMINIMAPBUTTON")}},
         ["funcL"] = function() CVARs:ToggleSettings() end,
-        ["funcR"] = function()
+        ["funcR"] = function() CVARs:ToggleSettings() end,
+        ["funcSR"] = function()
             CVTAB["MMBTN"] = false
             CVARs:HideMMBtn("CVARs")
         end,
