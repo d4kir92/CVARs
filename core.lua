@@ -43,6 +43,16 @@ function CVARs:AddCVarSlider(name, toggle, value, vmin, vmax, vdec, vste, defaul
 	if CVTAB["Default"]["DEFAULTVALUE"][name] == nil then CVTAB["Default"]["DEFAULTVALUE"][name] = defaultValue or nil end
 end
 
+CVARs.OptionalCVars = {
+	showInGameNavigation = true,
+}
+
+function CVARs:IsCVarAvailable(name)
+	if CVARs.CVarGroups[name] ~= "HDR" and not CVARs.OptionalCVars[name] then return true end
+
+	return GetCVar(name) ~= nil
+end
+
 CVARs.QuestSparkle = {
 	["SPARKLES"] = {
 		outlineModeShowLootEffectWhenDisabled = "1",
@@ -140,6 +150,7 @@ function CVARs:OnInitialize(event, ...)
 			CVARs:AddCVar("cameraReduceUnexpectedMovement", 0, 1, "GAME")
 			CVARs:AddCVar("showPartyPets", 0, 1, "GAME")
 			CVARs:AddCVar("threatShowNumeric", 0, 1, "GAME")
+			CVARs:AddCVar("showInGameNavigation", 0, 1, "GAME")
 			CVARs:AddCVar("volumeFog", 0, 0, "GRAPHICS", "FOG")
 			CVARs:AddCVar("volumeFogInterior", 0, 1, "GRAPHICS", "FOG")
 			CVARs:AddCVar("RAIDVolumeFog", 0, 0, "GRAPHICS", "FOG")
@@ -166,12 +177,12 @@ function CVARs:OnInitialize(event, ...)
 			--[[SETTING CVARS]]
 			for name, val in pairs(CVTAB["Default"]["CVARSDB"]) do
 				local enabled = CVTAB["Default"]["SETCVARS"][name]
-				if enabled and (CVARs.CVarGroups[name] ~= "HDR" or (enabled == 1 and GetCVar(name) ~= nil)) then SetCVar(name, val) end
+				if enabled and CVARs:IsCVarAvailable(name) and (CVARs.CVarGroups[name] ~= "HDR" or enabled == 1) then SetCVar(name, val) end
 			end
 
 			for name, val in pairs(CVTAB["Default"]["CVARSDBSLIDER"]) do
 				local enabled = CVTAB["Default"]["SETCVARSSLIDER"][name]
-				if enabled and (CVARs.CVarGroups[name] ~= "HDR" or (enabled == 1 and GetCVar(name) ~= nil)) then SetCVar(name, val) end
+				if enabled and CVARs:IsCVarAvailable(name) and (CVARs.CVarGroups[name] ~= "HDR" or enabled == 1) then SetCVar(name, val) end
 			end
 
 			CVARs:UpdateQuestSparkle()

@@ -46,6 +46,7 @@ CVARs:AddTrans("ruRU", "LID_nameplateShowEnemies", "Показывать инд�
 CVARs:AddTrans("ruRU", "LID_nameplateShowFriendlyNpcs", "Показывать индикаторы здоровья дружественных NPC")
 CVARs:AddTrans("ruRU", "LID_nameplateShowFriends", "Показывать индикаторы здоровья друзей")
 CVARs:AddTrans("ruRU", "LID_needmorecvars", "Нужны ещё CVAR'ы? Присоединяйтесь к Discord.")
+CVARs:AddTrans("ruRU", "LID_showInGameNavigation", "Показывать навигацию к заданиям в игре")
 CVARs:AddTrans("ruRU", "LID_showPartyPets", "Показывать питомцев группы")
 CVARs:AddTrans("ruRU", "LID_showTargetCastbar", "Показывать полосу заклинаний цели")
 CVARs:AddTrans("ruRU", "LID_threatShowNumeric", "Показывать угрозу в процентах")

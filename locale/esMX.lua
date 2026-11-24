@@ -46,6 +46,7 @@ CVARs:AddTrans("esMX", "LID_nameplateShowEnemies", "Mostrar placas de nombre ene
 CVARs:AddTrans("esMX", "LID_nameplateShowFriendlyNpcs", "Mostrar placas de nombre de PNJ amistosos")
 CVARs:AddTrans("esMX", "LID_nameplateShowFriends", "Mostrar placas de nombre de amigos")
 CVARs:AddTrans("esMX", "LID_needmorecvars", "¿Necesitas más CVARs? Únete al Discord")
+CVARs:AddTrans("esMX", "LID_showInGameNavigation", "Mostrar navegación de misiones en el juego")
 CVARs:AddTrans("esMX", "LID_showPartyPets", "Mostrar mascotas del grupo")
 CVARs:AddTrans("esMX", "LID_showTargetCastbar", "Mostrar barra de lanzamiento del objetivo")
 CVARs:AddTrans("esMX", "LID_threatShowNumeric", "Mostrar porcentaje de amenaza")

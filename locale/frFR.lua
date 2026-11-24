@@ -46,6 +46,7 @@ CVARs:AddTrans("frFR", "LID_nameplateShowEnemies", "Afficher les plaques de nom 
 CVARs:AddTrans("frFR", "LID_nameplateShowFriendlyNpcs", "Afficher les plaques de nom des PNJ amicaux")
 CVARs:AddTrans("frFR", "LID_nameplateShowFriends", "Afficher les plaques de nom amies")
 CVARs:AddTrans("frFR", "LID_needmorecvars", "Besoin de plus de CVARs ? Rejoignez le Discord")
+CVARs:AddTrans("frFR", "LID_showInGameNavigation", "Afficher la navigation de quête en jeu")
 CVARs:AddTrans("frFR", "LID_showPartyPets", "Afficher les familiers du groupe")
 CVARs:AddTrans("frFR", "LID_showTargetCastbar", "Afficher la barre de sort de la cible")
 CVARs:AddTrans("frFR", "LID_threatShowNumeric", "Afficher le pourcentage de menace")

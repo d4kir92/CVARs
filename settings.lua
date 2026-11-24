@@ -227,14 +227,14 @@ function CVARs:InitSettings()
     local cvarsSorted = {}
     for name in pairs(CVTAB["Default"]["SETCVARS"]) do
         local group = CVARs.CVarGroups[name]
-        if group ~= "HDR" or GetCVar(name) ~= nil then
+        if CVARs:IsCVarAvailable(name) then
             tinsert(cvarsSorted, {name = name, slider = false, category = CVARs.CVarCategories[name] or "CVARS", group = group})
         end
     end
 
     for name in pairs(CVTAB["Default"]["SETCVARSSLIDER"]) do
         local group = CVARs.CVarGroups[name]
-        if group ~= "HDR" or GetCVar(name) ~= nil then
+        if CVARs:IsCVarAvailable(name) then
             tinsert(cvarsSorted, {name = name, slider = true, category = CVARs.CVarCategories[name] or "CVARS", group = group})
         end
     end

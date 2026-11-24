@@ -46,6 +46,7 @@ CVARs:AddTrans("deDE", "LID_nameplateShowEnemies", "Gegner-Namensplaketten anzei
 CVARs:AddTrans("deDE", "LID_nameplateShowFriendlyNpcs", "Freundliche Npc-Namensplaketten anzeigen")
 CVARs:AddTrans("deDE", "LID_nameplateShowFriends", "Freund-Namensplaketten anzeigen")
 CVARs:AddTrans("deDE", "LID_needmorecvars", "Need more CVARs? Join the Discord")
+CVARs:AddTrans("deDE", "LID_showInGameNavigation", "Quest-Navigation im Spiel anzeigen")
 CVARs:AddTrans("deDE", "LID_showPartyPets", "Zeige Gruppe-Pets")
 CVARs:AddTrans("deDE", "LID_showTargetCastbar", "Ziel-Zauberleiste anzeigen")
 CVARs:AddTrans("deDE", "LID_threatShowNumeric", "Bedrohung in Prozent anzeigen")
